@@ -1314,12 +1314,12 @@ function activateStage(n) {
 // ============ CHART GENERATION ============
 (function buildChart() {
   const years = [2020, 2025, 2030, 2035, 2040, 2045, 2050, 2055, 2060];
-  // Approximate annual sequestration values (normalized, from paper trends)
-  const dataI   = [0.05, 0.08, 0.12, 0.18, 0.27, 0.36, 0.45, 0.52, 0.58];
-  const dataII  = [0.10, 0.18, 0.28, 0.45, 0.72, 0.98, 1.25, 1.45, 1.60];
-  const dataIII = [0.10, 0.18, 0.28, 0.46, 0.74, 1.00, 1.28, 1.50, 1.65];
+  // Real annual CO₂ sequestration data from Excel (世界碳排放分析 sheet), unit: 亿吨 CO₂/yr
+  const dataI   = [0.1697, 0.2260, 0.2935, 0.4180, 0.5667, 0.7730, 0.9803, 1.1160, 1.2511];
+  const dataII  = [1.4751, 1.9200, 2.5636, 3.6980, 5.0026, 6.8510, 8.8076,10.0490,11.2918];
+  const dataIII = [1.4574, 1.8960, 2.5348, 3.6350, 4.9374, 6.7260, 8.6726, 9.8870,11.1036];
 
-  const maxVal = Math.max(...dataIII);
+  const maxVal = Math.max(...dataII);
   const barsEl = document.getElementById('chart-bars');
   const xEl = document.getElementById('chart-x');
 
@@ -1332,9 +1332,9 @@ function activateStage(n) {
     group.className = 'chart-bar-group';
 
     [
-      {cls:'bar-mode-i',   h:hI,   tip:`${yr} · Mode I: ${(dataI[i]*310/1.65).toFixed(0)} Mt`},
-      {cls:'bar-mode-ii',  h:hII,  tip:`${yr} · Mode II: ${(dataII[i]*310/1.65).toFixed(0)} Mt`},
-      {cls:'bar-mode-iii', h:hIII, tip:`${yr} · Mode III: ${(dataIII[i]*310/1.65).toFixed(0)} Mt`}
+      {cls:'bar-mode-i',   h:hI,   tip:`${yr} · Mode I: ${(dataI[i]*100).toFixed(0)} Mt CO₂/yr`},
+      {cls:'bar-mode-ii',  h:hII,  tip:`${yr} · Mode II: ${(dataII[i]*100).toFixed(0)} Mt CO₂/yr`},
+      {cls:'bar-mode-iii', h:hIII, tip:`${yr} · Mode III: ${(dataIII[i]*100).toFixed(0)} Mt CO₂/yr`}
     ].forEach(({cls, h, tip}) => {
       const bar = document.createElement('div');
       bar.className = `chart-bar ${cls}`;
