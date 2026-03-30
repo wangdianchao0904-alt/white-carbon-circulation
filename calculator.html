@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CO₂ Calculator — White Carbon Circulation</title>
+<style>
+  :root {
+    --teal: #2eb8c4;
+    --teal-dark: #1a6b72;
+    --teal-pale: rgba(46,184,196,0.12);
+    --accent: #f0a500;
+    --bg: #0f172a;
+    --bg2: #1e293b;
+    --bg3: #0d2535;
+    --text: #e2e8f0;
+    --text-dim: rgba(226,232,240,0.55);
+    --border: rgba(46,184,196,0.2);
+    --green: #10b981;
+    --red: #ef4444;
+    --blue: #3b82f6;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); }
+
+  /* ======= NAV ======= */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(15,23,42,0.92); backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 32px; height: 58px;
+  }
+  .nav-logo {
+    font-size: 0.88rem; font-weight: 700; color: var(--teal);
+    text-decoration: none; letter-spacing: 0.02em;
+  }
+  .nav-links { display: flex; gap: 24px; align-items: center; }
+  .nav-links a {
+    color: rgba(226,232,240,0.65); font-size: 0.85rem;
+    text-decoration: none; transition: color 0.2s;
+  }
+  .nav-links a:hover, .nav-links a.active { color: var(--teal); }
+  .lang-toggle {
+    background: var(--teal-pale); border: 1px solid var(--border);
+    color: var(--teal); font-size: 0.78rem; font-weight: 700;
+    padding: 5px 14px; border-radius: 999px; cursor: pointer;
+    transition: all 0.2s;
+  }
+  .lang-toggle:hover { background: rgba(46,184,196,0.2); }
+
+  /* ======= HERO ======= */
+  .calc-hero {
+    padding: 120px 24px 60px;
+    text-align: center;
+    background: linear-gradient(180deg, #0d2535 0%, #0f172a 100%);
+  }
+  .calc-hero .tag {
+    display: inline-block;
+    background: var(--teal-pale); border: 1px solid var(--border);
+    color: var(--teal); font-size: 0.72rem; font-weight: 700;
+    padding: 4px 14px; border-radius: 999px; letter-spacing: 0.12em;
+    text-transform: uppercase; margin-bottom: 20px;
+  }
+  .calc-hero h1 {
+    font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 800;
+    background: linear-gradient(135deg, #fff, #7ef8ff 60%, #2eb8c4);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    margin-bottom: 8px;
+  }
+  .calc-hero .cn { font-size: 1.1rem; color: rgba(46,184,196,0.75); margin-bottom: 16px; }
+  .calc-hero p { color: var(--text-dim); font-size: 0.95rem; line-height: 1.7; max-width: 600px; margin: 0 auto; }
+
+  /* ======= TAB BAR ======= */
+  .tab-bar {
+    display: flex; gap: 0; max-width: 900px; margin: 40px auto 0;
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px; padding: 5px; overflow: hidden;
+  }
+  .tab-btn {
+    flex: 1; padding: 10px 16px; border-radius: 10px;
+    border: none; background: transparent; cursor: pointer;
+    color: var(--text-dim); font-size: 0.85rem; font-weight: 600;
+    transition: all 0.25s; text-align: center; line-height: 1.3;
+  }
+  .tab-btn.active {
+    background: linear-gradient(135deg, var(--teal-dark), rgba(46,184,196,0.35));
+    color: #7ef8ff;
+    box-shadow: 0 2px 12px rgba(46,184,196,0.2);
+  }
+  .tab-btn:hover:not(.active) { color: var(--teal); background: var(--teal-pale); }
+
+  /* ======= MAIN LAYOUT ======= */
+  .calc-body { max-width: 900px; margin: 40px auto 100px; padding: 0 24px; }
+
+  .calc-panel { display: none; }
+  .calc-panel.active { display: block; }
+
+  /* ======= CARD ======= */
+  .card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 20px; padding: 32px; margin-bottom: 24px;
+  }
+  .card-title {
+    font-size: 1.05rem; font-weight: 800; color: #f1f5f9; margin-bottom: 4px;
+  }
+  .card-title-cn { font-size: 0.85rem; color: rgba(46,184,196,0.7); margin-bottom: 20px; }
+
+  /* ======= FORM ELEMENTS ======= */
+  .field { margin-bottom: 24px; }
+  .field-label {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 10px;
+  }
+  .field-label span { font-size: 0.88rem; font-weight: 600; color: #f1f5f9; }
+  .field-label small { font-size: 0.78rem; color: var(--text-dim); }
+
+  /* Slider */
+  .slider-wrap { position: relative; }
+  input[type="range"] {
+    width: 100%; height: 4px; border-radius: 99px;
+    background: rgba(255,255,255,0.1); outline: none;
+    -webkit-appearance: none; cursor: pointer;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px; height: 18px; border-radius: 50%;
+    background: var(--teal); border: 2px solid #fff;
+    box-shadow: 0 0 8px rgba(46,184,196,0.5);
+    cursor: pointer; transition: transform 0.2s;
+  }
+  input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.2); }
+  .slider-val {
+    display: inline-block; margin-top: 8px;
+    background: var(--teal-pale); border: 1px solid var(--border);
+    color: var(--teal); font-size: 0.88rem; font-weight: 700;
+    padding: 3px 12px; border-radius: 999px;
+  }
+
+  /* Radio buttons */
+  .radio-group { display: flex; flex-wrap: wrap; gap: 10px; }
+  .radio-btn {
+    position: relative;
+  }
+  .radio-btn input { position: absolute; opacity: 0; }
+  .radio-btn label {
+    display: block; padding: 8px 18px; border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.12);
+    background: rgba(255,255,255,0.04);
+    font-size: 0.85rem; cursor: pointer;
+    transition: all 0.2s; color: var(--text-dim);
+    user-select: none;
+  }
+  .radio-btn input:checked + label {
+    background: var(--teal-pale); border-color: var(--teal);
+    color: var(--teal); font-weight: 700;
+  }
+  .radio-btn label:hover { border-color: var(--teal); color: var(--teal); }
+
+  /* Number input */
+  .num-input {
+    width: 100%; background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.12); border-radius: 10px;
+    padding: 10px 14px; color: var(--text); font-size: 0.95rem;
+    outline: none; transition: border-color 0.2s;
+  }
+  .num-input:focus { border-color: var(--teal); }
+
+  /* Hint box */
+  .hint {
+    background: rgba(46,184,196,0.06); border: 1px solid rgba(46,184,196,0.2);
+    border-radius: 10px; padding: 12px 16px;
+    font-size: 0.82rem; color: var(--text-dim); line-height: 1.6;
+    margin-top: -12px; margin-bottom: 24px;
+  }
+  .hint strong { color: var(--teal); }
+
+  /* Calc button */
+  .calc-btn {
+    width: 100%; padding: 14px;
+    background: linear-gradient(135deg, var(--teal-dark), #2eb8c4);
+    border: none; border-radius: 12px; cursor: pointer;
+    color: white; font-size: 1rem; font-weight: 800;
+    letter-spacing: 0.04em; transition: all 0.25s;
+    box-shadow: 0 4px 20px rgba(46,184,196,0.25);
+  }
+  .calc-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(46,184,196,0.35); }
+  .calc-btn:active { transform: none; }
+
+  /* ======= RESULTS ======= */
+  .result-panel {
+    display: none; margin-top: 24px;
+  }
+  .result-panel.show { display: block; animation: fadeUp 0.5s ease; }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:none} }
+
+  .result-title {
+    font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--teal); margin-bottom: 20px;
+    padding-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
+
+  /* Mode result bars */
+  .mode-results { display: flex; flex-direction: column; gap: 16px; }
+
+  .mode-result {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px; padding: 18px 22px;
+    transition: border-color 0.3s;
+  }
+  .mode-result.best { border-color: rgba(46,184,196,0.4); background: rgba(46,184,196,0.06); }
+
+  .mode-result-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 10px;
+  }
+  .mode-result-name { font-size: 0.9rem; font-weight: 700; color: #f1f5f9; }
+  .mode-result-val { font-size: 1.4rem; font-weight: 900; }
+  .val-i { color: #94a3b8; }
+  .val-ii { color: #38bdf8; }
+  .val-iii { color: #7ef8ff; }
+
+  .bar-track {
+    height: 8px; background: rgba(255,255,255,0.06);
+    border-radius: 99px; overflow: hidden;
+  }
+  .bar-fill {
+    height: 100%; border-radius: 99px;
+    transition: width 1s cubic-bezier(0.4,0,0.2,1); width: 0;
+  }
+  .fill-i { background: linear-gradient(90deg,#475569,#94a3b8); }
+  .fill-ii { background: linear-gradient(90deg,#0369a1,#38bdf8); }
+  .fill-iii { background: linear-gradient(90deg,#1a6b72,#7ef8ff); }
+
+  .mode-result-sub {
+    font-size: 0.78rem; color: var(--text-dim); margin-top: 8px; line-height: 1.5;
+  }
+
+  /* Equivalence */
+  .equiv-row {
+    display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px;
+  }
+  .equiv-card {
+    flex: 1; min-width: 160px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px; padding: 14px 16px; text-align: center;
+  }
+  .equiv-icon { font-size: 1.6rem; margin-bottom: 6px; }
+  .equiv-val { font-size: 1.1rem; font-weight: 800; color: var(--teal); }
+  .equiv-label { font-size: 0.74rem; color: var(--text-dim); margin-top: 3px; line-height: 1.4; }
+
+  /* Net carbon (production) */
+  .net-display {
+    text-align: center; padding: 28px;
+    border-radius: 16px; margin-top: 20px;
+  }
+  .net-display.positive { background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.3); }
+  .net-display.negative { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.3); }
+  .net-label { font-size: 0.8rem; color: var(--text-dim); margin-bottom: 8px; }
+  .net-val { font-size: 2.4rem; font-weight: 900; }
+  .net-val.pos { color: #34d399; }
+  .net-val.neg { color: #f87171; }
+  .net-desc { font-size: 0.82rem; color: var(--text-dim); margin-top: 8px; line-height: 1.6; }
+
+  /* Breakdown table */
+  .breakdown { margin-top: 20px; }
+  .breakdown-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 0.85rem;
+  }
+  .breakdown-row:last-child { border-bottom: none; }
+  .breakdown-label { color: var(--text-dim); }
+  .breakdown-val { font-weight: 700; }
+  .col-red { color: #f87171; }
+  .col-green { color: #34d399; }
+  .col-teal { color: var(--teal); }
+
+  /* ======= INFO BOXES ======= */
+  .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-top: 24px; }
+  .info-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 14px; padding: 18px;
+    text-align: center;
+  }
+  .info-icon { font-size: 1.6rem; margin-bottom: 8px; }
+  .info-val { font-size: 1.3rem; font-weight: 800; color: var(--teal); }
+  .info-label { font-size: 0.75rem; color: var(--text-dim); margin-top: 4px; line-height: 1.4; }
+
+  /* ======= FORMULA NOTE ======= */
+  .formula-note {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 14px; padding: 20px 24px; margin-top: 24px;
+  }
+  .formula-note h4 { font-size: 0.82rem; color: var(--text-dim); margin-bottom: 12px; }
+  .formula-note p { font-size: 0.78rem; color: rgba(226,232,240,0.4); line-height: 1.7; }
+  .formula-note code {
+    font-family: 'Courier New', monospace;
+    background: rgba(46,184,196,0.08); padding: 1px 5px; border-radius: 4px;
+    font-size: 0.76rem; color: rgba(126,248,255,0.7);
+  }
+
+  /* ======= FOOTER ======= */
+  footer {
+    background: #080d1a;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding: 32px 24px; text-align: center;
+    font-size: 0.8rem; color: rgba(226,232,240,0.35); line-height: 1.8;
+  }
+  footer a { color: var(--teal); text-decoration: none; }
+
+  /* ======= LANGUAGE LAYERS ======= */
+  [data-en], [data-cn] {}
+  body.lang-cn [data-en] { display: none !important; }
+  body.lang-en [data-cn] { display: none !important; }
+
+  @media(max-width:600px) {
+    .tab-btn { font-size: 0.75rem; padding: 8px 8px; }
+    nav { padding: 0 16px; }
+  }
+</style>
+</head>
+<body class="lang-en">
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="index.html">⬡ White Carbon Circulation</a>
+  <div class="nav-links">
+    <a href="index.html" data-en>Overview</a>
+    <a href="index.html" data-cn>系统概览</a>
+    <a href="calculator.html" class="active" data-en>Calculator</a>
+    <a href="calculator.html" class="active" data-cn>计算器</a>
+    <button class="lang-toggle" onclick="toggleLang()" id="langBtn">中文</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="calc-hero">
+  <div class="tag" data-en>★ Open Research Tool</div>
+  <div class="tag" data-cn>★ 开放科研工具</div>
+  <h1 data-en>CO₂ Sequestration Calculator</h1>
+  <h1 data-cn>CO₂ 固碳量计算器</h1>
+  <div class="cn" data-en>混凝土再生骨料白碳循环系统</div>
+  <div class="cn" data-cn>White Carbon Circulation of Concrete</div>
+  <p data-en>Based on peer-reviewed models from <em>Waste Management</em> (Xiao et al., 2024). Input your project parameters to estimate CO₂ sequestration potential of recycled aggregates.</p>
+  <p data-cn>基于《废物管理》期刊发表的同行评审模型（肖建庄等，2024年）。输入项目参数，估算再生骨料的 CO₂ 固碳潜力。</p>
+
+  <!-- Tab bar -->
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="switchTab('storage')" id="tab-storage">
+      <div data-en>📦 Storage Stage</div>
+      <div data-cn>📦 储存阶段固碳</div>
+    </button>
+    <button class="tab-btn" onclick="switchTab('production')" id="tab-production">
+      <div data-en>🔨 Production Carbon</div>
+      <div data-cn>🔨 生产阶段碳足迹</div>
+    </button>
+    <button class="tab-btn" onclick="switchTab('lifecycle')" id="tab-lifecycle">
+      <div data-en>🌍 Lifecycle Summary</div>
+      <div data-cn>🌍 全生命周期汇总</div>
+    </button>
+  </div>
+</div>
+
+<!-- MAIN BODY -->
+<div class="calc-body">
+
+  <!-- ====== PANEL 1: STORAGE ====== -->
+  <div class="calc-panel active" id="panel-storage">
+
+    <div class="card">
+      <div class="card-title" data-en>Input Parameters</div>
+      <div class="card-title" data-cn>输入参数</div>
+      <div class="card-title-cn" data-en>输入参数</div>
+      <div class="card-title-cn" data-cn>Input Parameters</div>
+
+      <!-- RA Mass -->
+      <div class="field">
+        <div class="field-label">
+          <span data-en>Recycled Aggregate Volume</span>
+          <span data-cn>再生骨料产量</span>
+          <small data-en>tonnes</small>
+          <small data-cn>吨</small>
+        </div>
+        <div class="slider-wrap">
+          <input type="range" id="s-mass" min="1" max="5" step="0.01" value="3"
+                 oninput="updateSlider('s-mass','s-mass-val', massFromLog)">
+          <div><span class="slider-val" id="s-mass-val">1,000 t</span></div>
+        </div>
+      </div>
+      <div class="hint">
+        <span data-en>💡 <strong>Tip:</strong> A typical mid-size RA plant in China processes 50,000–200,000 tonnes/year. Enter the volume you want to evaluate (e.g. one batch, monthly, or annual production).</span>
+        <span data-cn>💡 <strong>提示：</strong> 中国中型再生骨料厂年产量通常为5–20万吨。请输入您要评估的骨料量（如单批次、月产量或年产量）。</span>
+      </div>
+
+      <!-- Particle size -->
+      <div class="field">
+        <div class="field-label">
+          <span data-en>Dominant Particle Size</span>
+          <span data-cn>主要粒径范围</span>
+        </div>
+        <div class="radio-group">
+          <div class="radio-btn">
+            <input type="radio" name="s-size" id="sz-fine" value="fine" checked onchange="updateSizeHint()">
+            <label for="sz-fine" data-en>Fine (0–5 mm)</label>
+            <label for="sz-fine" data-cn>细粒 (0–5 mm)</label>
+          </div>
+          <div class="radio-btn">
+            <input type="radio" name="s-size" id="sz-med" value="med" onchange="updateSizeHint()">
+            <label for="sz-med" data-en>Medium (5–20 mm)</label>
+            <label for="sz-med" data-cn>中粒 (5–20 mm)</label>
+          </div>
+          <div class="radio-btn">
+            <input type="radio" name="s-size" id="sz-coarse" value="coarse" onchange="updateSizeHint()">
+            <label for="sz-coarse" data-en>Coarse (20–30 mm)</label>
+            <label for="sz-coarse" data-cn>粗粒 (20–30 mm)</label>
+          </div>
+          <div class="radio-btn">
+            <input type="radio" name="s-size" id="sz-mix" value="mix" onchange="updateSizeHint()">
+            <label for="sz-mix" data-en>Mixed (typical)</label>
+            <label for="sz-mix" data-cn>混合粒径（典型）</label>
+          </div>
+        </div>
+        <div class="hint" id="size-hint" style="margin-top:12px;">
+          <span data-en>Fine aggregates (0–5 mm) have the highest surface area, achieving up to <strong>77.32%</strong> carbonation in Mode II/III within 3 months.</span>
+          <span data-cn>细粒骨料（0–5 mm）比表面积最大，在Mode II/III条件下3个月内碳化度可达 <strong>77.32%</strong>。</span>
+        </div>
+      </div>
+
+      <!-- Storage time -->
+      <div class="field">
+        <div class="field-label">
+          <span data-en>Storage Duration</span>
+          <span data-cn>储存时长</span>
+        </div>
+        <div class="radio-group">
+          <div class="radio-btn">
+            <input type="radio" name="s-time" id="t1" value="1" checked>
+            <label for="t1" data-en>1 month</label>
+            <label for="t1" data-cn>1 个月</label>
+          </div>
+          <div class="radio-btn">
+            <input type="radio" name="s-time" id="t3" value="3">
+            <label for="t3" data-en>3 months</label>
+            <label for="t3" data-cn>3 个月</label>
+          </div>
+          <div class="radio-btn">
+            <input type="radio" name="s-time" id="t6" value="6">
+            <label for="t6" data-en>6 months</label>
+            <label for="t6" data-cn>6 个月</label>
+          </div>
+          <div class="radio-btn">
+            <input type="radio" name="s-time" id="t12" value="12">
+            <label for="t12" data-en>12 months</label>
+            <label for="t12" data-cn>12 个月</label>
+          </div>
+          <div class="radio-btn">
+            <input type="radio" name="s-time" id="tmax" value="300">
+            <label for="tmax" data-en>Max (long-term)</label>
+            <label for="tmax" data-cn>最大值（长期）</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cement content -->
+      <div class="field">
+        <div class="field-label">
+          <span data-en>Cement Content in RA</span>
+          <span data-cn>骨料中水泥含量</span>
+          <small data-en>kg cement / t RA</small>
+          <small data-cn>kg水泥 / t骨料</small>
+        </div>
+        <div class="slider-wrap">
+          <input type="range" id="s-cement" min="60" max="200" step="5" value="120"
+                 oninput="updateSlider('s-cement','s-cement-val', v => v+' kg/t')">
+          <div><span class="slider-val" id="s-cement-val">120 kg/t</span></div>
+        </div>
+      </div>
+      <div class="hint">
+        <span data-en>💡 Typical cement content: <strong>80–150 kg/t</strong> for common concrete. Higher values apply to high-strength concrete. Default 120 kg/t is a conservative estimate.</span>
+        <span data-cn>💡 典型水泥含量：普通混凝土 <strong>80–150 kg/t</strong>，高强混凝土更高。默认值120 kg/t为保守估计。</span>
+      </div>
+
+      <button class="calc-btn" onclick="calcStorage()">
+        <span data-en>Calculate CO₂ Sequestration →</span>
+        <span data-cn>计算固碳量 →</span>
+      </button>
+    </div>
+
+    <!-- RESULTS -->
+    <div class="result-panel" id="storage-result">
+      <div class="card">
+        <div class="result-title" data-en>RESULTS — CO₂ SEQUESTRATION BY MODE</div>
+        <div class="result-title" data-cn>计算结果 — 各模式固碳量对比</div>
+
+        <div class="mode-results">
+          <div class="mode-result" id="res-i">
+            <div class="mode-result-header">
+              <div class="mode-result-name" data-en>⛰️ Mode I · Pile Packing (堆积储存)</div>
+              <div class="mode-result-name" data-cn>⛰️ 模式一 · 堆积储存 (Pile Packing)</div>
+              <div class="mode-result-val val-i" id="val-i">—</div>
+            </div>
+            <div class="bar-track"><div class="bar-fill fill-i" id="bar-i"></div></div>
+            <div class="mode-result-sub" data-en id="sub-i-en"></div>
+            <div class="mode-result-sub" data-cn id="sub-i-cn"></div>
+          </div>
+
+          <div class="mode-result" id="res-ii">
+            <div class="mode-result-header">
+              <div class="mode-result-name" data-en>▬ Mode II · Tile Packing (铺板储存)</div>
+              <div class="mode-result-name" data-cn>▬ 模式二 · 铺板储存 (Tile Packing)</div>
+              <div class="mode-result-val val-ii" id="val-ii">—</div>
+            </div>
+            <div class="bar-track"><div class="bar-fill fill-ii" id="bar-ii"></div></div>
+            <div class="mode-result-sub" data-en id="sub-ii-en"></div>
+            <div class="mode-result-sub" data-cn id="sub-ii-cn"></div>
+          </div>
+
+          <div class="mode-result best" id="res-iii">
+            <div class="mode-result-header">
+              <div class="mode-result-name" data-en>⚡ Mode III · Accelerated Carbonation (加速碳化) ★</div>
+              <div class="mode-result-name" data-cn>⚡ 模式三 · 加速碳化 (Accelerated) ★</div>
+              <div class="mode-result-val val-iii" id="val-iii">—</div>
+            </div>
+            <div class="bar-track"><div class="bar-fill fill-iii" id="bar-iii"></div></div>
+            <div class="mode-result-sub" data-en id="sub-iii-en"></div>
+            <div class="mode-result-sub" data-cn id="sub-iii-cn"></div>
+          </div>
+        </div>
+
+        <!-- Equivalence -->
+        <div style="margin-top:24px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.06);">
+          <div style="font-size:0.78rem;color:var(--text-dim);margin-bottom:12px;" data-en>Equivalent impact of Mode III sequestration:</div>
+          <div style="font-size:0.78rem;color:var(--text-dim);margin-bottom:12px;" data-cn>模式三固碳量等效于：</div>
+          <div class="equiv-row">
+            <div class="equiv-card">
+              <div class="equiv-icon">🌳</div>
+              <div class="equiv-val" id="eq-trees">—</div>
+              <div class="equiv-label" data-en>mature trees<br>(annual absorption)</div>
+              <div class="equiv-label" data-cn>棵成熟树木<br>（年吸碳量）</div>
+            </div>
+            <div class="equiv-card">
+              <div class="equiv-icon">🚗</div>
+              <div class="equiv-val" id="eq-cars">—</div>
+              <div class="equiv-label" data-en>cars off road<br>(for 1 year)</div>
+              <div class="equiv-label" data-cn>辆汽车停驶<br>（1年减排量）</div>
+            </div>
+            <div class="equiv-card">
+              <div class="equiv-icon">🏠</div>
+              <div class="equiv-val" id="eq-homes">—</div>
+              <div class="equiv-label" data-en>homes' annual<br>electricity CO₂</div>
+              <div class="equiv-label" data-cn>户家庭<br>年用电排放量</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Formula note -->
+      <div class="formula-note">
+        <h4 data-en>📐 Model Reference (Xiao et al., Waste Management 2024)</h4>
+        <h4 data-cn>📐 模型来源（肖建庄等，废物管理 2024）</h4>
+        <p data-en>Mode I & II based on Fick's Law diffusion model (Eq. 14–15). Mode III based on accelerated carbonation factor ka (Eq. 16). Carbonation capacity: <code>ξc × αc = 0.5 × 0.75</code>. Carbonation degrees from field data (Table 1 of paper).</p>
+        <p data-cn>模式一/二基于菲克定律扩散模型（公式14–15）。模式三基于加速碳化因子ka（公式16）。碳化容量：<code>ξc × αc = 0.5 × 0.75</code>。碳化度来自现场数据（论文表1）。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== PANEL 2: PRODUCTION ====== -->
+  <div class="calc-panel" id="panel-production">
+    <div class="card">
+      <div class="card-title" data-en>Production Carbon Footprint</div>
+      <div class="card-title" data-cn>生产阶段碳足迹</div>
+      <div class="card-title-cn" data-en>生产阶段碳足迹</div>
+      <div class="card-title-cn" data-cn>Production Carbon Footprint</div>
+
+      <!-- Production volume -->
+      <div class="field">
+        <div class="field-label">
+          <span data-en>RA Production Volume</span>
+          <span data-cn>再生骨料产量</span>
+          <small data-en>tonnes</small>
+          <small data-cn>吨</small>
+        </div>
+        <div class="slider-wrap">
+          <input type="range" id="p-mass" min="1" max="5" step="0.01" value="3"
+                 oninput="updateSlider('p-mass','p-mass-val', massFromLog)">
+          <div><span class="slider-val" id="p-mass-val">1,000 t</span></div>
+        </div>
+      </div>
+
+      <!-- Crushing method -->
+      <div class="field">
+        <div class="field-label">
+          <span data-en>Crushing Method</span>
+          <span data-cn>破碎方式</span>
+        </div>
+        <div class="radio-group">
+          <div class="radio-btn">
+            <input type="radio" name="p-crush" id="c-one" value="one" checked>
+            <label for="c-one" data-en>One-time crushing</label>
+            <label for="c-one" data-cn>一次破碎</label>
+          </div>
+          <div class="radio-btn">
+            <input type="radio" name="p-crush" id="c-two" value="two">
+            <label for="c-two" data-en>Two-time crushing (+19.1%)</label>
+            <label for="c-two" data-cn>二次破碎 (+19.1%)</label>
+          </div>
+        </div>
+      </div>
+      <div class="hint">
+        <span data-en>💡 Based on field surveys at <strong>46 RA plants</strong> in China. Mean emission: <strong>2.47 kg CO₂/t</strong> (one-time), <strong>2.96 kg CO₂/t</strong> (two-time). Crushing accounts for 60–90% of total emissions.</span>
+        <span data-cn>💡 基于中国<strong>46家</strong>再生骨料企业现场调研。平均排放：一次破碎 <strong>2.47 kg CO₂/t</strong>，二次破碎 <strong>2.96 kg CO₂/t</strong>。破碎过程占总排放的60–90%。</span>
+      </div>
+
+      <!-- Landfill alternative -->
+      <div class="field">
+        <div class="field-label">
+          <span data-en>Compare against landfill?</span>
+          <span data-cn>与填埋处置对比？</span>
+        </div>
+        <div class="radio-group">
+          <div class="radio-btn">
+            <input type="radio" name="p-landfill" id="lf-yes" value="yes" checked>
+            <label for="lf-yes" data-en>Yes — show net benefit</label>
+            <label for="lf-yes" data-cn>是 — 显示净收益</label>
+          </div>
+          <div class="radio-btn">
+            <input type="radio" name="p-landfill" id="lf-no" value="no">
+            <label for="lf-no" data-en>No — emission only</label>
+            <label for="lf-no" data-cn>否 — 仅显示排放量</label>
+          </div>
+        </div>
+      </div>
+
+      <button class="calc-btn" onclick="calcProduction()">
+        <span data-en>Calculate Carbon Footprint →</span>
+        <span data-cn>计算碳足迹 →</span>
+      </button>
+    </div>
+
+    <div class="result-panel" id="production-result">
+      <div class="card">
+        <div class="result-title" data-en>RESULTS — PRODUCTION CARBON BALANCE</div>
+        <div class="result-title" data-cn>计算结果 — 生产阶段碳平衡</div>
+
+        <div class="breakdown" id="prod-breakdown"></div>
+
+        <div class="net-display" id="net-display">
+          <div class="net-label" data-en>Net Carbon Result (vs Landfill)</div>
+          <div class="net-label" data-cn>净碳结果（与填埋对比）</div>
+          <div class="net-val" id="net-val">—</div>
+          <div class="net-desc" id="net-desc"></div>
+        </div>
+
+        <div class="info-grid" id="prod-info"></div>
+      </div>
+      <div class="formula-note">
+        <h4 data-en>📐 Data Source (Xiao et al., Waste Management 2024)</h4>
+        <h4 data-cn>📐 数据来源（肖建庄等，废物管理 2024）</h4>
+        <p data-en>Production emissions: mean <code>2.47 kg CO₂-eq/t</code> (one-time crushing, log-normal distribution). Landfill: <code>3.15 kg CO₂/t</code> diesel + machinery + <code>0.44 kg CO₂/t</code> land occupation (forest sequestration loss). Field data: 46 plants, China.</p>
+        <p data-cn>生产排放：均值 <code>2.47 kg CO₂-eq/t</code>（一次破碎，对数正态分布）。填埋：<code>3.15 kg CO₂/t</code> 柴油机械 + <code>0.44 kg CO₂/t</code> 土地占用（林地固碳损失）。现场数据：中国46家企业。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== PANEL 3: LIFECYCLE ====== -->
+  <div class="calc-panel" id="panel-lifecycle">
+    <div class="card">
+      <div class="card-title" data-en>Lifecycle Carbon Balance</div>
+      <div class="card-title" data-cn>全生命周期碳平衡</div>
+      <div class="card-title-cn" data-en>全生命周期碳平衡</div>
+      <div class="card-title-cn" data-cn>Lifecycle Carbon Balance</div>
+
+      <!-- Cement production -->
+      <div class="field">
+        <div class="field-label">
+          <span data-en>Annual Cement Used in Region</span>
+          <span data-cn>区域年水泥用量</span>
+          <small data-en>million tonnes</small>
+          <small data-cn>百万吨</small>
+        </div>
+        <div class="slider-wrap">
+          <input type="range" id="lc-cement" min="1" max="2500" step="10" value="500"
+                 oninput="updateSlider('lc-cement','lc-cement-val', v => Number(v).toLocaleString()+' Mt')">
+          <div><span class="slider-val" id="lc-cement-val">500 Mt</span></div>
+        </div>
+      </div>
+      <div class="hint">
+        <span data-en>💡 Reference: China ~2,000 Mt/yr · USA ~90 Mt/yr · Europe ~160 Mt/yr · Global ~4,100 Mt/yr (2020)</span>
+        <span data-cn>💡 参考值：中国约2000百万吨/年 · 美国约90 · 欧洲约160 · 全球约4100 百万吨/年（2020年）</span>
+      </div>
+
+      <!-- Service life -->
+      <div class="field">
+        <div class="field-label">
+          <span data-en>Average Structure Service Life</span>
+          <span data-cn>结构平均使用寿命</span>
+          <small>years / 年</small>
+        </div>
+        <div class="slider-wrap">
+          <input type="range" id="lc-life" min="20" max="100" step="5" value="50"
+                 oninput="updateSlider('lc-life','lc-life-val', v => v+' yr')">
+          <div><span class="slider-val" id="lc-life-val">50 yr</span></div>
+        </div>
+      </div>
+
+      <!-- Carbonation mode -->
+      <div class="field">
+        <div class="field-label">
+          <span data-en>Carbonation Strategy</span>
+          <span data-cn>碳化策略</span>
+        </div>
+        <div class="radio-group">
+          <div class="radio-btn">
+            <input type="radio" name="lc-mode" id="lm-i" value="i" checked>
+            <label for="lm-i" data-en>Mode I: Pile</label>
+            <label for="lm-i" data-cn>模式一：堆积</label>
+          </div>
+          <div class="radio-btn">
+            <input type="radio" name="lc-mode" id="lm-ii" value="ii">
+            <label for="lm-ii" data-en>Mode II: Tile</label>
+            <label for="lm-ii" data-cn>模式二：铺板</label>
+          </div>
+          <div class="radio-btn">
+            <input type="radio" name="lc-mode" id="lm-iii" value="iii">
+            <label for="lm-iii" data-en>Mode III: Accelerated</label>
+            <label for="lm-iii" data-cn>模式三：加速碳化</label>
+          </div>
+        </div>
+      </div>
+
+      <button class="calc-btn" onclick="calcLifecycle()">
+        <span data-en>Calculate Lifecycle Balance →</span>
+        <span data-cn>计算全生命周期碳平衡 →</span>
+      </button>
+    </div>
+
+    <div class="result-panel" id="lifecycle-result">
+      <div class="card">
+        <div class="result-title" data-en>RESULTS — ANNUAL LIFECYCLE CO₂ SEQUESTRATION</div>
+        <div class="result-title" data-cn>计算结果 — 年度全生命周期 CO₂ 固碳量</div>
+
+        <div class="info-grid" id="lc-info"></div>
+
+        <div class="breakdown" id="lc-breakdown" style="margin-top:24px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.06);"></div>
+
+        <div class="net-display positive" style="margin-top:20px;">
+          <div class="net-label" data-en>Estimated Annual CO₂ Sequestration Potential</div>
+          <div class="net-label" data-cn>估算年度 CO₂ 固碳潜力</div>
+          <div class="net-val pos" id="lc-net-val">—</div>
+          <div class="net-desc" id="lc-net-desc"></div>
+        </div>
+      </div>
+      <div class="formula-note">
+        <h4 data-en>📐 Model Reference (Xiao et al., Waste Management 2024 · Eq. 17)</h4>
+        <h4 data-cn>📐 模型来源（肖建庄等，废物管理 2024 · 公式17）</h4>
+        <p data-en>Based on Eq. 17: <code>S_CO₂(t) = C(t−t₀) · γc · αc · ξc · Σφᵢ(1−Dᵢ)·Daᵢ</code>. Simplification assumes γc=0.85 (concrete fraction), Dᵢ=22.7% initial carbonation. Carbonation degrees per mode from Table 1.</p>
+        <p data-cn>基于公式17：<code>S_CO₂(t) = C(t−t₀) · γc · αc · ξc · Σφᵢ(1−Dᵢ)·Daᵢ</code>。简化假设：γc=0.85（混凝土比例），Dᵢ=22.7%（初始碳化度）。各模式碳化度见论文表1。</p>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end calc-body -->
+
+<footer>
+  <div>Based on: Xiao J, Jiang Y, Wang D, Noguchi T, Lu Z. <em>Global CO₂ sequestration potential of recycled aggregates</em>. Waste Management, 2024.</div>
+  <div style="margin-top:8px;">Tongji University · Guangxi University · The University of Tokyo</div>
+  <div style="margin-top:8px;"><a href="index.html">← Back to Overview / 返回系统概览</a></div>
+</footer>
+
+<script>
+// ======= LANGUAGE =======
+let currentLang = 'en';
+function toggleLang() {
+  currentLang = currentLang === 'en' ? 'cn' : 'en';
+  document.body.className = 'lang-' + currentLang;
+  document.getElementById('langBtn').textContent = currentLang === 'en' ? '中文' : 'English';
+}
+
+// ======= TABS =======
+function switchTab(tab) {
+  document.querySelectorAll('.calc-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-' + tab).classList.add('active');
+  document.getElementById('tab-' + tab).classList.add('active');
+}
+
+// ======= SLIDER UTILS =======
+function massFromLog(v) {
+  const val = Math.pow(10, Number(v));
+  if (val >= 1e6) return (val/1e6).toFixed(1) + ' Mt';
+  if (val >= 1e3) return Math.round(val/1000*10)/10 + ',000 t';
+  return Math.round(val) + ' t';
+}
+function massVal(id) {
+  return Math.pow(10, Number(document.getElementById(id).value));
+}
+function updateSlider(id, displayId, formatter) {
+  document.getElementById(displayId).textContent = formatter(document.getElementById(id).value);
+}
+
+// ======= SIZE HINT =======
+function updateSizeHint() {
+  // Already static in HTML, could be dynamic
+}
+
+// ======= STORAGE CALCULATOR =======
+// Carbonation degrees (3-month) from Table 1, paper
+const carbonDeg = {
+  fine:   { i: 0.0090, ii: 0.7732, iii: 0.7732 },
+  med:    { i: 0.0123, ii: 0.5301, iii: 0.7732 },
+  coarse: { i: 0.0140, ii: 0.2020, iii: 0.7732 },
+  mix:    { i: 0.0120, ii: 0.4200, iii: 0.7732 }  // weighted average
+};
+// Time scaling: pile ~ sqrt(t), tile ~ sqrt(t) capped, accel ~ capped at 3m
+function timeScale(mode, months) {
+  if (mode === 'iii') return months >= 3 ? 1.0 : months / 3;
+  if (mode === 'ii')  return Math.min(1.0, Math.sqrt(months / 180));  // max at ~15yr
+  if (mode === 'i')   return Math.min(1.0, Math.sqrt(months / 300));  // max at ~25yr
+}
+
+function calcStorage() {
+  const mass    = massVal('s-mass');
+  const sizeKey = document.querySelector('input[name="s-size"]:checked').value;
+  const months  = Number(document.querySelector('input[name="s-time"]:checked').value);
+  const cement  = Number(document.getElementById('s-cement').value); // kg/t
+
+  const xiAlpha = 0.5 * 0.75; // ξc × αc
+  const deg = carbonDeg[sizeKey];
+
+  // CO₂ sequestration (tonnes)
+  const calcSeq = (mode) => {
+    const d = deg[mode] * timeScale(mode, months);
+    return mass * (cement / 1000) * xiAlpha * d;
+  };
+
+  const seqI   = calcSeq('i');
+  const seqII  = calcSeq('ii');
+  const seqIII = calcSeq('iii');
+  const maxSeq = Math.max(seqI, seqII, seqIII) || 1;
+
+  const fmt = v => v >= 1000 ? (v/1000).toFixed(2)+' kt CO₂' :
+                   v >= 1 ? v.toFixed(2)+' t CO₂' :
+                   (v*1000).toFixed(1)+' kg CO₂';
+
+  document.getElementById('val-i').textContent   = fmt(seqI);
+  document.getElementById('val-ii').textContent  = fmt(seqII);
+  document.getElementById('val-iii').textContent = fmt(seqIII);
+
+  setTimeout(() => {
+    document.getElementById('bar-i').style.width   = (seqI/maxSeq*100)+'%';
+    document.getElementById('bar-ii').style.width  = (seqII/maxSeq*100)+'%';
+    document.getElementById('bar-iii').style.width = (seqIII/maxSeq*100)+'%';
+  }, 100);
+
+  const multII  = seqI > 0 ? (seqII/seqI).toFixed(0)  : '∞';
+  const multIII = seqI > 0 ? (seqIII/seqI).toFixed(0) : '∞';
+
+  document.getElementById('sub-i-en').textContent =
+    `Carbonation degree ${(deg.i*timeScale('i',months)*100).toFixed(2)}% — surface layer only. CO₂ penetration restricted by pile geometry.`;
+  document.getElementById('sub-i-cn').textContent =
+    `碳化度 ${(deg.i*timeScale('i',months)*100).toFixed(2)}% — 仅表层碳化，受堆体几何形态限制。`;
+  document.getElementById('sub-ii-en').textContent =
+    `Carbonation degree ${(deg.ii*timeScale('ii',months)*100).toFixed(1)}% — ${multII}× more than pile packing. All aggregates exposed to CO₂.`;
+  document.getElementById('sub-ii-cn').textContent =
+    `碳化度 ${(deg.ii*timeScale('ii',months)*100).toFixed(1)}% — 是堆积模式的 ${multII} 倍，所有骨料均暴露于CO₂中。`;
+  document.getElementById('sub-iii-en').textContent =
+    `Carbonation degree ${(deg.iii*timeScale('iii',months)*100).toFixed(1)}% — ${multIII}× more than pile packing. Industrial CO₂ injection achieves full carbonation within 3 months.`;
+  document.getElementById('sub-iii-cn').textContent =
+    `碳化度 ${(deg.iii*timeScale('iii',months)*100).toFixed(1)}% — 是堆积模式的 ${multIII} 倍。工业注CO₂，3个月内达到完全碳化。`;
+
+  // Equivalence (Mode III)
+  const treesPerYear = 0.021; // t CO₂/tree/yr
+  const carPerYear   = 4.6;   // t CO₂/car/yr
+  const homePerYear  = 7.07 * 0.386 / 1000 * 10; // ~2.7 t CO₂/home/yr
+  const trees = Math.round(seqIII / treesPerYear);
+  const cars  = Math.round(seqIII / carPerYear);
+  const homes = Math.round(seqIII / 2.7);
+  document.getElementById('eq-trees').textContent = trees >= 1000 ? (trees/1000).toFixed(1)+'k' : trees.toLocaleString();
+  document.getElementById('eq-cars').textContent  = cars  >= 1000 ? (cars/1000).toFixed(1)+'k'  : cars.toLocaleString();
+  document.getElementById('eq-homes').textContent = homes >= 1000 ? (homes/1000).toFixed(1)+'k' : homes.toLocaleString();
+
+  document.getElementById('storage-result').classList.add('show');
+}
+
+// ======= PRODUCTION CALCULATOR =======
+function calcProduction() {
+  const mass = massVal('p-mass');
+  const crush = document.querySelector('input[name="p-crush"]:checked').value;
+  const doLandfill = document.querySelector('input[name="p-landfill"]:checked').value === 'yes';
+
+  const emPerT  = crush === 'one' ? 2.47 : 2.96;
+  const emission = mass * emPerT / 1000; // t CO₂
+
+  // Landfill avoided: 3.15 + 0.44 = 3.59 kg CO₂/t
+  const landfillAvoided = doLandfill ? mass * 3.59 / 1000 : 0;
+  const net = emission - landfillAvoided;
+  const isPositive = net <= 0;
+
+  const fmt = v => v >= 1000 ? (v/1000).toFixed(2)+' kt CO₂' :
+                   v >= 1 ? v.toFixed(2)+' t CO₂' :
+                   (v*1000).toFixed(1)+' kg CO₂';
+
+  // Breakdown
+  const bd = document.getElementById('prod-breakdown');
+  bd.innerHTML = `
+    <div class="breakdown-row">
+      <div class="breakdown-label"><span data-en>RA Production Emissions</span><span data-cn>再生骨料生产排放</span></div>
+      <div class="breakdown-val col-red">+${fmt(emission)}</div>
+    </div>
+    ${doLandfill ? `
+    <div class="breakdown-row">
+      <div class="breakdown-label"><span data-en>Avoided Landfill Emissions</span><span data-cn>避免填埋排放</span></div>
+      <div class="breakdown-val col-green">−${fmt(mass*3.15/1000)}</div>
+    </div>
+    <div class="breakdown-row">
+      <div class="breakdown-label"><span data-en>Avoided Land Occupation Loss</span><span data-cn>避免土地占用损失</span></div>
+      <div class="breakdown-val col-green">−${fmt(mass*0.44/1000)}</div>
+    </div>` : ''}
+    <div class="breakdown-row" style="padding-top:14px;border-top:1px solid rgba(255,255,255,0.08);">
+      <div class="breakdown-label" style="font-weight:700;color:#f1f5f9;">
+        <span data-en>Net Carbon</span><span data-cn>净碳量</span>
+      </div>
+      <div class="breakdown-val ${isPositive?'col-green':'col-red'}">${isPositive?'−':'+'}${fmt(Math.abs(net))}</div>
+    </div>
+  `;
+
+  const nd = document.getElementById('net-display');
+  nd.className = 'net-display ' + (isPositive ? 'positive' : 'negative');
+  document.getElementById('net-val').className = 'net-val ' + (isPositive ? 'pos' : 'neg');
+  document.getElementById('net-val').textContent = (isPositive ? '−' : '+') + fmt(Math.abs(net));
+
+  const descEl = document.getElementById('net-desc');
+  if (isPositive) {
+    descEl.innerHTML = currentLang === 'en'
+      ? `✅ Net carbon <strong>negative</strong>! Recycling ${mass.toLocaleString()} t of waste concrete into RAs avoids more CO₂ than it emits — this is a genuine carbon sink operation.`
+      : `✅ 净碳量为<strong>负值</strong>！将 ${mass.toLocaleString()} 吨废旧混凝土加工成再生骨料，其减排量超过排放量——这是一项真正的碳汇生产活动。`;
+  } else {
+    descEl.innerHTML = currentLang === 'en'
+      ? `⚠️ Net carbon positive. Consider switching to low-disturbance crushing methods or optimising production processes to reduce the ${emPerT} kg CO₂/t emission factor.`
+      : `⚠️ 净碳量为正值。建议采用低扰动破碎技术或优化生产工艺，降低 ${emPerT} kg CO₂/t 的排放因子。`;
+  }
+
+  const infoEl = document.getElementById('prod-info');
+  const ratio = ((emission / (doLandfill ? landfillAvoided : emission)) * 100).toFixed(0);
+  infoEl.innerHTML = `
+    <div class="info-card">
+      <div class="info-icon">⚙️</div>
+      <div class="info-val">${emPerT} kg</div>
+      <div class="info-label"><span data-en>CO₂/t emission factor</span><span data-cn>CO₂/t排放因子</span></div>
+    </div>
+    <div class="info-card">
+      <div class="info-icon">🔨</div>
+      <div class="info-val">60–90%</div>
+      <div class="info-label"><span data-en>from crushing process</span><span data-cn>来自破碎工序</span></div>
+    </div>
+    <div class="info-card">
+      <div class="info-icon">🏭</div>
+      <div class="info-val">${mass >= 1e6 ? (mass/1e6).toFixed(1)+'M' : mass >= 1e3 ? (mass/1e3).toFixed(0)+'k' : mass} t</div>
+      <div class="info-label"><span data-en>waste concrete recycled</span><span data-cn>废旧混凝土再生利用量</span></div>
+    </div>
+  `;
+
+  document.getElementById('production-result').classList.add('show');
+  // Re-apply lang classes
+  document.body.className = 'lang-' + currentLang;
+}
+
+// ======= LIFECYCLE CALCULATOR =======
+function calcLifecycle() {
+  const cementMt = Number(document.getElementById('lc-cement').value); // Mt/yr
+  const life     = Number(document.getElementById('lc-life').value);   // years
+  const mode     = document.querySelector('input[name="lc-mode"]:checked').value;
+
+  // Parameters (from paper)
+  const gammac = 0.85;   // fraction of cement in concrete
+  const xiAlpha = 0.375; // ξc × αc
+  const Di = 0.227;      // initial carbonation degree during service
+
+  // Weighted carbonation degree by mode (mixed particle size from Table 1)
+  const DaByMode = { i: 0.012, ii: 0.42, iii: 0.7732 };
+  const Da = DaByMode[mode];
+
+  // Weighted particle proportion (from Table 1: 14.9, 25.1, 40.6, 19.4)
+  // Already weighted into Da above for simplicity
+
+  // Annual demolished concrete ≈ cement_used_life_years_ago × 1/life (simplified)
+  const annualDemolished = cementMt * gammac / life; // Mt cement/yr available for RA
+
+  // CO₂ sequestration (Mt/yr)
+  const seqStorage = annualDemolished * 1e6 * xiAlpha * (1 - Di) * Da / 1e6; // Mt CO₂/yr
+  const seqService = annualDemolished * 1e6 * xiAlpha * 0.15 / 1e6; // simplified service stage
+  const emProd = annualDemolished * 1e6 * (2.47 / 120) / 1e6; // rough: 2.47 kg/t RA, 120kg cement/t RA
+
+  const total = seqStorage + seqService - emProd;
+  const fmt = v => Math.abs(v) >= 1000 ? (v/1000).toFixed(2)+' Gt CO₂/yr' :
+                   Math.abs(v) >= 1 ? v.toFixed(2)+' Mt CO₂/yr' : (v*1000).toFixed(0)+' kt CO₂/yr';
+
+  document.getElementById('lc-net-val').textContent = (total >= 0 ? '+' : '') + fmt(total);
+
+  const bdEl = document.getElementById('lc-breakdown');
+  bdEl.innerHTML = `
+    <div class="breakdown-row">
+      <div class="breakdown-label"><span data-en>Service Stage Sequestration</span><span data-cn>服役阶段固碳</span></div>
+      <div class="breakdown-val col-green">+${fmt(seqService)}</div>
+    </div>
+    <div class="breakdown-row">
+      <div class="breakdown-label"><span data-en>Storage Stage Sequestration (${['Mode I','Mode II','Mode III'][['i','ii','iii'].indexOf(mode)]})</span><span data-cn>储存阶段固碳（${['模式一','模式二','模式三'][['i','ii','iii'].indexOf(mode)]}）</span></div>
+      <div class="breakdown-val col-green">+${fmt(seqStorage)}</div>
+    </div>
+    <div class="breakdown-row">
+      <div class="breakdown-label"><span data-en>Production Emissions (crushing)</span><span data-cn>生产阶段排放（破碎）</span></div>
+      <div class="breakdown-val col-red">−${fmt(emProd)}</div>
+    </div>
+  `;
+
+  const infoEl = document.getElementById('lc-info');
+  const modeNames = {i:'Pile / 堆积', ii:'Tile / 铺板', iii:'Accelerated / 加速碳化'};
+  infoEl.innerHTML = `
+    <div class="info-card">
+      <div class="info-icon">🏗️</div>
+      <div class="info-val">${cementMt.toLocaleString()} Mt</div>
+      <div class="info-label"><span data-en>Annual cement input</span><span data-cn>年水泥用量</span></div>
+    </div>
+    <div class="info-card">
+      <div class="info-icon">⏱️</div>
+      <div class="info-val">${life} yr</div>
+      <div class="info-label"><span data-en>Service life</span><span data-cn>使用寿命</span></div>
+    </div>
+    <div class="info-card">
+      <div class="info-icon">⚡</div>
+      <div class="info-val">${modeNames[mode]}</div>
+      <div class="info-label"><span data-en>Carbonation mode</span><span data-cn>碳化模式</span></div>
+    </div>
+    <div class="info-card">
+      <div class="info-icon">🔄</div>
+      <div class="info-val">${fmt(annualDemolished).replace('CO₂/yr','')}</div>
+      <div class="info-label"><span data-en>Annual demolished cement</span><span data-cn>年拆除水泥量</span></div>
+    </div>
+  `;
+
+  const descEl = document.getElementById('lc-net-desc');
+  if (descEl) {
+    descEl.innerHTML = currentLang === 'en'
+      ? `Based on ${cementMt.toLocaleString()} Mt/yr cement and ${life}-year service life, the annual CO₂ sequestration potential under ${modeNames[mode]} is estimated at <strong>${fmt(total)}</strong>.`
+      : `基于年水泥用量 ${cementMt.toLocaleString()} 百万吨、${life}年使用寿命，采用${modeNames[mode]}模式，年度CO₂固碳潜力估算为 <strong>${fmt(total)}</strong>。`;
+  }
+
+  document.getElementById('lifecycle-result').classList.add('show');
+  document.body.className = 'lang-' + currentLang;
+}
+
+// Init slider displays
+updateSlider('s-mass','s-mass-val', massFromLog);
+updateSlider('s-cement','s-cement-val', v => v+' kg/t');
+updateSlider('p-mass','p-mass-val', massFromLog);
+updateSlider('lc-cement','lc-cement-val', v => Number(v).toLocaleString()+' Mt');
+updateSlider('lc-life','lc-life-val', v => v+' yr');
+</script>
+</body>
+</html>
