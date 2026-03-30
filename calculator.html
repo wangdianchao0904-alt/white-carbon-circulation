@@ -252,6 +252,12 @@
     <button class="tb" onclick="switchTab('params')" id="tab-params">
       <span data-en>⚙️ Model Parameters</span><span data-cn>⚙️ 模型参数</span>
     </button>
+    <button class="tb" onclick="switchTab('raccarbon')" id="tab-raccarbon">
+      <span data-en>🌿 RAC Carbon</span><span data-cn>🌿 再生混凝土碳排</span>
+    </button>
+    <button class="tb" onclick="switchTab('carbonation')" id="tab-carbonation">
+      <span data-en>🔬 Carbonation Depth</span><span data-cn>🔬 碳化深度预测</span>
+    </button>
   </div>
 </div>
 
@@ -650,6 +656,186 @@
       </tr></thead>
       <tbody id="cem-table-body"></tbody>
     </table>
+  </div>
+</div>
+
+<!-- ========== PANEL 5: RAC CARBON EMISSION ========== -->
+<div class="panel" id="panel-raccarbon">
+  <div class="card">
+    <div class="ct" data-en>RAC Full Lifecycle Carbon Emission Calculator</div>
+    <div class="ct" data-cn>再生混凝土全生命周期碳排放计算器</div>
+    <div class="ctcn" data-en>Based on Deng Qi (2023) — RCA carbon factor −13.08 kgCO₂-eq/t</div>
+    <div class="ctcn" data-cn>基于邓琪（2023）博士论文 — 再生骨料碳因子 −13.08 kgCO₂-eq/t</div>
+
+    <div class="field">
+      <div class="fl"><span data-en>Strength Grade</span><span data-cn>强度等级</span></div>
+      <div class="rg">
+        <div class="rb"><input type="radio" name="rc-grade" id="rc-c20" value="C20" checked>
+          <label for="rc-c20">C20</label></div>
+        <div class="rb"><input type="radio" name="rc-grade" id="rc-c25" value="C25">
+          <label for="rc-c25">C25</label></div>
+        <div class="rb"><input type="radio" name="rc-grade" id="rc-c30" value="C30">
+          <label for="rc-c30">C30</label></div>
+        <div class="rb"><input type="radio" name="rc-grade" id="rc-c35" value="C35">
+          <label for="rc-c35">C35</label></div>
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="fl"><span data-en>RCA Replacement Ratio</span><span data-cn>再生粗骨料取代率</span>
+        <small id="rc-rca-sv">50%</small></div>
+      <input type="range" id="rc-rca" min="0" max="100" step="5" value="50"
+             oninput="document.getElementById('rc-rca-sv').textContent=this.value+'%'">
+    </div>
+
+    <div class="field">
+      <div class="fl"><span data-en>Fly Ash Replacement</span><span data-cn>粉煤灰掺量</span>
+        <small id="rc-fa-sv">15%</small></div>
+      <input type="range" id="rc-fa" min="0" max="30" step="5" value="15"
+             oninput="document.getElementById('rc-fa-sv').textContent=this.value+'%'">
+    </div>
+
+    <div class="field">
+      <div class="fl"><span data-en>Slag Replacement</span><span data-cn>矿渣掺量</span>
+        <small id="rc-sg-sv">0%</small></div>
+      <input type="range" id="rc-sg" min="0" max="30" step="5" value="0"
+             oninput="document.getElementById('rc-sg-sv').textContent=this.value+'%'">
+    </div>
+
+    <div class="field">
+      <div class="fl"><span data-en>Transport Distance (RA plant → site)</span><span data-cn>再生骨料运输距离</span>
+        <small id="rc-tr-sv">20 km</small></div>
+      <input type="range" id="rc-tr" min="0" max="100" step="5" value="20"
+             oninput="document.getElementById('rc-tr-sv').textContent=this.value+' km'">
+    </div>
+
+    <button class="btn" onclick="calcRACCarbon()">
+      <span data-en>Calculate Carbon Emission</span><span data-cn>计算碳排放量</span>
+    </button>
+
+    <div class="rp" id="rp-raccarbon">
+      <div class="rt" data-en>Carbon Emission Results (kgCO₂-eq / m³)</div>
+      <div class="rt" data-cn>碳排放结果（kgCO₂-eq / m³）</div>
+
+      <div class="bk" id="rc-breakdown"></div>
+
+      <div class="net" id="rc-net-box">
+        <div class="net-lbl" data-en>Net Carbon vs. NAC (same grade)</div>
+        <div class="net-lbl" data-cn>相对于同强度普通混凝土的净碳排放差</div>
+        <div class="net-v" id="rc-net-v">—</div>
+        <div class="net-desc" id="rc-net-desc"></div>
+      </div>
+
+      <div class="ig" id="rc-info-grid" style="margin-top:16px;"></div>
+
+      <div class="fn" style="margin-top:16px;">
+        <h4 data-en>Material Carbon Emission Factors (Deng Qi, 2023 — Table 3.1)</h4>
+        <h4 data-cn>材料碳排放因子（邓琪，2023 — 表3.1）</h4>
+        <p>Cement: 735 · Fly ash: 16.84 · Slag: 51.52 · NCA: 2.18 · <strong style="color:#7ef8ff">RCA: −13.08</strong> · Sand: 2.51 · Water: 0.168 · Admixture: 1064 (kgCO₂-eq/t)<br>
+        <span data-en>RCA net factor = production energy − stockpile carbonation − landfill avoided − quarry avoided = 2.51 − 12 − 3.15 − 0.44 = <strong style="color:#34d399">−13.08 kgCO₂-eq/t</strong></span>
+        <span data-cn>RCA净碳因子 = 生产能耗 − 堆积碳化 − 填埋避免 − 采石避免 = 2.51 − 12 − 3.15 − 0.44 = <strong style="color:#34d399">−13.08 kgCO₂-eq/t</strong></span>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== PANEL 6: CARBONATION DEPTH PREDICTOR ========== -->
+<div class="panel" id="panel-carbonation">
+  <div class="card">
+    <div class="ct" data-en>Carbonation Depth & Service Life Predictor</div>
+    <div class="ct" data-cn>碳化深度与服役寿命预测</div>
+    <div class="ctcn" data-en>Zhang &amp; Xiao (2018) modified model · XGBoost ML R²=0.936 · 576 samples, 24 papers</div>
+    <div class="ctcn" data-cn>张凯建&肖建庄(2018)修正模型 · XGBoost机器学习 R²=0.936 · 576组数据，24篇文献</div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+      <div>
+        <div class="field">
+          <div class="fl"><span data-en>W/C Ratio</span><span data-cn>水灰比</span>
+            <small id="cd-wc-sv">0.50</small></div>
+          <input type="range" id="cd-wc" min="0.30" max="0.75" step="0.01" value="0.50"
+                 oninput="document.getElementById('cd-wc-sv').textContent=parseFloat(this.value).toFixed(2)">
+        </div>
+        <div class="field">
+          <div class="fl"><span data-en>Cement Content</span><span data-cn>水泥用量</span>
+            <small id="cd-cem-sv">350 kg/m³</small></div>
+          <input type="range" id="cd-cem" min="250" max="500" step="10" value="350"
+                 oninput="document.getElementById('cd-cem-sv').textContent=this.value+' kg/m³'">
+        </div>
+        <div class="field">
+          <div class="fl"><span data-en>RCA Replacement Ratio</span><span data-cn>再生粗骨料取代率</span>
+            <small id="cd-rca-sv">50%</small></div>
+          <input type="range" id="cd-rca" min="0" max="100" step="10" value="50"
+                 oninput="document.getElementById('cd-rca-sv').textContent=this.value+'%'">
+        </div>
+        <div class="field">
+          <div class="fl"><span data-en>WA of RCA</span><span data-cn>再生骨料吸水率</span>
+            <small id="cd-wa-sv">5.0%</small></div>
+          <input type="range" id="cd-wa" min="0.5" max="12" step="0.5" value="5.0"
+                 oninput="document.getElementById('cd-wa-sv').textContent=parseFloat(this.value).toFixed(1)+'%'">
+        </div>
+      </div>
+      <div>
+        <div class="field">
+          <div class="fl"><span data-en>Cover Thickness c</span><span data-cn>保护层厚度</span>
+            <small id="cd-cov-sv">25 mm</small></div>
+          <input type="range" id="cd-cov" min="10" max="60" step="5" value="25"
+                 oninput="document.getElementById('cd-cov-sv').textContent=this.value+' mm'">
+        </div>
+        <div class="field">
+          <div class="fl"><span data-en>Relative Humidity RH</span><span data-cn>相对湿度</span>
+            <small id="cd-rh-sv">65%</small></div>
+          <input type="range" id="cd-rh" min="45" max="90" step="5" value="65"
+                 oninput="document.getElementById('cd-rh-sv').textContent=this.value+'%'">
+        </div>
+        <div class="field">
+          <div class="fl"><span data-en>CO₂ Concentration</span><span data-cn>CO₂浓度</span>
+            <small id="cd-co2-sv">0.04%</small></div>
+          <input type="range" id="cd-co2" min="0.03" max="1.0" step="0.01" value="0.04"
+                 oninput="document.getElementById('cd-co2-sv').textContent=parseFloat(this.value).toFixed(2)+'%'">
+        </div>
+        <div class="field">
+          <div class="fl"><span data-en>Temperature T</span><span data-cn>环境温度</span>
+            <small id="cd-temp-sv">20°C</small></div>
+          <input type="range" id="cd-temp" min="10" max="40" step="1" value="20"
+                 oninput="document.getElementById('cd-temp-sv').textContent=this.value+'°C'">
+        </div>
+      </div>
+    </div>
+
+    <button class="btn" onclick="calcCarbonation()">
+      <span data-en>Predict Carbonation Depth &amp; Service Life</span>
+      <span data-cn>预测碳化深度与服役寿命</span>
+    </button>
+
+    <div class="rp" id="rp-carbonation">
+      <div class="rt" data-en>Prediction Results</div>
+      <div class="rt" data-cn>预测结果</div>
+
+      <div class="ig" id="cd-key-results"></div>
+
+      <div class="chart-wrap" style="margin-top:20px;">
+        <div class="chart-title" data-en>Carbonation Depth vs. Time (0–100 years)</div>
+        <div class="chart-title" data-cn>碳化深度随时间变化（0–100年）</div>
+        <canvas id="cd-chart" height="200"></canvas>
+      </div>
+
+      <div class="chart-wrap" style="margin-top:16px;">
+        <div class="chart-title" data-en>XGBoost Feature Importance (SHAP, Manuscript 2023)</div>
+        <div class="chart-title" data-cn>XGBoost特征重要性（SHAP值，论文2023）</div>
+        <canvas id="shap-chart" height="180"></canvas>
+      </div>
+
+      <div class="fn" style="margin-top:16px;">
+        <h4 data-en>Model: Zhang &amp; Xiao (2018) eq.(4.18) — Modified for RAC</h4>
+        <h4 data-cn>模型：张凯建&肖建庄(2018)式(4.18) — 再生混凝土修正模型</h4>
+        <p><code>x_c(t) = 104 · k_A · √T · k_e · √(k_c · W/C / f_c³ · C) · k_CO₂ · √t</code><br>
+        <code>k_A = exp(−0.07 · A_wa)</code> &nbsp;·&nbsp; <code>k_e = RH^1.5·(1−RH)</code> &nbsp;·&nbsp; <code>k_CO₂ = √(CO₂/0.03)</code><br>
+        <span data-en>Model R²=0.812 (342 test points) · XGBoost ML: test R²=0.936, RMSE=2.058 mm (576 samples)</span>
+        <span data-cn>修正模型 R²=0.812（342个试验点）· XGBoost机器学习：测试集R²=0.936，RMSE=2.058 mm（576组数据）</span>
+        </p>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -1068,6 +1254,382 @@ function buildCemTable(){
       <td>${CEM.row[i].toFixed(1)}</td><td style="font-weight:700;color:#f1f5f9;">${tot}</td></tr>`;
   });
   document.getElementById('cem-table-body').innerHTML=rows;
+}
+
+// ============================================================
+// RAC CARBON EMISSION CALCULATOR
+// Based on Deng Qi (2023) PhD thesis, Tongji University
+// ============================================================
+
+// Material carbon emission factors (kgCO₂-eq/t) — Table 3.1
+const MAT_CF = {
+  cement: 735, flyash: 16.84, slag: 51.52,
+  nca: 2.18, rca: -13.08, sand: 2.51,
+  water: 0.168, admixture: 1064
+};
+
+// Reference mix designs per m³ for each grade (kg/m³)
+// Derived from typical RAC mix proportions with w/c from thesis
+const MIX_BASE = {
+  C20: {cement:295, sand:680, nca:1050, water:185, admixture:0},
+  C25: {cement:330, sand:665, nca:1020, water:185, admixture:0},
+  C30: {cement:380, sand:645, nca:990,  water:185, admixture:3.8},
+  C35: {cement:420, sand:630, nca:960,  water:180, admixture:4.2},
+};
+
+// Transport emission factor: 0.062 kgCO₂/(t·km) — diesel truck
+const TRANS_EF = 0.062;
+
+function calcRACCarbon(){
+  const grade = document.querySelector('input[name="rc-grade"]:checked').value;
+  const rcaRatio = +document.getElementById('rc-rca').value / 100;
+  const faRatio  = +document.getElementById('rc-fa').value  / 100;
+  const sgRatio  = +document.getElementById('rc-sg').value  / 100;
+  const transDist= +document.getElementById('rc-tr').value;
+
+  const base = MIX_BASE[grade];
+
+  // Cementitious materials with SCM replacement
+  const totalBinder = base.cement;
+  const cement = totalBinder * (1 - faRatio - sgRatio);
+  const flyash = totalBinder * faRatio;
+  const slag   = totalBinder * sgRatio;
+
+  // Aggregates — RCA replaces NCA by mass
+  const nca = base.nca * (1 - rcaRatio);
+  const rca = base.nca * rcaRatio;
+
+  // Production carbon (kgCO₂-eq/m³)
+  const C_cement = cement * MAT_CF.cement / 1000;
+  const C_fa     = flyash * MAT_CF.flyash / 1000;
+  const C_slag   = slag   * MAT_CF.slag   / 1000;
+  const C_nca    = nca    * MAT_CF.nca    / 1000;
+  const C_rca    = rca    * MAT_CF.rca    / 1000;   // negative = carbon sink
+  const C_sand   = base.sand  * MAT_CF.sand  / 1000;
+  const C_water  = base.water * MAT_CF.water / 1000;
+  const C_adm    = base.admixture * MAT_CF.admixture / 1000;
+  const C_trans  = rca * transDist * TRANS_EF / 1000;
+
+  const C_total  = C_cement+C_fa+C_slag+C_nca+C_rca+C_sand+C_water+C_adm+C_trans;
+
+  // NAC baseline (same grade, 0% RCA)
+  const nac_cement= totalBinder * MAT_CF.cement / 1000;
+  const nac_nca   = base.nca   * MAT_CF.nca    / 1000;
+  const C_nac     = nac_cement+nac_nca+base.sand*MAT_CF.sand/1000+base.water*MAT_CF.water/1000
+                    +base.admixture*MAT_CF.admixture/1000;
+
+  const delta = C_total - C_nac;
+
+  // Service-stage CO₂ absorption (Deng Qi 2023, eq. for building service)
+  // Simplified: A=5.68 m²/m³, mc0≈0.044×(8.22-13.67×0.3-8.22×0.1)≈0.19 kg/m²
+  const mc0 = 0.044 * (8.22 - 13.67*0.3 - 8.22*0.1);
+  const Cup = 5.68 * mc0 * 50; // 50 year service life estimate
+
+  // Render
+  const bk = document.getElementById('rc-breakdown');
+  const rows = [
+    ['Cement 水泥',  C_cement,  false],
+    ['Fly Ash 粉煤灰',C_fa,     false],
+    ['Slag 矿渣',    C_slag,    false],
+    ['NCA 天然粗骨料',C_nca,    false],
+    ['RCA 再生粗骨料',C_rca,    true ],
+    ['Sand 砂',      C_sand,    false],
+    ['Water 水',     C_water,   false],
+    ['Admixture 外加剂',C_adm,  false],
+    ['Transport 运输',C_trans,  false],
+  ];
+  bk.innerHTML = rows.map(([lbl,val,special])=>`
+    <div class="bkr">
+      <span class="bkl">${lbl}</span>
+      <span class="bkv ${val<0?'cg':special?'ct2':'cr'}">${val>=0?'+':''}${val.toFixed(1)} kgCO₂-eq/m³</span>
+    </div>`).join('')+`
+    <div class="bkr" style="border-top:1px solid rgba(255,255,255,.12);margin-top:4px;">
+      <span style="font-weight:700;color:#f1f5f9;" data-en>Total Production</span>
+      <span style="font-weight:700;color:#f1f5f9;">${C_total.toFixed(1)} kgCO₂-eq/m³</span>
+    </div>`;
+
+  const netBox = document.getElementById('rc-net-box');
+  const netV   = document.getElementById('rc-net-v');
+  const netD   = document.getElementById('rc-net-desc');
+  netBox.className = 'net '+(delta<=0?'pos':'neg');
+  netV.className   = 'net-v '+(delta<=0?'p':'n');
+  netV.textContent = (delta>=0?'+':'')+delta.toFixed(1)+' kgCO₂-eq/m³';
+  const pct = Math.abs(delta/C_nac*100).toFixed(1);
+  netD.innerHTML = delta<=0
+    ? `RAC saves <strong>${pct}%</strong> carbon vs. NAC (${C_nac.toFixed(0)} → ${C_total.toFixed(0)} kgCO₂-eq/m³). RCA negative factor −13.08 kgCO₂-eq/t acts as carbon sink.`
+    : `RAC emits <strong>${pct}%</strong> more than NAC baseline (SCM replacement partially offsets RCA benefit).`;
+
+  document.getElementById('rc-info-grid').innerHTML = `
+    <div class="ic"><div class="ii">🏗️</div><div class="iv">${C_total.toFixed(0)}</div>
+      <div class="il" data-en>Production Carbon<br>kgCO₂-eq/m³</div></div>
+    <div class="ic"><div class="ii">🌿</div><div class="iv" style="color:#34d399;">${Cup.toFixed(0)}</div>
+      <div class="il" data-en>Service-stage Absorption<br>kgCO₂/m³ (50 yr)</div></div>
+    <div class="ic"><div class="ii">♻️</div><div class="iv" style="color:#34d399;">${(rca*Math.abs(MAT_CF.rca)/1000).toFixed(1)}</div>
+      <div class="il" data-en>RCA Carbon Saving<br>kgCO₂-eq/m³</div></div>
+    <div class="ic"><div class="ii">📊</div><div class="iv">${C_nac.toFixed(0)}</div>
+      <div class="il" data-en>NAC Baseline<br>kgCO₂-eq/m³</div></div>`;
+
+  document.getElementById('rp-raccarbon').classList.add('show');
+}
+
+// ============================================================
+// CARBONATION DEPTH PREDICTOR
+// Based on Zhang & Xiao (2018) eq.(4.18) modified for RAC
+// x_c(t) = 104·k_A·√T·k_e·√(k_c·(W/C)/f_c^3·C)·k_CO2·√t
+// ============================================================
+
+let cdChart = null, shapChart = null;
+
+function calcCarbonation(){
+  const wc   = +document.getElementById('cd-wc').value;
+  const cem  = +document.getElementById('cd-cem').value;  // kg/m³
+  const rcaP = +document.getElementById('cd-rca').value;  // %
+  const waRCA= +document.getElementById('cd-wa').value;   // % water absorption RCA
+  const cov  = +document.getElementById('cd-cov').value;  // mm cover
+  const rh   = +document.getElementById('cd-rh').value / 100; // fraction
+  const co2  = +document.getElementById('cd-co2').value;  // % volume
+  const temp = +document.getElementById('cd-temp').value; // °C
+
+  // Weighted aggregate water absorption: NCA typical WA=1.2%, mix with RCA
+  const waFrac = rcaP / 100;
+  const waNCA  = 1.2; // % typical
+  const A_wa   = waFrac * waRCA + (1 - waFrac) * waNCA;
+
+  // Model parameters
+  const k_A   = Math.exp(-0.07 * A_wa);
+  const k_e   = Math.pow(rh, 1.5) * (1 - rh);
+  const k_CO2 = Math.sqrt(co2 / 0.03);
+
+  // 28-day strength from w/c: f_c = 15.28 × (w/c)^(-1.0) (Fig 4.9, Zhang 2018)
+  const fc = 15.28 * Math.pow(wc, -1.0);
+
+  // k_c: curing time correction, assume standard 28-day curing → t_c=28 d, b_c=-0.567
+  const k_c = Math.pow(28, -0.567);
+
+  // Composite coefficient: 104·k_A·√T·k_e·k_CO2·√(k_c·(w/c)/fc³·C)
+  // From eq(4.18): x_c(t) = 104·k_A·√T·k_e·√(k_c·W/(fc³·C))·k_CO2·√t
+  // W = w/c × C (water content)
+  const W = wc * cem;
+  const inner = k_c * W / (Math.pow(fc, 3) * cem);
+  const K = 104 * k_A * Math.sqrt(temp) * k_e * Math.sqrt(inner) * k_CO2;
+
+  // NAC comparison: same conditions but 0% RCA
+  const A_wa_nac = waNCA;
+  const k_A_nac  = Math.exp(-0.07 * A_wa_nac);
+  const K_nac    = 104 * k_A_nac * Math.sqrt(temp) * k_e * Math.sqrt(inner) * k_CO2;
+
+  // Time points 0–100 years
+  const tArr = [], dArr = [], dNacArr = [];
+  for(let yr=0; yr<=100; yr+=2){
+    tArr.push(yr);
+    dArr.push(K * Math.sqrt(yr));      // RAC prediction
+    dNacArr.push(K_nac * Math.sqrt(yr)); // NAC comparison
+  }
+
+  // Critical depassivation time t_cr: K * √t_cr = cov → t_cr = (cov/K)²
+  const t_cr     = K > 0     ? Math.pow(cov / K,     2) : Infinity;
+  const t_cr_nac = K_nac > 0 ? Math.pow(cov / K_nac, 2) : Infinity;
+
+  // Gamma distribution reliability (Zhang 2018 eq 4.26)
+  // Carbonation coefficient distribution: RAC Gamma(α=2.034, λ=0.891), mean=2.28 mm/yr^0.5
+  // Using simplified reliability index β ≈ (c - K·√t) / √(Var[d(t)])
+  // Var[d(t)] = α(t)/λ² where α(t)=u·t^0.5; from data λ=0.891, mean K≈2.28
+  // Approximate: β(t) = (c - E[d]) / std[d] = (cov - K·√t) / (K·√t * CoV_d)
+  // CoV of carbonation coefficient ≈ 0.36 (from thesis RAC COV-R)
+  const CoV_d = 0.36;
+
+  function betaAt(yr){
+    const mu_d = K * Math.sqrt(yr);
+    if(mu_d <= 0) return 99;
+    const sig_d = mu_d * CoV_d;
+    return (cov - mu_d) / sig_d;
+  }
+
+  // Key time points for β
+  const t50  = t_cr;
+  const beta_25  = betaAt(25);
+  const beta_50  = betaAt(50);
+  const beta_70  = betaAt(70);
+  const beta_100 = betaAt(100);
+
+  // Display key results
+  const t_cr_disp     = t_cr     > 999 ? '>200 yr' : (t_cr     < 1 ? '<1 yr' : t_cr.toFixed(1)+' yr');
+  const t_cr_nac_disp = t_cr_nac > 999 ? '>200 yr' : (t_cr_nac < 1 ? '<1 yr' : t_cr_nac.toFixed(1)+' yr');
+  const racFaster = t_cr < t_cr_nac;
+
+  document.getElementById('cd-key-results').innerHTML = `
+    <div class="ic" style="border-color:rgba(46,184,196,0.3);background:rgba(46,184,196,0.06);">
+      <div class="ii">♻️</div>
+      <div style="font-size:0.65rem;color:#2eb8c4;font-weight:700;margin-bottom:3px;">RAC 再生混凝土</div>
+      <div class="iv">${(K*Math.sqrt(50)).toFixed(1)} mm</div>
+      <div class="il" data-en>Depth at 50 yr</div><div class="il" data-cn>50年碳化深度</div></div>
+    <div class="ic" style="border-color:rgba(148,163,184,0.3);">
+      <div class="ii">🏢</div>
+      <div style="font-size:0.65rem;color:#94a3b8;font-weight:700;margin-bottom:3px;">NAC 普通混凝土</div>
+      <div class="iv" style="color:#94a3b8;">${(K_nac*Math.sqrt(50)).toFixed(1)} mm</div>
+      <div class="il" data-en>Depth at 50 yr</div><div class="il" data-cn>50年碳化深度</div></div>
+    <div class="ic" style="border-color:${t_cr<50?'rgba(248,113,113,0.3)':t_cr<70?'rgba(251,191,36,0.3)':'rgba(52,211,153,0.3)'};">
+      <div class="ii">⏱️</div>
+      <div style="font-size:0.65rem;color:#2eb8c4;font-weight:700;margin-bottom:3px;">RAC t<sub>cr</sub></div>
+      <div class="iv" style="color:${t_cr<50?'#f87171':t_cr<70?'#fbbf24':'#34d399'};">${t_cr_disp}</div>
+      <div class="il" data-en>RAC Depassivation</div><div class="il" data-cn>再生混凝土临界时间</div></div>
+    <div class="ic">
+      <div class="ii">⏱️</div>
+      <div style="font-size:0.65rem;color:#94a3b8;font-weight:700;margin-bottom:3px;">NAC t<sub>cr</sub></div>
+      <div class="iv" style="color:#94a3b8;">${t_cr_nac_disp}</div>
+      <div class="il" data-en>NAC Depassivation</div><div class="il" data-cn>普通混凝土临界时间</div></div>
+    <div class="ic" style="border-color:${beta_50>1.5?'rgba(52,211,153,0.3)':beta_50>0?'rgba(251,191,36,0.3)':'rgba(248,113,113,0.3)'};">
+      <div class="ii">🔒</div>
+      <div class="iv" style="color:${beta_50>1.5?'#34d399':beta_50>0?'#fbbf24':'#f87171'};">${beta_50.toFixed(2)}</div>
+      <div class="il" data-en>RAC β (50 yr)</div><div class="il" data-cn>再生混凝土50年β</div></div>
+    <div class="ic">
+      <div class="ii">⚠️</div>
+      <div class="iv" style="color:${racFaster?'#f87171':'#34d399'};font-size:0.85rem;">${racFaster?'RAC faster':'RAC slower'}</div>
+      <div class="il" data-en>vs NAC carbonation</div><div class="il" data-cn>对比普通混凝土</div></div>`;
+
+  // Draw carbonation depth chart (RAC + NAC comparison)
+  drawCDChart(tArr, dArr, dNacArr, cov);
+
+  // Draw SHAP feature importance chart
+  drawSHAPChart();
+
+  document.getElementById('rp-carbonation').classList.add('show');
+}
+
+function drawCDChart(tArr, dArr, dNacArr, cov){
+  const canvas = document.getElementById('cd-chart');
+  const ctx = canvas.getContext('2d');
+  canvas.width = canvas.offsetWidth * devicePixelRatio;
+  canvas.height = 220 * devicePixelRatio;
+  ctx.scale(devicePixelRatio, devicePixelRatio);
+  const W=canvas.offsetWidth, H=220;
+  const PAD={t:28,r:20,b:30,l:45};
+  ctx.clearRect(0,0,W,H);
+
+  const maxD = Math.max(...dArr, ...dNacArr, cov * 1.3);
+  const xS = yr => PAD.l + yr/100 * (W-PAD.l-PAD.r);
+  const yS = d  => H - PAD.b - (d/maxD)*(H-PAD.t-PAD.b);
+
+  // Grid
+  ctx.strokeStyle='rgba(255,255,255,0.05)';ctx.lineWidth=1;
+  [0,25,50,75,100].forEach(yr=>{
+    const x=xS(yr);
+    ctx.beginPath();ctx.moveTo(x,PAD.t);ctx.lineTo(x,H-PAD.b);ctx.stroke();
+    ctx.fillStyle='rgba(226,232,240,0.35)';ctx.font='10px Segoe UI';ctx.textAlign='center';
+    ctx.fillText(yr+'yr',x,H-PAD.b+14);
+  });
+  [0,0.25,0.5,0.75,1.0].forEach(f=>{
+    const y=H-PAD.b-f*(H-PAD.t-PAD.b);
+    ctx.beginPath();ctx.moveTo(PAD.l,y);ctx.lineTo(W-PAD.r,y);ctx.stroke();
+    ctx.fillStyle='rgba(226,232,240,0.35)';ctx.font='9px Segoe UI';ctx.textAlign='right';
+    ctx.fillText((maxD*f).toFixed(0)+'mm',PAD.l-4,y+3);
+  });
+
+  // Cover line
+  const yCov = yS(cov);
+  ctx.beginPath();ctx.setLineDash([6,4]);
+  ctx.moveTo(PAD.l,yCov);ctx.lineTo(W-PAD.r,yCov);
+  ctx.strokeStyle='#f87171';ctx.lineWidth=1.5;ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle='#f87171';ctx.font='9px Segoe UI';ctx.textAlign='left';
+  ctx.fillText('Cover '+cov+'mm',PAD.l+4,yCov-4);
+
+  // NAC uncertainty band (CoV=0.508, from Silva model COV-N≈0.508)
+  ctx.beginPath();
+  tArr.forEach((yr,i)=>{ctx.lineTo(xS(yr),yS(dNacArr[i]*(1+0.50)));
+    if(i===0)ctx.moveTo(xS(yr),yS(dNacArr[i]*(1+0.50)));});
+  tArr.slice().reverse().forEach((yr,i)=>{
+    const j=tArr.length-1-i;
+    ctx.lineTo(xS(yr),yS(Math.max(0,dNacArr[j]*(1-0.50))));
+  });
+  ctx.closePath();ctx.fillStyle='rgba(148,163,184,0.07)';ctx.fill();
+
+  // RAC uncertainty band (CoV=0.36)
+  ctx.beginPath();
+  tArr.forEach((yr,i)=>{
+    const x=xS(yr),y=yS(dArr[i]*(1+0.36));
+    i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+  });
+  tArr.slice().reverse().forEach((yr,i)=>{
+    const j=tArr.length-1-i;
+    ctx.lineTo(xS(yr),yS(Math.max(0,dArr[j]*(1-0.36))));
+  });
+  ctx.closePath();ctx.fillStyle='rgba(46,184,196,0.10)';ctx.fill();
+
+  // NAC mean curve (dashed grey)
+  ctx.beginPath();ctx.setLineDash([5,4]);
+  tArr.forEach((yr,i)=>{
+    const x=xS(yr),y=yS(dNacArr[i]);
+    i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+  });
+  ctx.strokeStyle='#94a3b8';ctx.lineWidth=2;ctx.lineJoin='round';ctx.stroke();
+  ctx.setLineDash([]);
+
+  // RAC mean curve (solid teal)
+  ctx.beginPath();
+  tArr.forEach((yr,i)=>{
+    const x=xS(yr),y=yS(dArr[i]);
+    i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+  });
+  ctx.strokeStyle='#2eb8c4';ctx.lineWidth=2.5;ctx.lineJoin='round';ctx.stroke();
+
+  // Legend
+  const ly=PAD.t-10;
+  ctx.fillStyle='#2eb8c4';ctx.fillRect(PAD.l,ly,20,3);
+  ctx.fillStyle='rgba(226,232,240,0.7)';ctx.font='9px Segoe UI';ctx.textAlign='left';
+  ctx.fillText(lang==='en'?'RAC (±1σ)':'再生混凝土(±1σ)',PAD.l+24,ly+4);
+
+  ctx.strokeStyle='#94a3b8';ctx.lineWidth=2;ctx.setLineDash([5,4]);
+  ctx.beginPath();ctx.moveTo(PAD.l+110,ly);ctx.lineTo(PAD.l+130,ly);ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle='rgba(226,232,240,0.55)';
+  ctx.fillText(lang==='en'?'NAC (±1σ)':'普通混凝土(±1σ)',PAD.l+134,ly+4);
+}
+
+function drawSHAPChart(){
+  const canvas = document.getElementById('shap-chart');
+  const ctx = canvas.getContext('2d');
+  canvas.width = canvas.offsetWidth * devicePixelRatio;
+  canvas.height = 180 * devicePixelRatio;
+  ctx.scale(devicePixelRatio, devicePixelRatio);
+  const W=canvas.offsetWidth, H=180;
+  const PAD={t:10,r:20,b:20,l:160};
+
+  // SHAP global importance from Manuscript_12(2) paper
+  const features = [
+    {en:'Carbonation time',cn:'碳化时间',val:29.3,col:'#2eb8c4'},
+    {en:'W/C ratio',       cn:'水灰比',  val:22.5,col:'#0ea5e9'},
+    {en:'CO₂ concentration',cn:'CO₂浓度',val:10.2,col:'#7ef8ff'},
+    {en:'Relative humidity',cn:'相对湿度',val:8.5, col:'#38bdf8'},
+    {en:'WA of RCA',       cn:'RCA吸水率',val:7.0, col:'#a78bfa'},
+    {en:'Temperature',     cn:'温度',    val:5.8, col:'#34d399'},
+    {en:'RCA replacement', cn:'RCA取代率',val:4.9, col:'#fbbf24'},
+    {en:'Cement content',  cn:'水泥用量', val:4.2, col:'#fb923c'},
+    {en:'WA of NCA/NFA',   cn:'天然骨料吸水率',val:7.6,col:'#94a3b8'},
+  ];
+
+  ctx.clearRect(0,0,W,H);
+  const barH = (H-PAD.t-PAD.b) / features.length - 3;
+  const maxVal = 30;
+
+  features.forEach((f,i)=>{
+    const y = PAD.t + i*(barH+3);
+    const bw = (f.val/maxVal)*(W-PAD.l-PAD.r);
+
+    // Bar
+    ctx.fillStyle = f.col+'33';
+    ctx.fillRect(PAD.l, y, W-PAD.l-PAD.r, barH);
+    ctx.fillStyle = f.col;
+    ctx.fillRect(PAD.l, y, bw, barH);
+
+    // Label
+    ctx.fillStyle='rgba(226,232,240,0.7)';ctx.font='9.5px Segoe UI';ctx.textAlign='right';
+    ctx.fillText(lang==='en'?f.en:f.cn, PAD.l-6, y+barH*0.7);
+
+    // Value
+    ctx.fillStyle='rgba(226,232,240,0.9)';ctx.font='9px Segoe UI';ctx.textAlign='left';
+    ctx.fillText(f.val.toFixed(1)+'%', PAD.l+bw+4, y+barH*0.7);
+  });
 }
 
 // ============================================================
