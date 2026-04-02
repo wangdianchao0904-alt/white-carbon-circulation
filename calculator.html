@@ -1176,17 +1176,17 @@ function calcProd(){
   const fmt=v=>Math.abs(v)>=1000?(v/1000).toFixed(2)+' kt CO₂':
               Math.abs(v)>=1?v.toFixed(2)+' t CO₂':(v*1000).toFixed(1)+' kg CO₂';
 
-  let bkHtml=`<div class="bkr"><div class="bkl"><span data-en>RA Production Emissions</span><span data-cn>再生骨料生产排放</span></div>
+  let bkHtml=`<div class="bkr"><div class="bkl"><span data-en>RA Production Emissions</span><span data-cn>再生骨料生产排放</span><span data-ja>RA生産排出量</span></div>
     <div class="bkv cr">+${fmt(em)}</div></div>
-    <div class="bkr"><div class="bkl"><span data-en>  ↳ from crushing (60–90%)</span><span data-cn>  ↳ 破碎工序（60–90%）</span></div>
+    <div class="bkr"><div class="bkl"><span data-en>  ↳ from crushing (60–90%)</span><span data-cn>  ↳ 破碎工序（60–90%）</span><span data-ja>  ↳ 破砕工程（60–90%）</span></div>
     <div class="bkv" style="color:rgba(248,113,113,.7);">+${fmt(em*0.75)}</div></div>`;
   if(doLF) bkHtml+=`
-    <div class="bkr"><div class="bkl"><span data-en>Avoided landfill machinery</span><span data-cn>避免填埋机械排放</span></div>
+    <div class="bkr"><div class="bkl"><span data-en>Avoided landfill machinery</span><span data-cn>避免填埋机械排放</span><span data-ja>埋立処分回避</span></div>
     <div class="bkv cg">−${fmt(mass*3.15/1000)}</div></div>
-    <div class="bkr"><div class="bkl"><span data-en>Avoided land occupation loss</span><span data-cn>避免土地占用碳损失</span></div>
+    <div class="bkr"><div class="bkl"><span data-en>Avoided land occupation loss</span><span data-cn>避免土地占用碳损失</span><span data-ja>土地利用損失回避</span></div>
     <div class="bkv cg">−${fmt(mass*0.44/1000)}</div></div>`;
   bkHtml+=`<div class="bkr" style="border-top:1px solid rgba(255,255,255,.08);padding-top:10px;">
-    <div class="bkl" style="font-weight:700;color:#f1f5f9;"><span data-en>Net Carbon</span><span data-cn>净碳量</span></div>
+    <div class="bkl" style="font-weight:700;color:#f1f5f9;"><span data-en>Net Carbon</span><span data-cn>净碳量</span><span data-ja>正味炭素量</span></div>
     <div class="bkv ${isPos?'cg':'cr'}">${isPos?'−':'+'}${fmt(Math.abs(net))}</div></div>`;
   document.getElementById('prod-bk').innerHTML=bkHtml;
 
@@ -1197,17 +1197,19 @@ function calcProd(){
     (Math.abs(net)*1000).toFixed(0)+' kg')+' CO₂';
   document.getElementById('prod-nd').innerHTML=isPos
     ?t(`✅ Carbon <strong>negative</strong>! Recycling ${mass.toLocaleString()} t of waste concrete avoids more CO₂ than it produces.`,
-       `✅ 净碳量为<strong>负</strong>！将 ${mass.toLocaleString()} 吨废旧混凝土再生利用，减排量超过排放量。`)
+       `✅ 净碳量为<strong>负</strong>！将 ${mass.toLocaleString()} 吨废旧混凝土再生利用，减排量超过排放量。`,
+       `✅ 正味炭素量が<strong>マイナス</strong>！${mass.toLocaleString()} tの廃コンクリートのリサイクルは、排出量を上回るCO₂を回避する。`)
     :t(`⚠️ Net carbon positive. Optimise crushing process (target: reduce from ${emFact} kg CO₂/t toward 0.9 kg CO₂/t best practice).`,
-       `⚠️ 净碳量为正值。建议优化破碎工艺（目标：从 ${emFact} kg CO₂/t 降低至最优实践 0.9 kg CO₂/t）。`);
+       `⚠️ 净碳量为正值。建议优化破碎工艺（目标：从 ${emFact} kg CO₂/t 降低至最优实践 0.9 kg CO₂/t）。`,
+       `⚠️ 正味炭素量がプラス。破砕工程の最適化を推奨（目標：${emFact} → 0.9 kg CO₂/tのベストプラクティス）。`);
 
   document.getElementById('prod-ig').innerHTML=`
     <div class="ic"><div class="ii">⚙️</div><div class="iv">${emFact}</div>
-      <div class="il"><span data-en>kg CO₂/t factor</span><span data-cn>kg CO₂/t 排放因子</span></div></div>
+      <div class="il"><span data-en>kg CO₂/t factor</span><span data-cn>kg CO₂/t 排放因子</span><span data-ja>kg CO₂/t 係数</span></div></div>
     <div class="ic"><div class="ii">🔨</div><div class="iv">60–90%</div>
-      <div class="il"><span data-en>from crushing</span><span data-cn>来自破碎工序</span></div></div>
+      <div class="il"><span data-en>from crushing</span><span data-cn>来自破碎工序</span><span data-ja>破砕工程由来</span></div></div>
     <div class="ic"><div class="ii">🌱</div><div class="iv">${fmt(lfAv)}</div>
-      <div class="il"><span data-en>avoided landfill CO₂</span><span data-cn>避免填埋 CO₂</span></div></div>`;
+      <div class="il"><span data-en>avoided landfill CO₂</span><span data-cn>避免填埋 CO₂</span><span data-ja>埋立回避CO₂</span></div></div>`;
 
   document.getElementById('prod-result').classList.add('show');
   document.body.className='lang-'+lang;
@@ -1439,7 +1441,7 @@ function calcRACCarbon(){
       <span class="bkv ${val<0?'cg':special?'ct2':'cr'}">${val>=0?'+':''}${val.toFixed(1)} kgCO₂-eq/m³</span>
     </div>`).join('')+`
     <div class="bkr" style="border-top:1px solid rgba(255,255,255,.12);margin-top:4px;">
-      <span style="font-weight:700;color:#f1f5f9;" data-en>Total Production</span>
+      <span style="font-weight:700;color:#f1f5f9;"><span data-en>Total Production</span><span data-cn>生产总排放</span><span data-ja>生産合計</span></span>
       <span style="font-weight:700;color:#f1f5f9;">${C_total.toFixed(1)} kgCO₂-eq/m³</span>
     </div>`;
 
@@ -1456,13 +1458,13 @@ function calcRACCarbon(){
 
   document.getElementById('rc-info-grid').innerHTML = `
     <div class="ic"><div class="ii">🏗️</div><div class="iv">${C_total.toFixed(0)}</div>
-      <div class="il" data-en>Production Carbon<br>kgCO₂-eq/m³</div></div>
+      <div class="il"><span data-en>Production Carbon<br>kgCO₂-eq/m³</span><span data-cn>生产碳排放<br>kgCO₂-eq/m³</span><span data-ja>生産炭素排出<br>kgCO₂-eq/m³</span></div></div>
     <div class="ic"><div class="ii">🌿</div><div class="iv" style="color:#34d399;">${Cup.toFixed(0)}</div>
-      <div class="il" data-en>Service-stage Absorption<br>kgCO₂/m³ (50 yr)</div></div>
+      <div class="il"><span data-en>Service-stage Absorption<br>kgCO₂/m³ (50 yr)</span><span data-cn>服役期CO₂吸收<br>kgCO₂/m³ (50年)</span><span data-ja>供用期CO₂吸収<br>kgCO₂/m³ (50年)</span></div></div>
     <div class="ic"><div class="ii">♻️</div><div class="iv" style="color:#34d399;">${(rca*Math.abs(MAT_CF.rca)/1000).toFixed(1)}</div>
-      <div class="il" data-en>RCA Carbon Saving<br>kgCO₂-eq/m³</div></div>
+      <div class="il"><span data-en>RCA Carbon Saving<br>kgCO₂-eq/m³</span><span data-cn>RCA碳节省<br>kgCO₂-eq/m³</span><span data-ja>RCA炭素削減<br>kgCO₂-eq/m³</span></div></div>
     <div class="ic"><div class="ii">📊</div><div class="iv">${C_nac.toFixed(0)}</div>
-      <div class="il" data-en>NAC Baseline<br>kgCO₂-eq/m³</div></div>`;
+      <div class="il"><span data-en>NAC Baseline<br>kgCO₂-eq/m³</span><span data-cn>普通混凝土基准<br>kgCO₂-eq/m³</span><span data-ja>NAC基準値<br>kgCO₂-eq/m³</span></div></div>`;
 
   document.getElementById('rp-raccarbon').classList.add('show');
 }
@@ -1557,30 +1559,30 @@ function calcCarbonation(){
       <div class="ii">♻️</div>
       <div style="font-size:0.65rem;color:#2eb8c4;font-weight:700;margin-bottom:3px;">RAC 再生混凝土</div>
       <div class="iv">${(K*Math.sqrt(50)).toFixed(1)} mm</div>
-      <div class="il" data-en>Depth at 50 yr</div><div class="il" data-cn>50年碳化深度</div></div>
+      <div class="il"><span data-en>Depth at 50 yr</span><span data-cn>50年碳化深度</span><span data-ja>50年時の深さ</span></div></div>
     <div class="ic" style="border-color:rgba(148,163,184,0.3);">
       <div class="ii">🏢</div>
-      <div style="font-size:0.65rem;color:#94a3b8;font-weight:700;margin-bottom:3px;">NAC 普通混凝土</div>
+      <div style="font-size:0.65rem;color:#94a3b8;font-weight:700;margin-bottom:3px;"><span data-en>NAC</span><span data-cn>普通混凝土</span><span data-ja>NAC 普通コンクリート</span></div>
       <div class="iv" style="color:#94a3b8;">${(K_nac*Math.sqrt(50)).toFixed(1)} mm</div>
-      <div class="il" data-en>Depth at 50 yr</div><div class="il" data-cn>50年碳化深度</div></div>
+      <div class="il"><span data-en>Depth at 50 yr</span><span data-cn>50年碳化深度</span><span data-ja>50年時の深さ</span></div></div>
     <div class="ic" style="border-color:${t_cr<50?'rgba(248,113,113,0.3)':t_cr<70?'rgba(251,191,36,0.3)':'rgba(52,211,153,0.3)'};">
       <div class="ii">⏱️</div>
       <div style="font-size:0.65rem;color:#2eb8c4;font-weight:700;margin-bottom:3px;">RAC t<sub>cr</sub></div>
       <div class="iv" style="color:${t_cr<50?'#f87171':t_cr<70?'#fbbf24':'#34d399'};">${t_cr_disp}</div>
-      <div class="il" data-en>RAC Depassivation</div><div class="il" data-cn>再生混凝土临界时间</div></div>
+      <div class="il"><span data-en>RAC Depassivation</span><span data-cn>再生混凝土临界时间</span><span data-ja>RAC不動態破壊時間</span></div></div>
     <div class="ic">
       <div class="ii">⏱️</div>
       <div style="font-size:0.65rem;color:#94a3b8;font-weight:700;margin-bottom:3px;">NAC t<sub>cr</sub></div>
       <div class="iv" style="color:#94a3b8;">${t_cr_nac_disp}</div>
-      <div class="il" data-en>NAC Depassivation</div><div class="il" data-cn>普通混凝土临界时间</div></div>
+      <div class="il"><span data-en>NAC Depassivation</span><span data-cn>普通混凝土临界时间</span><span data-ja>NAC不動態破壊時間</span></div></div>
     <div class="ic" style="border-color:${beta_50>1.5?'rgba(52,211,153,0.3)':beta_50>0?'rgba(251,191,36,0.3)':'rgba(248,113,113,0.3)'};">
       <div class="ii">🔒</div>
       <div class="iv" style="color:${beta_50>1.5?'#34d399':beta_50>0?'#fbbf24':'#f87171'};">${beta_50.toFixed(2)}</div>
-      <div class="il" data-en>RAC β (50 yr)</div><div class="il" data-cn>再生混凝土50年β</div></div>
+      <div class="il"><span data-en>RAC β (50 yr)</span><span data-cn>再生混凝土50年β</span><span data-ja>RAC β（50年）</span></div></div>
     <div class="ic">
       <div class="ii">⚠️</div>
-      <div class="iv" style="color:${racFaster?'#f87171':'#34d399'};font-size:0.85rem;">${racFaster?'RAC faster':'RAC slower'}</div>
-      <div class="il" data-en>vs NAC carbonation</div><div class="il" data-cn>对比普通混凝土</div></div>`;
+      <div class="iv" style="color:${racFaster?'#f87171':'#34d399'};font-size:0.85rem;">${racFaster?t('RAC faster','RAC更快','RAC速い'):t('RAC slower','RAC更慢','RAC遅い')}</div>
+      <div class="il"><span data-en>vs NAC carbonation</span><span data-cn>对比普通混凝土</span><span data-ja>NAC炭酸化比較</span></div></div>`;
 
   // Draw carbonation depth chart (RAC + NAC comparison)
   drawCDChart(tArr, dArr, dNacArr, cov);
