@@ -94,6 +94,11 @@
     font-weight:800;letter-spacing:.04em;transition:all .25s;
     box-shadow:0 4px 20px rgba(46,184,196,.25);}
   .btn:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(46,184,196,.35);}
+  .btn-export{display:inline-block;margin-top:14px;padding:8px 20px;
+    background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);
+    border-radius:10px;cursor:pointer;color:var(--teal);font-size:.78rem;
+    font-weight:700;transition:all .2s;text-decoration:none;}
+  .btn-export:hover{background:var(--teal-p);border-color:var(--teal);}
 
   /* RESULTS */
   .rp{display:none;margin-top:20px;}
@@ -664,8 +669,8 @@
   <div class="card">
     <div class="ct" data-en>RAC Full Lifecycle Carbon Emission Calculator</div>
     <div class="ct" data-cn>再生混凝土全生命周期碳排放计算器</div>
-    <div class="ctcn" data-en>Based on Deng Qi (2023) — RCA carbon factor −13.08 kgCO₂-eq/t</div>
-    <div class="ctcn" data-cn>基于邓琪（2023）博士论文 — 再生骨料碳因子 −13.08 kgCO₂-eq/t</div>
+    <div class="ctcn" data-en>Based on Deng Qi (PhD Thesis, Tongji University, 2023) — RCA carbon factor −13.08 kgCO₂-eq/t</div>
+    <div class="ctcn" data-cn>基于邓琪（同济大学博士学位论文，2023）— 再生骨料碳因子 −13.08 kgCO₂-eq/t</div>
 
     <div class="field">
       <div class="fl"><span data-en>Strength Grade</span><span data-cn>强度等级</span></div>
@@ -728,6 +733,11 @@
 
       <div class="ig" id="rc-info-grid" style="margin-top:16px;"></div>
 
+      <div style="text-align:center;">
+        <button class="btn-export" onclick="exportRACCSV()" data-en>📋 Export Results as CSV</button>
+        <button class="btn-export" onclick="exportRACCSV()" data-cn>📋 导出CSV结果</button>
+      </div>
+
       <div class="fn" style="margin-top:16px;">
         <h4 data-en>Material Carbon Emission Factors (Deng Qi, 2023 — Table 3.1)</h4>
         <h4 data-cn>材料碳排放因子（邓琪，2023 — 表3.1）</h4>
@@ -755,24 +765,28 @@
             <small id="cd-wc-sv">0.50</small></div>
           <input type="range" id="cd-wc" min="0.30" max="0.75" step="0.01" value="0.50"
                  oninput="document.getElementById('cd-wc-sv').textContent=parseFloat(this.value).toFixed(2)">
+          <div style="font-size:.65rem;color:var(--tx-d);margin-top:2px;">Typical: 0.35–0.65 (576 samples, mean 0.53)</div>
         </div>
         <div class="field">
           <div class="fl"><span data-en>Cement Content</span><span data-cn>水泥用量</span>
             <small id="cd-cem-sv">350 kg/m³</small></div>
           <input type="range" id="cd-cem" min="250" max="500" step="10" value="350"
                  oninput="document.getElementById('cd-cem-sv').textContent=this.value+' kg/m³'">
+          <div style="font-size:.65rem;color:var(--tx-d);margin-top:2px;">Typical: 257–558 kg/m³ (mean 384)</div>
         </div>
         <div class="field">
           <div class="fl"><span data-en>RCA Replacement Ratio</span><span data-cn>再生粗骨料取代率</span>
             <small id="cd-rca-sv">50%</small></div>
           <input type="range" id="cd-rca" min="0" max="100" step="10" value="50"
                  oninput="document.getElementById('cd-rca-sv').textContent=this.value+'%'">
+          <div style="font-size:.65rem;color:var(--tx-d);margin-top:2px;">0% = NAC · 100% = full RAC</div>
         </div>
         <div class="field">
           <div class="fl"><span data-en>WA of RCA</span><span data-cn>再生骨料吸水率</span>
             <small id="cd-wa-sv">5.0%</small></div>
           <input type="range" id="cd-wa" min="0.5" max="12" step="0.5" value="5.0"
                  oninput="document.getElementById('cd-wa-sv').textContent=parseFloat(this.value).toFixed(1)+'%'">
+          <div style="font-size:.65rem;color:var(--tx-d);margin-top:2px;">Typical: 2–10% (mean 5.36%, Zhang 2018)</div>
         </div>
       </div>
       <div>
@@ -781,24 +795,28 @@
             <small id="cd-cov-sv">25 mm</small></div>
           <input type="range" id="cd-cov" min="10" max="60" step="5" value="25"
                  oninput="document.getElementById('cd-cov-sv').textContent=this.value+' mm'">
+          <div style="font-size:.65rem;color:var(--tx-d);margin-top:2px;">Code: 15–50 mm (GB 50010)</div>
         </div>
         <div class="field">
           <div class="fl"><span data-en>Relative Humidity RH</span><span data-cn>相对湿度</span>
             <small id="cd-rh-sv">65%</small></div>
           <input type="range" id="cd-rh" min="45" max="90" step="5" value="65"
                  oninput="document.getElementById('cd-rh-sv').textContent=this.value+'%'">
+          <div style="font-size:.65rem;color:var(--tx-d);margin-top:2px;">Peak carbonation: RH 50–70%</div>
         </div>
         <div class="field">
           <div class="fl"><span data-en>CO₂ Concentration</span><span data-cn>CO₂浓度</span>
             <small id="cd-co2-sv">0.04%</small></div>
           <input type="range" id="cd-co2" min="0.03" max="1.0" step="0.01" value="0.04"
                  oninput="document.getElementById('cd-co2-sv').textContent=parseFloat(this.value).toFixed(2)+'%'">
+          <div style="font-size:.65rem;color:var(--tx-d);margin-top:2px;">Atmosphere: 0.03–0.04% · Accelerated: 3–50%</div>
         </div>
         <div class="field">
           <div class="fl"><span data-en>Temperature T</span><span data-cn>环境温度</span>
             <small id="cd-temp-sv">20°C</small></div>
           <input type="range" id="cd-temp" min="10" max="40" step="1" value="20"
                  oninput="document.getElementById('cd-temp-sv').textContent=this.value+'°C'">
+          <div style="font-size:.65rem;color:var(--tx-d);margin-top:2px;">Dataset range: 20–40°C (mean 21.7°C)</div>
         </div>
       </div>
     </div>
@@ -824,6 +842,13 @@
         <div class="chart-title" data-en>XGBoost Feature Importance (SHAP, Manuscript 2023)</div>
         <div class="chart-title" data-cn>XGBoost特征重要性（SHAP值，论文2023）</div>
         <canvas id="shap-chart" height="180"></canvas>
+      </div>
+
+      <div style="text-align:center;">
+        <button class="btn-export" onclick="exportCDCSV()" data-en>📋 Export Results as CSV</button>
+        <button class="btn-export" onclick="exportCDCSV()" data-cn>📋 导出CSV结果</button>
+        <button class="btn-export" onclick="exportCDPNG()" data-en>📸 Export Chart as PNG</button>
+        <button class="btn-export" onclick="exportCDPNG()" data-cn>📸 导出图表PNG</button>
       </div>
 
       <div class="fn" style="margin-top:16px;">
@@ -1630,6 +1655,89 @@ function drawSHAPChart(){
     ctx.fillStyle='rgba(226,232,240,0.9)';ctx.font='9px Segoe UI';ctx.textAlign='left';
     ctx.fillText(f.val.toFixed(1)+'%', PAD.l+bw+4, y+barH*0.7);
   });
+}
+
+// ============================================================
+// EXPORT FUNCTIONS
+// ============================================================
+let lastRACData = null, lastCDData = null;
+
+// Store RAC results for export (called inside calcRACCarbon)
+const _origCalcRAC = calcRACCarbon;
+calcRACCarbon = function(){
+  _origCalcRAC();
+  // Capture data after calculation
+  const bk = document.getElementById('rc-breakdown');
+  const rows = bk.querySelectorAll('.bkr');
+  lastRACData = [];
+  rows.forEach(r=>{
+    const cols = r.querySelectorAll('span');
+    if(cols.length>=2) lastRACData.push([cols[0].textContent.trim(), cols[1].textContent.trim()]);
+  });
+};
+
+function exportRACCSV(){
+  if(!lastRACData||!lastRACData.length) return alert('Please calculate first.');
+  let csv = 'Material,Carbon Emission (kgCO2-eq/m3)\n';
+  lastRACData.forEach(r=> csv += '"'+r[0]+'","'+r[1]+'"\n');
+  downloadCSV(csv, 'RAC_Carbon_Results.csv');
+}
+
+// Store CD results for export
+const _origCalcCD = calcCarbonation;
+calcCarbonation = function(){
+  _origCalcCD();
+  // Capture time-depth data
+  lastCDData = {tArr:[], dRAC:[], dNAC:[]};
+  const wc=+document.getElementById('cd-wc').value;
+  const cem=+document.getElementById('cd-cem').value;
+  const rcaP=+document.getElementById('cd-rca').value;
+  const waRCA=+document.getElementById('cd-wa').value;
+  const rh=+document.getElementById('cd-rh').value/100;
+  const co2=+document.getElementById('cd-co2').value;
+  const temp=+document.getElementById('cd-temp').value;
+  const waFrac=rcaP/100, waNCA=1.2;
+  const A_wa=waFrac*waRCA+(1-waFrac)*waNCA;
+  const k_A=Math.exp(-0.07*A_wa);
+  const k_e=Math.pow(rh,1.5)*(1-rh);
+  const k_CO2=Math.sqrt(co2/0.03);
+  const fc=15.28*Math.pow(wc,-1.0);
+  const k_c=Math.pow(28,-0.567);
+  const W=wc*cem;
+  const inner=k_c*W/(Math.pow(fc,3)*cem);
+  const K=104*k_A*Math.sqrt(temp)*k_e*Math.sqrt(inner)*k_CO2;
+  const k_A_nac=Math.exp(-0.07*waNCA);
+  const K_nac=104*k_A_nac*Math.sqrt(temp)*k_e*Math.sqrt(inner)*k_CO2;
+  for(let yr=0;yr<=100;yr+=5){
+    lastCDData.tArr.push(yr);
+    lastCDData.dRAC.push((K*Math.sqrt(yr)).toFixed(2));
+    lastCDData.dNAC.push((K_nac*Math.sqrt(yr)).toFixed(2));
+  }
+};
+
+function exportCDCSV(){
+  if(!lastCDData||!lastCDData.tArr.length) return alert('Please calculate first.');
+  let csv = 'Year,RAC Depth (mm),NAC Depth (mm)\n';
+  lastCDData.tArr.forEach((yr,i)=> csv += yr+','+lastCDData.dRAC[i]+','+lastCDData.dNAC[i]+'\n');
+  downloadCSV(csv, 'Carbonation_Depth_Results.csv');
+}
+
+function exportCDPNG(){
+  const canvas = document.getElementById('cd-chart');
+  if(!canvas) return alert('Please calculate first.');
+  const link = document.createElement('a');
+  link.download = 'Carbonation_Depth_Chart.png';
+  link.href = canvas.toDataURL('image/png');
+  link.click();
+}
+
+function downloadCSV(csv, filename){
+  const blob = new Blob(['\uFEFF'+csv], {type:'text/csv;charset=utf-8;'});
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = filename;
+  link.click();
+  URL.revokeObjectURL(link.href);
 }
 
 // ============================================================

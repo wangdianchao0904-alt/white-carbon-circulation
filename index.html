@@ -611,6 +611,7 @@
   <div style="display:flex;gap:24px;align-items:center;">
     <a href="index.html" style="color:#2eb8c4;font-size:0.85rem;text-decoration:none;font-weight:600;">Overview 概览</a>
     <a href="calculator.html" style="color:rgba(226,232,240,0.65);font-size:0.85rem;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#2eb8c4'" onmouseout="this.style.color='rgba(226,232,240,0.65)'">Calculator 计算器</a>
+    <button id="langBtnIdx" onclick="toggleLangIdx()" style="background:rgba(46,184,196,0.12);border:1px solid rgba(46,184,196,0.2);color:#2eb8c4;font-size:0.78rem;font-weight:700;padding:5px 14px;border-radius:999px;cursor:pointer;">中文</button>
   </div>
 </nav>
 
@@ -618,7 +619,7 @@
 <div id="hero" style="padding-top:58px;">
   <canvas id="hero-canvas"></canvas>
 
-  <div class="hero-badge">★ First Proposed — 2024</div>
+  <div class="hero-badge"><a href="https://doi.org/10.1016/j.wasman.2024.06167" target="_blank" style="color:inherit;text-decoration:none;">★ First Proposed — 2024 · <em>Waste Management</em> (WM-S-24-06167)</a></div>
 
   <h1 class="hero-title">White Carbon Circulation<br>of Concrete</h1>
   <div class="hero-title-cn">混凝土白碳循环系统</div>
@@ -636,7 +637,7 @@
     </div>
     <div class="hero-stat">
       <div class="val">26.80</div>
-      <div class="unit">GtC · Max Sequestration 2020–2060</div>
+      <div class="unit">Gt CO₂ · Max Sequestration 2020–2060</div>
     </div>
     <div class="hero-stat">
       <div class="val">30 min</div>
@@ -679,6 +680,7 @@
         Concrete construction–operation–deconstruction–regeneration cycle. CO₂ absorbed via
         carbonation of cementitious phases, forming stable CaCO₃ and locking carbon within
         recycled materials and structural components.
+        <span style="display:block;font-size:0.75rem;margin-top:6px;opacity:0.6;">Source: Xiao et al. <em>Waste Management</em>, 2024 (WM-S-24-06167)</span>
       </p>
       <div class="trio-bar-wrap">
         <div class="trio-bar-label">Relative to Blue Carbon (= 100%)</div>
@@ -697,6 +699,7 @@
       <p class="trio-desc">
         Natural carbon absorption and fixation through photosynthesis of terrestrial vegetation,
         forests, and soil organic carbon storage.
+        <span style="display:block;font-size:0.75rem;margin-top:6px;opacity:0.6;">Source: Friedlingstein et al. <em>Earth Syst. Sci. Data</em>, 2023 (Global Carbon Budget 2023)</span>
       </p>
       <div class="trio-bar-wrap">
         <div class="trio-bar-label">Relative to Blue Carbon (= 100%)</div>
@@ -712,6 +715,7 @@
       <p class="trio-desc">
         Carbon sequestration by ocean and coastal ecosystems — mangroves, seagrasses, and salt
         marshes capturing and storing atmospheric CO₂.
+        <span style="display:block;font-size:0.75rem;margin-top:6px;opacity:0.6;">Source: Friedlingstein et al. <em>Earth Syst. Sci. Data</em>, 2023 (Global Carbon Budget 2023)</span>
       </p>
       <div class="trio-bar-wrap">
         <div class="trio-bar-label">Relative to Blue Carbon (= 100%)</div>
@@ -833,7 +837,7 @@
         <div class="stage-num">STAGE I · SERVICE STAGE</div>
         <div class="stage-title">🏢 Concrete in Service Life</div>
         <div class="stage-desc">Concrete structures (buildings, bridges, infrastructure) absorb CO₂ naturally through surface carbonation during their service life. Fick's law governs carbonation depth.</div>
-        <div class="stage-data">CO₂ uptake peaks in 2058 at 0.3 GtC/year globally</div>
+        <div class="stage-data">CO₂ uptake peaks in 2058 at 0.3 Gt CO₂/yr globally</div>
       </div>
       <div class="stage-card" id="stage-2" onclick="activateStage(2)">
         <div class="stage-num">STAGE II · PRODUCTION STAGE</div>
@@ -954,7 +958,7 @@
       <div class="mode-bar-wrap">
         <div class="mode-bar-track"><div class="mode-bar-fill" data-w="46"></div></div>
       </div>
-      <div class="mode-value">12.40 <span class="mode-value-unit">GtC</span></div>
+      <div class="mode-value">12.40 <span class="mode-value-unit">Gt CO₂</span></div>
       <div class="mode-period">Cumulative 2020–2060</div>
       <div class="mode-detail">
         RAs stored in conical piles (standard practice). CO₂ penetrates only the surface layer
@@ -970,7 +974,7 @@
       <div class="mode-bar-wrap">
         <div class="mode-bar-track"><div class="mode-bar-fill" data-w="98"></div></div>
       </div>
-      <div class="mode-value">26.37 <span class="mode-value-unit">GtC</span></div>
+      <div class="mode-value">26.37 <span class="mode-value-unit">Gt CO₂</span></div>
       <div class="mode-period">Cumulative 2020–2060</div>
       <div class="mode-detail">
         RAs spread flat in thin layers, maximising CO₂ contact area. Achieves theoretical maximum
@@ -987,7 +991,7 @@
       <div class="mode-bar-wrap">
         <div class="mode-bar-track"><div class="mode-bar-fill" data-w="100"></div></div>
       </div>
-      <div class="mode-value">26.80 <span class="mode-value-unit">GtC</span></div>
+      <div class="mode-value">26.80 <span class="mode-value-unit">Gt CO₂</span></div>
       <div class="mode-period">Cumulative 2020–2060</div>
       <div class="mode-detail">
         Industrial kiln with high-concentration CO₂, optimised temperature, humidity, and pressure.
@@ -1019,7 +1023,7 @@
       <div class="result-icon">🌏</div>
       <div class="result-label">Global Peak Sequestration</div>
       <div class="result-value">0.3</div>
-      <div class="result-unit">GtC/year · in 2058</div>
+      <div class="result-unit">Gt CO₂/yr · in 2058</div>
       <div class="result-desc">Annual CO₂ sequestration rises rapidly before 2047, then grows gradually with fluctuations. China leads, peaking in 2047.</div>
     </div>
     <div class="result-card fade-up">
@@ -1034,7 +1038,7 @@
       <div class="result-label">Accelerated Carbonation Rate</div>
       <div class="result-value">61.95</div>
       <div class="result-unit">kg CO₂/t cement in 30 min</div>
-      <div class="result-desc">Mode III outperforms pile packing by 6,195× and tile packing by 5× in the same time window — a transformative efficiency leap.</div>
+      <div class="result-desc">Mode III outperforms pile packing by 6,195× and tile packing by 5× under identical 3-month storage duration — comparing carbonation degree per unit mass at equal time (Table 3, Xiao et al. 2024).</div>
     </div>
     <div class="result-card fade-up">
       <div class="result-icon">🇨🇳</div>
@@ -1085,15 +1089,15 @@
     <div style="text-align:center;margin-top:24px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.06);">
       <div style="display:flex;gap:40px;justify-content:center;flex-wrap:wrap;">
         <div style="text-align:center;">
-          <div style="font-size:1.6rem;font-weight:900;color:#64748b;">12.40 GtC</div>
+          <div style="font-size:1.6rem;font-weight:900;color:#64748b;">12.40 Gt CO₂</div>
           <div style="font-size:0.78rem;color:rgba(226,232,240,0.45);margin-top:2px;">Total (Mode I, 2020–2060)</div>
         </div>
         <div style="text-align:center;">
-          <div style="font-size:1.6rem;font-weight:900;color:#0ea5e9;">26.37 GtC</div>
+          <div style="font-size:1.6rem;font-weight:900;color:#0ea5e9;">26.37 Gt CO₂</div>
           <div style="font-size:0.78rem;color:rgba(226,232,240,0.45);margin-top:2px;">Total (Mode II, 2020–2060)</div>
         </div>
         <div style="text-align:center;">
-          <div style="font-size:1.6rem;font-weight:900;color:#2eb8c4;">26.80 GtC</div>
+          <div style="font-size:1.6rem;font-weight:900;color:#2eb8c4;">26.80 Gt CO₂</div>
           <div style="font-size:0.78rem;color:rgba(226,232,240,0.45);margin-top:2px;">Total (Mode III, 2020–2060)</div>
         </div>
       </div>
@@ -1188,43 +1192,87 @@
 <!-- ============ NOVELTY ============ -->
 <div class="section-full" id="novelty">
 <div class="inner">
-  <div class="section-tag fade-up">Research Novelty</div>
-  <h2 class="section-title fade-up">First-of-its-Kind Contributions</h2>
+  <div class="section-tag fade-up">Key Contributions</div>
+  <h2 class="section-title fade-up">Key Scientific Contributions</h2>
   <p class="section-desc fade-up">
-    This research establishes multiple world-first frameworks and findings, positioning the
-    team as the global leader in recycled concrete carbon-cycle science.
+    This research establishes several novel frameworks and findings in recycled concrete
+    carbon-cycle science, integrating field data, theoretical modeling, and lifecycle analysis.
   </p>
 
   <div class="novelty-grid">
     <div class="novelty-card fade-up">
       <div class="novelty-icon">🌐</div>
-      <div class="novelty-title">First: White Carbon Circulation Concept</div>
-      <div class="novelty-desc">First global proposal of "White Carbon Circulation" as the third carbon-cycle pathway alongside Green Carbon and Blue Carbon — a paradigm shift in understanding concrete's climate role.</div>
+      <div class="novelty-title">White Carbon Circulation Concept</div>
+      <div class="novelty-desc">This study proposes for the first time "White Carbon Circulation" as the third carbon-cycle pathway alongside Green Carbon and Blue Carbon, reframing concrete's climate role (Xiao et al., <em>Waste Management</em>, 2024, Sec. 1).</div>
     </div>
     <div class="novelty-card fade-up">
       <div class="novelty-icon">⚙️</div>
-      <div class="novelty-title">First: Conservation-Law CO₂ Model</div>
-      <div class="novelty-desc">First application of the conservation law of carbonate elements to quantify global CO₂ sequestration potential across all five RA lifecycle stages simultaneously.</div>
+      <div class="novelty-title">Conservation-Law CO₂ Quantification</div>
+      <div class="novelty-desc">Applies the conservation law of carbonate elements to quantify global CO₂ sequestration potential across all five RA lifecycle stages simultaneously (Eq. 1–8, Sec. 2.1–2.5).</div>
     </div>
     <div class="novelty-card fade-up">
       <div class="novelty-icon">🗺️</div>
-      <div class="novelty-title">First: 46-Plant Field Survey (China)</div>
-      <div class="novelty-desc">First systematic field investigation and statistical analysis of carbon emissions across 46 RA production plants distributed nationally in China, establishing empirical benchmarks.</div>
+      <div class="novelty-title">46-Plant Field Survey (China)</div>
+      <div class="novelty-desc">Conducts the first systematic field investigation and statistical analysis of carbon emissions across 46 RA production plants in China, establishing empirical benchmarks (Sec. 3, Table 2).</div>
     </div>
     <div class="novelty-card fade-up">
       <div class="novelty-icon">📐</div>
-      <div class="novelty-title">First: Packing Mode Comparison Framework</div>
-      <div class="novelty-desc">First quantitative comparison of pile packing, tile packing, and accelerated carbonation modes with full uncertainty analysis (Monte Carlo, 10,000+ iterations) for 2020–2060 projections.</div>
+      <div class="novelty-title">Three-Mode Comparison with Uncertainty</div>
+      <div class="novelty-desc">Provides the first quantitative comparison of pile, tile, and accelerated carbonation modes with full Monte Carlo uncertainty analysis (n=10,000, Crystal Ball, Sec. 4, Fig. 5–7).</div>
     </div>
     <div class="novelty-card fade-up">
       <div class="novelty-icon">🏭</div>
-      <div class="novelty-title">First: CCC as Artificial Carbon-Sink Factory</div>
-      <div class="novelty-desc">First demonstration that Calcium Carbonate Concrete (CCC) enables the construction industry to transition from a "major carbon emitter" to an "artificial carbon-sink factory."</div>
+      <div class="novelty-title">CCC as Artificial Carbon-Sink Factory</div>
+      <div class="novelty-desc">Demonstrates that Calcium Carbonate Concrete (CCC) enables the construction industry to transition from carbon emitter to carbon-sink factory (Sec. 5, Discussion).</div>
     </div>
     <div class="novelty-card fade-up">
       <div class="novelty-icon">🔄</div>
-      <div class="novelty-title">First: Full-Chain Closed-Loop Framework</div>
-      <div class="novelty-desc">First technical framework covering deconstruction → raw-material upgrading → performance enhancement → circular component design, verified with white carbon accounting and traceability.</div>
+      <div class="novelty-title">Full-Chain Closed-Loop Framework</div>
+      <div class="novelty-desc">Establishes a complete technical framework: deconstruction → raw-material upgrading → performance enhancement → circular component design, with white carbon accounting and traceability.</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ============ LIMITATIONS ============ -->
+<div class="section-full" id="limitations">
+<div class="inner">
+  <div class="section-tag fade-up">Limitations &amp; Assumptions</div>
+  <h2 class="section-title fade-up">Known Limitations</h2>
+  <p class="section-desc fade-up">
+    The following assumptions and constraints should be considered when interpreting the results
+    presented on this platform.
+  </p>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:20px;">
+    <div class="novelty-card fade-up" style="border-color:rgba(251,191,36,0.2);">
+      <div class="novelty-icon">📊</div>
+      <div class="novelty-title">Cement Production Data Uncertainty</div>
+      <div class="novelty-desc">2020–2060 projections rely on USGS cement production statistics and regional extrapolations. Actual demolition timelines and recycling rates may vary significantly by region.</div>
+    </div>
+    <div class="novelty-card fade-up" style="border-color:rgba(251,191,36,0.2);">
+      <div class="novelty-icon">🌍</div>
+      <div class="novelty-title">Regional Recycling Rate Variations</div>
+      <div class="novelty-desc">Current models assume uniform RA recycling rates within each region. In practice, local policies, infrastructure, and economic conditions create substantial heterogeneity not yet captured.</div>
+    </div>
+    <div class="novelty-card fade-up" style="border-color:rgba(251,191,36,0.2);">
+      <div class="novelty-icon">🔬</div>
+      <div class="novelty-title">Carbonation Model Scope</div>
+      <div class="novelty-desc">The modified carbonation depth model (R²=0.812) was validated primarily on CEM I 42.5 cement. Applicability to blended cements, geopolymers, or non-Portland systems requires further validation.</div>
+    </div>
+    <div class="novelty-card fade-up" style="border-color:rgba(251,191,36,0.2);">
+      <div class="novelty-icon">🤖</div>
+      <div class="novelty-title">ML Model Generalization</div>
+      <div class="novelty-desc">XGBoost model (R²=0.936) is trained on 576 samples from 24 published papers. Performance on novel mix designs, extreme conditions, or non-Chinese cements may differ from reported metrics.</div>
+    </div>
+    <div class="novelty-card fade-up" style="border-color:rgba(251,191,36,0.2);">
+      <div class="novelty-icon">⚖️</div>
+      <div class="novelty-title">RCA Carbon Factor Variability</div>
+      <div class="novelty-desc">The RCA carbon factor of −13.08 kgCO₂-eq/t (Deng, PhD Thesis, Tongji University, 2023) is based on 50 Chinese RA plants. Regional differences in energy mix and plant efficiency may affect this value.</div>
+    </div>
+    <div class="novelty-card fade-up" style="border-color:rgba(251,191,36,0.2);">
+      <div class="novelty-icon">⏱️</div>
+      <div class="novelty-title">Accelerated Mode Assumptions</div>
+      <div class="novelty-desc">Mode III assumes industrial-scale CO₂ capture infrastructure is available. The energy cost and carbon footprint of CO₂ capture itself is not included in the sequestration calculations.</div>
     </div>
   </div>
 </div>
@@ -1233,7 +1281,7 @@
 <!-- ============ RAC CARBON ACCOUNTING ============ -->
 <div class="section-full" id="rac-carbon">
 <div class="inner">
-  <div class="section-tag fade-up">Carbon Quantification · Deng Qi, 2023</div>
+  <div class="section-tag fade-up">Carbon Quantification · Deng Qi, PhD Thesis, Tongji University, 2023</div>
   <h2 class="section-title fade-up">RAC Full Lifecycle Carbon Accounting</h2>
   <p class="section-desc fade-up">
     The net carbon emission factor of recycled coarse aggregate (RCA) is
@@ -1496,12 +1544,12 @@
 <footer>
   <div class="ft-title">White Carbon Circulation of Concrete — 混凝土白碳循环</div>
   <div class="ft-meta">
-    Xiao J, Jiang Y, Wang D, Noguchi T, Lu Z.<br>
-    <em>Global CO₂ sequestration potential of recycled aggregates: modeling, life cycle analysis, and accelerated carbonation strategies.</em><br>
-    Waste Management · Special Issue: Climate Impacts of WM · 2024
+    [1] Xiao J, Jiang Y, Wang D, Noguchi T, Lu Z. Global CO₂ sequestration potential of recycled aggregates: modeling, life cycle analysis, and accelerated carbonation strategies. <em>Waste Management</em>, 2024. <a href="https://doi.org/10.1016/j.wasman.2024.06167" target="_blank" style="color:var(--white-carbon-light);">doi:10.1016/j.wasman.2024.06167</a><br>
+    [2] Zhang K, Xiao J. Time-dependent reliability of recycled aggregate concrete beams (再生混凝土梁安全时变可靠度研究). PhD Thesis, Tongji University, 2018.<br>
+    [3] Deng Q. Carbon emission quantification and low-carbon optimization of recycled aggregate concrete (再生混凝土碳排放量化与低碳优化). PhD Thesis, Tongji University, 2023.<br>
+    [4] Wang D, Xiao J, Duan Z. Carbonation depth prediction of recycled concrete through machine learning. <em>J. CO₂ Utilization</em>, 2023. (1st revision)
   </div>
-  <span class="ft-journal">Waste Management · WM-S-24-06167</span>
-  <br><br>
+  <br>
   <div class="ft-meta" style="margin-top:8px;">
     Tongji University · Guangxi University · The University of Tokyo<br>
     Collaborative Creative Research Team · NSFC 2026
@@ -1637,6 +1685,20 @@ document.querySelectorAll('.fade-up, .timeline-chart').forEach(el => observer.ob
 
 // Also observe bar fills in trio cards
 document.querySelectorAll('.trio-card, .mode-card').forEach(el => observer.observe(el));
+
+// ============ LANGUAGE TOGGLE ============
+let idxLang = 'en';
+function toggleLangIdx(){
+  idxLang = idxLang==='en' ? 'cn' : 'en';
+  document.getElementById('langBtnIdx').textContent = idxLang==='en' ? '中文' : 'English';
+  // Toggle visibility of bilingual elements
+  document.querySelectorAll('[data-lang-en]').forEach(el=>{
+    el.style.display = idxLang==='en' ? '' : 'none';
+  });
+  document.querySelectorAll('[data-lang-cn]').forEach(el=>{
+    el.style.display = idxLang==='cn' ? '' : 'none';
+  });
+}
 </script>
 </body>
 </html>
