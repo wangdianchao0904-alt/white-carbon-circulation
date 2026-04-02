@@ -217,7 +217,11 @@
   footer a{color:var(--teal);text-decoration:none;}
 
   body.lang-cn [data-en]{display:none!important;}
+  body.lang-cn [data-ja]{display:none!important;}
   body.lang-en [data-cn]{display:none!important;}
+  body.lang-en [data-ja]{display:none!important;}
+  body.lang-ja [data-en]{display:none!important;}
+  body.lang-ja [data-cn]{display:none!important;}
   @media(max-width:600px){.tb{font-size:.72rem;padding:7px 8px;}nav{padding:0 16px;}}
 </style>
 </head>
@@ -228,40 +232,46 @@
   <div class="nav-links">
     <a href="index.html" data-en>Overview</a>
     <a href="index.html" data-cn>系统概览</a>
+    <a href="index.html" data-ja>概要</a>
     <a href="calculator.html" class="active" data-en>Calculator</a>
     <a href="calculator.html" class="active" data-cn>计算器</a>
-    <button class="lang-btn" onclick="toggleLang()" id="langBtn">中文</button>
+    <a href="calculator.html" class="active" data-ja>計算ツール</a>
+    <button class="lang-btn" onclick="toggleLang()" id="langBtn">中文 / 日本語</button>
   </div>
 </nav>
 
 <div class="hero">
   <div class="tag" data-en>★ Open Research Tool — Real Model Data</div>
   <div class="tag" data-cn>★ 开放科研工具 — 真实模型数据</div>
+  <div class="tag" data-ja>★ オープン研究ツール — 実モデルデータ</div>
   <h1 data-en>CO₂ Sequestration Calculator</h1>
   <h1 data-cn>CO₂ 固碳量计算器</h1>
+  <h1 data-ja>CO₂ 固定量計算ツール</h1>
   <div class="cn" data-en>混凝土再生骨料白碳循环系统</div>
   <div class="cn" data-cn>White Carbon Circulation of Concrete</div>
+  <div class="cn" data-ja>コンクリート再生骨材ホワイトカーボン循環システム</div>
   <p data-en>Based on field data from <strong>46 RA plants</strong> in China, <strong>Crystal Ball Monte Carlo</strong> (10,000 iterations) uncertainty analysis, and peer-reviewed models from <em>Waste Management</em> (Xiao et al., 2024).</p>
   <p data-cn>基于中国<strong>46家</strong>再生骨料企业现场调研、<strong>Oracle Crystal Ball</strong> 蒙特卡洛（10,000次迭代）不确定性分析及《废物管理》期刊发表模型（肖建庄等，2024）。</p>
+  <p data-ja>中国<strong>46社</strong>の再生骨材プラント現地調査データ、<strong>Crystal Ball モンテカルロ</strong>（10,000回反復）不確実性分析、および査読済みモデル（<em>Waste Management</em>，肖ら，2024）に基づく。</p>
 
   <div class="tabs">
     <button class="tb active" onclick="switchTab('storage')" id="tab-storage">
-      <span data-en>📦 Storage CO₂</span><span data-cn>📦 储存固碳</span>
+      <span data-en>📦 Storage CO₂</span><span data-cn>📦 储存固碳</span><span data-ja>📦 貯蔵固定CO₂</span>
     </button>
     <button class="tb" onclick="switchTab('production')" id="tab-production">
-      <span data-en>🔨 Production Carbon</span><span data-cn>🔨 生产碳足迹</span>
+      <span data-en>🔨 Production Carbon</span><span data-cn>🔨 生产碳足迹</span><span data-ja>🔨 製造炭素フット</span>
     </button>
     <button class="tb" onclick="switchTab('projection')" id="tab-projection">
-      <span data-en>📈 2020–2060 Projection</span><span data-cn>📈 2020–2060 预测</span>
+      <span data-en>📈 2020–2060 Projection</span><span data-cn>📈 2020–2060 预测</span><span data-ja>📈 2020–2060 予測</span>
     </button>
     <button class="tb" onclick="switchTab('params')" id="tab-params">
-      <span data-en>⚙️ Model Parameters</span><span data-cn>⚙️ 模型参数</span>
+      <span data-en>⚙️ Model Parameters</span><span data-cn>⚙️ 模型参数</span><span data-ja>⚙️ モデルパラメータ</span>
     </button>
     <button class="tb" onclick="switchTab('raccarbon')" id="tab-raccarbon">
-      <span data-en>🌿 RAC Carbon</span><span data-cn>🌿 再生混凝土碳排</span>
+      <span data-en>🌿 RAC Carbon</span><span data-cn>🌿 再生混凝土碳排</span><span data-ja>🌿 RAC 炭素排出</span>
     </button>
     <button class="tb" onclick="switchTab('carbonation')" id="tab-carbonation">
-      <span data-en>🔬 Carbonation Depth</span><span data-cn>🔬 碳化深度预测</span>
+      <span data-en>🔬 Carbonation Depth</span><span data-cn>🔬 碳化深度预测</span><span data-ja>🔬 炭酸化深度予測</span>
     </button>
   </div>
 </div>
@@ -273,79 +283,82 @@
   <div class="card">
     <div class="ct" data-en>Storage Stage CO₂ Sequestration</div>
     <div class="ct" data-cn>储存阶段 CO₂ 固碳量计算</div>
-    <div class="ctcn" data-en>堆积 / 平铺 / 加速碳化 三模式对比</div>
+    <div class="ct" data-ja>貯蔵段階 CO₂ 固定量計算</div>
+    <div class="ctcn" data-en>堆積 / 平積み / 促進炭酸化 — 三モード比較</div>
     <div class="ctcn" data-cn>Pile / Tile / Accelerated carbonation — Three-mode comparison</div>
+    <div class="ctcn" data-ja>山積みモード / 平積みモード / 促進炭酸化モード — 三モード比較</div>
 
     <div class="field">
-      <div class="fl"><span data-en>RA Volume</span><span data-cn>再生骨料产量</span>
-        <small data-en>tonnes</small><small data-cn>吨</small></div>
+      <div class="fl"><span data-en>RA Volume</span><span data-cn>再生骨料产量</span><span data-ja>再生骨材量</span>
+        <small data-en>tonnes</small><small data-cn>吨</small><small data-ja>トン</small></div>
       <input type="range" id="s-mass" min="2" max="6" step="0.01" value="3"
              oninput="updateSV('s-mass','s-mass-sv',logMass)">
       <div><span class="sv" id="s-mass-sv">1,000 t</span></div>
     </div>
 
     <div class="field">
-      <div class="fl"><span data-en>Region</span><span data-cn>所在地区</span></div>
+      <div class="fl"><span data-en>Region</span><span data-cn>所在地区</span><span data-ja>地域</span></div>
       <div class="rg">
         <div class="rb"><input type="radio" name="s-region" id="sr-cn" value="cn" checked onchange="updateKHint()">
-          <label for="sr-cn" data-en>China 中国</label><label for="sr-cn" data-cn>中国 China</label></div>
+          <label for="sr-cn" data-en>China 中国</label><label for="sr-cn" data-cn>中国 China</label><label for="sr-cn" data-ja>中国</label></div>
         <div class="rb"><input type="radio" name="s-region" id="sr-us" value="us" onchange="updateKHint()">
-          <label for="sr-us" data-en>USA 美国</label><label for="sr-us" data-cn>美国 USA</label></div>
+          <label for="sr-us" data-en>USA 美国</label><label for="sr-us" data-cn>美国 USA</label><label for="sr-us" data-ja>アメリカ</label></div>
         <div class="rb"><input type="radio" name="s-region" id="sr-eu" value="eu" onchange="updateKHint()">
-          <label for="sr-eu" data-en>Europe 欧洲</label><label for="sr-eu" data-cn>欧洲 Europe</label></div>
+          <label for="sr-eu" data-en>Europe 欧洲</label><label for="sr-eu" data-cn>欧洲 Europe</label><label for="sr-eu" data-ja>ヨーロッパ</label></div>
         <div class="rb"><input type="radio" name="s-region" id="sr-rw" value="rw" onchange="updateKHint()">
-          <label for="sr-rw" data-en>Rest of World 其他</label><label for="sr-rw" data-cn>其他 Rest of World</label></div>
+          <label for="sr-rw" data-en>Rest of World 其他</label><label for="sr-rw" data-cn>其他 Rest of World</label><label for="sr-rw" data-ja>その他地域</label></div>
       </div>
     </div>
 
     <div class="field">
-      <div class="fl"><span data-en>Exposure Condition</span><span data-cn>暴露条件</span></div>
+      <div class="fl"><span data-en>Exposure Condition</span><span data-cn>暴露条件</span><span data-ja>暴露条件</span></div>
       <div class="rg">
         <div class="rb"><input type="radio" name="s-exp" id="ex-out" value="out" checked onchange="updateKHint()">
-          <label for="ex-out" data-en>Outdoor exposed</label><label for="ex-out" data-cn>室外暴露</label></div>
+          <label for="ex-out" data-en>Outdoor exposed</label><label for="ex-out" data-cn>室外暴露</label><label for="ex-out" data-ja>屋外（暴露）</label></div>
         <div class="rb"><input type="radio" name="s-exp" id="ex-sh" value="sh" onchange="updateKHint()">
-          <label for="ex-sh" data-en>Outdoor sheltered</label><label for="ex-sh" data-cn>室外遮蔽</label></div>
+          <label for="ex-sh" data-en>Outdoor sheltered</label><label for="ex-sh" data-cn>室外遮蔽</label><label for="ex-sh" data-ja>屋外（庇あり）</label></div>
         <div class="rb"><input type="radio" name="s-exp" id="ex-in" value="in" onchange="updateKHint()">
-          <label for="ex-in" data-en>Indoor</label><label for="ex-in" data-cn>室内</label></div>
+          <label for="ex-in" data-en>Indoor</label><label for="ex-in" data-cn>室内</label><label for="ex-in" data-ja>屋内</label></div>
       </div>
       <div class="hint" id="k-hint" style="margin-top:10px;">
         <span data-en>Carbonation coefficient <strong>k = 3.374 mm/yr⁰·⁵</strong> (China, outdoor). From field measurements of C30 concrete structures. Range: 2.4–7.0 mm/yr⁰·⁵ depending on region and exposure.</span>
         <span data-cn>碳化系数 <strong>k = 3.374 mm/yr⁰·⁵</strong>（中国，室外）。基于C30混凝土结构现场测量。范围：2.4–7.0 mm/yr⁰·⁵（因地区和暴露条件不同）。</span>
+        <span data-ja>炭酸化係数 <strong>k = 3.374 mm/yr⁰·⁵</strong>（中国，屋外）。C30コンクリート構造の現地測定値に基づく。範囲：地域・暴露条件により2.4–7.0 mm/yr⁰·⁵。</span>
       </div>
     </div>
 
     <div class="field">
-      <div class="fl"><span data-en>Dominant Particle Size</span><span data-cn>主要粒径范围</span></div>
+      <div class="fl"><span data-en>Dominant Particle Size</span><span data-cn>主要粒径范围</span><span data-ja>主要粒径範囲</span></div>
       <div class="rg">
         <div class="rb"><input type="radio" name="s-size" id="sz-fine" value="fine" checked>
-          <label for="sz-fine" data-en>Fine 0–5 mm</label><label for="sz-fine" data-cn>细粒 0–5 mm</label></div>
+          <label for="sz-fine" data-en>Fine 0–5 mm</label><label for="sz-fine" data-cn>细粒 0–5 mm</label><label for="sz-fine" data-ja>細粒 0–5 mm</label></div>
         <div class="rb"><input type="radio" name="s-size" id="sz-med" value="med">
-          <label for="sz-med" data-en>Medium 5–20 mm</label><label for="sz-med" data-cn>中粒 5–20 mm</label></div>
+          <label for="sz-med" data-en>Medium 5–20 mm</label><label for="sz-med" data-cn>中粒 5–20 mm</label><label for="sz-med" data-ja>中粒 5–20 mm</label></div>
         <div class="rb"><input type="radio" name="s-size" id="sz-co" value="coarse">
-          <label for="sz-co" data-en>Coarse 20–30 mm</label><label for="sz-co" data-cn>粗粒 20–30 mm</label></div>
+          <label for="sz-co" data-en>Coarse 20–30 mm</label><label for="sz-co" data-cn>粗粒 20–30 mm</label><label for="sz-co" data-ja>粗粒 20–30 mm</label></div>
         <div class="rb"><input type="radio" name="s-size" id="sz-mx" value="mix">
-          <label for="sz-mx" data-en>Mixed (typical)</label><label for="sz-mx" data-cn>混合粒径（典型）</label></div>
+          <label for="sz-mx" data-en>Mixed (typical)</label><label for="sz-mx" data-cn>混合粒径（典型）</label><label for="sz-mx" data-ja>混合粒径（標準）</label></div>
       </div>
     </div>
 
     <div class="field">
-      <div class="fl"><span data-en>Storage Duration</span><span data-cn>储存时长</span></div>
+      <div class="fl"><span data-en>Storage Duration</span><span data-cn>储存时长</span><span data-ja>貯蔵期間</span></div>
       <div class="rg">
         <div class="rb"><input type="radio" name="s-time" id="t1" value="1" checked>
-          <label for="t1" data-en>1 month</label><label for="t1" data-cn>1个月</label></div>
+          <label for="t1" data-en>1 month</label><label for="t1" data-cn>1个月</label><label for="t1" data-ja>1ヶ月</label></div>
         <div class="rb"><input type="radio" name="s-time" id="t3" value="3">
-          <label for="t3" data-en>3 months</label><label for="t3" data-cn>3个月</label></div>
+          <label for="t3" data-en>3 months</label><label for="t3" data-cn>3个月</label><label for="t3" data-ja>3ヶ月</label></div>
         <div class="rb"><input type="radio" name="s-time" id="t6" value="6">
-          <label for="t6" data-en>6 months</label><label for="t6" data-cn>6个月</label></div>
+          <label for="t6" data-en>6 months</label><label for="t6" data-cn>6个月</label><label for="t6" data-ja>6ヶ月</label></div>
         <div class="rb"><input type="radio" name="s-time" id="t12" value="12">
-          <label for="t12" data-en>12 months</label><label for="t12" data-cn>12个月</label></div>
+          <label for="t12" data-en>12 months</label><label for="t12" data-cn>12个月</label><label for="t12" data-ja>12ヶ月</label></div>
         <div class="rb"><input type="radio" name="s-time" id="tmax" value="300">
-          <label for="tmax" data-en>Max (long-term)</label><label for="tmax" data-cn>最大值（长期）</label></div>
+          <label for="tmax" data-en>Max (long-term)</label><label for="tmax" data-cn>最大值（长期）</label><label for="tmax" data-ja>最大値（長期）</label></div>
       </div>
     </div>
 
     <div class="field">
-      <div class="fl"><span data-en>Cement Content in RA</span><span data-cn>骨料中水泥含量</span>
+      <div class="fl"><span data-en>Cement Content in RA</span><span data-cn>骨料中水泥含量</span><span data-ja>再生骨材中のセメント含有量</span>
         <small>kg/t</small></div>
       <input type="range" id="s-cem" min="60" max="220" step="5" value="120"
              oninput="updateSV('s-cem','s-cem-sv',v=>v+' kg/t')">
@@ -354,11 +367,13 @@
     <div class="hint">
       <span data-en>💡 Based on field data: China avg cement content in concrete = <strong>400 kg/m³</strong>, concrete density = <strong>2,400 kg/m³</strong> → ~120–170 kg cement per tonne of RA. Use 80–130 kg/t for common concrete, 130–220 kg/t for high-strength.</span>
       <span data-cn>💡 基于现场数据：中国混凝土平均水泥用量 = <strong>400 kg/m³</strong>，混凝土密度 = <strong>2,400 kg/m³</strong> → 约120–170 kg水泥/吨骨料。普通混凝土取80–130，高强混凝土取130–220 kg/t。</span>
+      <span data-ja>💡 現地データより：中国コンクリート平均セメント量 = <strong>400 kg/m³</strong>，コンクリート密度 = <strong>2,400 kg/m³</strong> → 再生骨材1トンあたり約120–170 kgのセメント。普通コンクリート：80–130 kg/t，高強度：130–220 kg/t。</span>
     </div>
 
     <button class="btn" onclick="calcStorage()">
       <span data-en>Calculate CO₂ Sequestration with Uncertainty →</span>
       <span data-cn>计算固碳量（含不确定性分析）→</span>
+      <span data-ja>CO₂ 固定量を計算（不確実性分析含む）→</span>
     </button>
   </div>
 
@@ -366,33 +381,37 @@
     <div class="card">
       <div class="rt" data-en>RESULTS — THREE-MODE COMPARISON WITH UNCERTAINTY</div>
       <div class="rt" data-cn>计算结果 — 三模式对比（含不确定性区间）</div>
+      <div class="rt" data-ja>計算結果 — 三モード比較（不確実性区間含む）</div>
 
       <div id="mode-results"></div>
 
       <div style="margin-top:20px;padding-top:16px;border-top:1px solid rgba(255,255,255,.06);">
         <div style="font-size:.76rem;color:var(--tx-d);margin-bottom:10px;" data-en>Mode III equivalent impact:</div>
         <div style="font-size:.76rem;color:var(--tx-d);margin-bottom:10px;" data-cn>模式三等效于：</div>
+        <div style="font-size:.76rem;color:var(--tx-d);margin-bottom:10px;" data-ja>モードIII 相当効果：</div>
         <div class="eq-grid">
           <div class="eq-card"><div class="eq-icon">🌳</div>
             <div class="eq-val" id="eq-trees">—</div>
-            <div class="eq-lbl" data-en>mature trees/yr</div><div class="eq-lbl" data-cn>棵成熟树/年</div></div>
+            <div class="eq-lbl" data-en>mature trees/yr</div><div class="eq-lbl" data-cn>棵成熟树/年</div><div class="eq-lbl" data-ja>本の成木/年</div></div>
           <div class="eq-card"><div class="eq-icon">🚗</div>
             <div class="eq-val" id="eq-cars">—</div>
-            <div class="eq-lbl" data-en>cars off road 1yr</div><div class="eq-lbl" data-cn>辆车停驶1年</div></div>
+            <div class="eq-lbl" data-en>cars off road 1yr</div><div class="eq-lbl" data-cn>辆车停驶1年</div><div class="eq-lbl" data-ja>台の車の1年分排出</div></div>
           <div class="eq-card"><div class="eq-icon">⛽</div>
             <div class="eq-val" id="eq-fuel">—</div>
-            <div class="eq-lbl" data-en>tonnes coal avoided</div><div class="eq-lbl" data-cn>吨煤炭等效</div></div>
+            <div class="eq-lbl" data-en>tonnes coal avoided</div><div class="eq-lbl" data-cn>吨煤炭等效</div><div class="eq-lbl" data-ja>トンの石炭相当</div></div>
           <div class="eq-card"><div class="eq-icon">🏠</div>
             <div class="eq-val" id="eq-homes">—</div>
-            <div class="eq-lbl" data-en>homes' annual CO₂</div><div class="eq-lbl" data-cn>户家庭年碳排</div></div>
+            <div class="eq-lbl" data-en>homes' annual CO₂</div><div class="eq-lbl" data-cn>户家庭年碳排</div><div class="eq-lbl" data-ja>世帯の年間CO₂</div></div>
         </div>
       </div>
     </div>
     <div class="fn">
       <h4 data-en>📐 Model (Xiao et al., Waste Management 2024 · Eq. 14–16)</h4>
       <h4 data-cn>📐 模型来源（肖建庄等，废物管理 2024 · 公式14–16）</h4>
+      <h4 data-ja>📐 モデル（肖ら，Waste Management 2024 · 式14–16）</h4>
       <p data-en>Pile (Mode I): <code>S = ξc·αc·Cc·Vc·φᵢ·Daᵢ(t)</code> where Daᵢ = surface carbonation ratio (Fick's law, d=k√t, capped at 3×max particle size). Tile (Mode II): same formula with full surface exposure. Accel. (Mode III): <code>S = ξc·αc·Cc·ka·V₀</code>, ka = acceleration factor, 77.32% carbonation in 3 months. Uncertainty: Weibull distributions on k, cement content, particle size fractions (Crystal Ball Monte Carlo, n=10,000).</p>
       <p data-cn>堆积（模式一）：<code>S = ξc·αc·Cc·Vc·φᵢ·Daᵢ(t)</code>，Daᵢ = 表面碳化率（菲克定律，d=k√t，上限为3倍最大粒径）。平铺（模式二）：同式，全表面暴露。加速碳化（模式三）：<code>S = ξc·αc·Cc·ka·V₀</code>，3个月内碳化度达77.32%。不确定性：Weibull分布（k、水泥含量、粒径比例），Oracle Crystal Ball蒙特卡洛，n=10,000。</p>
+      <p data-ja>山積み（モードI）：<code>S = ξc·αc·Cc·Vc·φᵢ·Daᵢ(t)</code>，Daᵢ = 表面炭酸化率（Fickの法則，d=k√t，上限は最大粒径の3倍）。平積み（モードII）：同式，全表面暴露。促進炭酸化（モードIII）：<code>S = ξc·αc·Cc·ka·V₀</code>，3ヶ月で炭酸化率77.32%。不確実性：k・セメント量・粒径比例のWeibull分布，Crystal Ballモンテカルロ，n=10,000。</p>
     </div>
   </div>
 </div>
@@ -402,11 +421,13 @@
   <div class="card">
     <div class="ct" data-en>Production Stage Carbon Footprint</div>
     <div class="ct" data-cn>生产阶段碳足迹</div>
-    <div class="ctcn" data-en>基于46家企业现场调研数据</div>
+    <div class="ct" data-ja>製造段階の炭素フットプリント</div>
+    <div class="ctcn" data-en>基于46家企業現場調研データ</div>
     <div class="ctcn" data-cn>Based on field survey data from 46 plants in China</div>
+    <div class="ctcn" data-ja>中国46社のプラント現地調査データに基づく</div>
 
     <div class="field">
-      <div class="fl"><span data-en>RA Production Volume</span><span data-cn>再生骨料产量</span>
+      <div class="fl"><span data-en>RA Production Volume</span><span data-cn>再生骨料产量</span><span data-ja>再生骨材製造量</span>
         <small>tonnes</small></div>
       <input type="range" id="p-mass" min="2" max="6" step="0.01" value="3"
              oninput="updateSV('p-mass','p-mass-sv',logMass)">
@@ -414,36 +435,42 @@
     </div>
 
     <div class="field">
-      <div class="fl"><span data-en>Crushing Method</span><span data-cn>破碎方式</span></div>
+      <div class="fl"><span data-en>Crushing Method</span><span data-cn>破碎方式</span><span data-ja>破砕方法</span></div>
       <div class="rg">
         <div class="rb"><input type="radio" name="p-crush" id="c1" value="one" checked>
           <label for="c1" data-en>One-time crushing (2.47 kg CO₂/t)</label>
-          <label for="c1" data-cn>一次破碎（2.47 kg CO₂/t）</label></div>
+          <label for="c1" data-cn>一次破碎（2.47 kg CO₂/t）</label>
+          <label for="c1" data-ja>一次破砕（2.47 kg CO₂/t）</label></div>
         <div class="rb"><input type="radio" name="p-crush" id="c2" value="two">
           <label for="c2" data-en>Two-time crushing (2.96 kg CO₂/t, +19.1%)</label>
-          <label for="c2" data-cn>二次破碎（2.96 kg CO₂/t，+19.1%）</label></div>
+          <label for="c2" data-cn>二次破碎（2.96 kg CO₂/t，+19.1%）</label>
+          <label for="c2" data-ja>二次破砕（2.96 kg CO₂/t，+19.1%）</label></div>
       </div>
     </div>
     <div class="hint">
       <span data-en>💡 Log-normal distribution: mean = <strong>2.47 kg CO₂/t</strong>, σ = 1.78 kg CO₂/t (one-time). Most plants emit <strong>0–4 kg CO₂/t</strong>; peak frequency at 1–2 kg/t. Crushing accounts for <strong>60–90%</strong> of total production emissions.</span>
       <span data-cn>💡 对数正态分布：均值 = <strong>2.47 kg CO₂/t</strong>，σ = 1.78（一次破碎）。大多数企业排放集中在 <strong>0–4 kg CO₂/t</strong>，频率峰值在1–2 kg/t。破碎工序占总排放的 <strong>60–90%</strong>。</span>
+      <span data-ja>💡 対数正規分布：平均 = <strong>2.47 kg CO₂/t</strong>，σ = 1.78（一次破砕）。ほとんどのプラントは <strong>0–4 kg CO₂/t</strong> 排出，頻度ピークは1–2 kg/t。破砕工程が総排出量の <strong>60–90%</strong> を占める。</span>
     </div>
 
     <div class="field">
-      <div class="fl"><span data-en>Compare with landfill disposal?</span><span data-cn>与填埋处置对比？</span></div>
+      <div class="fl"><span data-en>Compare with landfill disposal?</span><span data-cn>与填埋处置对比？</span><span data-ja>埋立処分と比較？</span></div>
       <div class="rg">
         <div class="rb"><input type="radio" name="p-lf" id="lfy" value="yes" checked>
           <label for="lfy" data-en>Yes — include avoided emissions</label>
-          <label for="lfy" data-cn>是 — 含避免排放收益</label></div>
+          <label for="lfy" data-cn>是 — 含避免排放收益</label>
+          <label for="lfy" data-ja>はい — 回避排出量を含む</label></div>
         <div class="rb"><input type="radio" name="p-lf" id="lfn" value="no">
           <label for="lfn" data-en>No — emissions only</label>
-          <label for="lfn" data-cn>否 — 仅显示排放量</label></div>
+          <label for="lfn" data-cn>否 — 仅显示排放量</label>
+          <label for="lfn" data-ja>いいえ — 排出量のみ</label></div>
       </div>
     </div>
 
     <button class="btn" onclick="calcProd()">
       <span data-en>Calculate Carbon Footprint →</span>
       <span data-cn>计算碳足迹 →</span>
+      <span data-ja>炭素フットプリントを計算 →</span>
     </button>
   </div>
 
@@ -451,10 +478,12 @@
     <div class="card">
       <div class="rt" data-en>RESULTS — PRODUCTION CARBON BALANCE</div>
       <div class="rt" data-cn>计算结果 — 生产阶段碳平衡</div>
+      <div class="rt" data-ja>計算結果 — 製造段階の炭素収支</div>
       <div class="bk" id="prod-bk"></div>
       <div class="net" id="prod-net">
         <div class="net-lbl" data-en>Net Carbon Result vs. Landfill</div>
         <div class="net-lbl" data-cn>净碳结果（与填埋对比）</div>
+        <div class="net-lbl" data-ja>埋立対比の正味炭素結果</div>
         <div class="net-v" id="prod-nv">—</div>
         <div class="net-desc" id="prod-nd"></div>
       </div>
@@ -463,8 +492,10 @@
     <div class="fn">
       <h4 data-en>📐 Data Source — 46 RA Plants Field Survey (Xiao et al. 2024)</h4>
       <h4 data-cn>📐 数据来源 — 46家再生骨料企业现场调研（肖建庄等 2024）</h4>
+      <h4 data-ja>📐 データ出典 — 46社RA工場現地調査（肖ら 2024）</h4>
       <p data-en>One-time crushing: <code>mean = 2.47 kg CO₂-eq/t</code>, σ = 1.78 (log-normal). Two-time: <code>2.96 kg CO₂-eq/t</code> (+19.1%). Landfill: <code>3.15 kg CO₂/t</code> (diesel machinery) + <code>0.44 kg CO₂/t</code> (land occupation, forest sequestration loss = 0.0657 kg CO₂/m²/yr × 0.067 m²/t). Net carbon negative when recycling replaces landfill.</p>
       <p data-cn>一次破碎：<code>均值 = 2.47 kg CO₂-eq/t</code>，σ = 1.78（对数正态）。二次破碎：<code>2.96 kg CO₂-eq/t</code>（+19.1%）。填埋：<code>3.15 kg CO₂/t</code>（柴油机械）+ <code>0.44 kg CO₂/t</code>（土地占用，林地固碳损失 = 0.0657 kg CO₂/m²/yr × 0.067 m²/t）。再生利用替代填埋可实现净碳为负。</p>
+      <p data-ja>一次破砕：<code>平均 = 2.47 kg CO₂-eq/t</code>，σ = 1.78（対数正規分布）。二次破砕：<code>2.96 kg CO₂-eq/t</code>（+19.1%）。埋立：<code>3.15 kg CO₂/t</code>（ディーゼル機械）+ <code>0.44 kg CO₂/t</code>（土地占用，森林固定損失 = 0.0657 kg CO₂/m²/yr × 0.067 m²/t）。再生利用が埋立を代替すると正味炭素は負となる。</p>
     </div>
   </div>
 </div>
@@ -474,43 +505,46 @@
   <div class="card">
     <div class="ct" data-en>Global CO₂ Sequestration Projection 2020–2060</div>
     <div class="ct" data-cn>全球 CO₂ 固碳量预测 2020–2060</div>
+    <div class="ct" data-ja>グローバル CO₂ 固定量予測 2020–2060</div>
     <div class="ctcn" data-en>实测数据 + Monte Carlo 不确定性区间</div>
     <div class="ctcn" data-cn>Field-calibrated data + Monte Carlo uncertainty bands</div>
+    <div class="ctcn" data-ja>実測データ + モンテカルロ不確実性区間</div>
 
     <div style="margin-bottom:16px;">
       <div class="fl" style="margin-bottom:10px;">
-        <span data-en>Select Region</span><span data-cn>选择地区</span></div>
+        <span data-en>Select Region</span><span data-cn>选择地区</span><span data-ja>地域を選択</span></div>
       <div class="region-sel">
         <button class="rsb on" id="rb-world" onclick="setRegion('world')">
-          <span data-en>🌍 World</span><span data-cn>🌍 全球</span></button>
+          <span data-en>🌍 World</span><span data-cn>🌍 全球</span><span data-ja>🌍 世界</span></button>
         <button class="rsb" id="rb-china" onclick="setRegion('china')">
-          <span data-en>🇨🇳 China</span><span data-cn>🇨🇳 中国</span></button>
+          <span data-en>🇨🇳 China</span><span data-cn>🇨🇳 中国</span><span data-ja>🇨🇳 中国</span></button>
         <button class="rsb" id="rb-usa" onclick="setRegion('usa')">
-          <span data-en>🇺🇸 USA</span><span data-cn>🇺🇸 美国</span></button>
+          <span data-en>🇺🇸 USA</span><span data-cn>🇺🇸 美国</span><span data-ja>🇺🇸 アメリカ</span></button>
         <button class="rsb" id="rb-europe" onclick="setRegion('europe')">
-          <span data-en>🇪🇺 Europe</span><span data-cn>🇪🇺 欧洲</span></button>
+          <span data-en>🇪🇺 Europe</span><span data-cn>🇪🇺 欧洲</span><span data-ja>🇪🇺 ヨーロッパ</span></button>
         <button class="rsb" id="rb-row" onclick="setRegion('row')">
-          <span data-en>🌐 Rest of World</span><span data-cn>🌐 其他地区</span></button>
+          <span data-en>🌐 Rest of World</span><span data-cn>🌐 其他地区</span><span data-ja>🌐 その他地域</span></button>
       </div>
     </div>
 
     <div class="chart-wrap">
       <div class="chart-title" id="proj-chart-title" data-en>Annual CO₂ Sequestration (100 Mt CO₂/yr) — World</div>
       <div class="chart-title" id="proj-chart-title-cn" data-cn>年度 CO₂ 固碳量（亿吨 CO₂/年）— 全球</div>
+      <div class="chart-title" id="proj-chart-title-ja" data-ja>年間 CO₂ 固定量（億トン CO₂/年）— 世界</div>
       <canvas id="projChart" height="280"></canvas>
       <div style="display:flex;gap:20px;flex-wrap:wrap;margin-top:12px;justify-content:center;">
         <div style="display:flex;align-items:center;gap:6px;font-size:.78rem;color:var(--tx-d);">
           <div style="width:20px;height:3px;background:#64748b;border-radius:2px;"></div>
-          <span data-en>Mode I: Pile</span><span data-cn>模式一：堆积</span></div>
+          <span data-en>Mode I: Pile</span><span data-cn>模式一：堆积</span><span data-ja>モードI：山積み</span></div>
         <div style="display:flex;align-items:center;gap:6px;font-size:.78rem;color:var(--tx-d);">
           <div style="width:20px;height:3px;background:#0ea5e9;border-radius:2px;"></div>
-          <span data-en>Mode II: Tile</span><span data-cn>模式二：平铺</span></div>
+          <span data-en>Mode II: Tile</span><span data-cn>模式二：平铺</span><span data-ja>モードII：平積み</span></div>
         <div style="display:flex;align-items:center;gap:6px;font-size:.78rem;color:var(--tx-d);">
           <div style="width:20px;height:3px;background:#2eb8c4;border-radius:2px;"></div>
-          <span data-en>Mode III: Accelerated</span><span data-cn>模式三：加速碳化</span></div>
+          <span data-en>Mode III: Accelerated</span><span data-cn>模式三：加速碳化</span><span data-ja>モードIII：促進炭酸化</span></div>
         <div style="display:flex;align-items:center;gap:6px;font-size:.78rem;color:var(--tx-d);">
           <div style="width:20px;height:6px;background:rgba(46,184,196,.2);border-radius:2px;"></div>
-          <span data-en>95% CI (Mode I MC)</span><span data-cn>95% 置信区间（模式一MC）</span></div>
+          <span data-en>95% CI (Mode I MC)</span><span data-cn>95% 置信区间（模式一MC）</span><span data-ja>95% 信頼区間（モードI MC）</span></div>
       </div>
     </div>
 
@@ -520,6 +554,8 @@
         Data Table <span class="src-badge">SOURCE DATA</span></div>
       <div style="font-size:.8rem;font-weight:700;color:var(--teal);margin-bottom:10px;" data-cn>
         数据表格 <span class="src-badge">原始数据</span></div>
+      <div style="font-size:.8rem;font-weight:700;color:var(--teal);margin-bottom:10px;" data-ja>
+        データ表 <span class="src-badge">元データ</span></div>
       <div style="overflow-x:auto;">
         <table class="data-table" id="proj-table"></table>
       </div>
@@ -530,14 +566,16 @@
   <div class="card" id="mc-card" style="display:block;">
     <div class="ct" data-en>Monte Carlo Uncertainty Analysis <span class="src-badge">CRYSTAL BALL</span></div>
     <div class="ct" data-cn>蒙特卡洛不确定性分析 <span class="src-badge">CRYSTAL BALL</span></div>
+    <div class="ct" data-ja>モンテカルロ不確実性分析 <span class="src-badge">CRYSTAL BALL</span></div>
     <div class="ctcn" data-en>World stacking (Mode I) — 10,000 iterations, Weibull distributions</div>
     <div class="ctcn" data-cn>全球堆积模式（模式一）— 10,000次迭代，Weibull分布</div>
+    <div class="ctcn" data-ja>世界山積みモード（モードI）— 10,000回反復，Weibull分布</div>
 
     <div style="overflow-x:auto;margin-top:4px;">
       <table class="data-table">
         <thead>
           <tr>
-            <th data-en>Year</th><th data-cn>年份</th>
+            <th data-en>Year</th><th data-cn>年份</th><th data-ja>年</th>
             <th>Mean (亿吨)</th>
             <th>Std Dev</th>
             <th>50% CI</th>
@@ -553,6 +591,7 @@
     <div class="hint" style="margin-top:14px;">
       <span data-en>💡 CI widths grow substantially over time, reflecting increasing uncertainty in long-term demolition projections. Mode III (accelerated carbonation) shows <strong>narrower uncertainty</strong> than Mode I due to controlled industrial conditions.</span>
       <span data-cn>💡 置信区间随时间显著扩大，反映了长期拆除量预测的不确定性增加。由于工业化控制条件，模式三（加速碳化）比模式一具有<strong>更窄的不确定性区间</strong>。</span>
+      <span data-ja>💡 信頼区間幅は時間とともに大きく広がり，長期解体量予測の不確実性の増大を反映する。モードIII（促進炭酸化）は工業的管理条件により，モードIより<strong>不確実性区間が狭い</strong>。</span>
     </div>
   </div>
 </div>
@@ -562,20 +601,22 @@
   <div class="card">
     <div class="ct" data-en>Carbonation Coefficients (k values)</div>
     <div class="ct" data-cn>碳化系数（k值）</div>
+    <div class="ct" data-ja>炭酸化係数（k値）</div>
     <div class="ctcn" data-en>mm/yr⁰·⁵ — Fick's law diffusion coefficient, d = k√t</div>
     <div class="ctcn" data-cn>mm/年⁰·⁵ — 菲克定律扩散系数，碳化深度 d = k√t</div>
+    <div class="ctcn" data-ja>mm/yr⁰·⁵ — Fickの法則拡散係数，d = k√t</div>
     <div class="param-grid">
-      <div class="param-card"><div class="param-k" data-en>China — Outdoor exposed</div><div class="param-k" data-cn>中国 — 室外暴露</div>
+      <div class="param-card"><div class="param-k" data-en>China — Outdoor exposed</div><div class="param-k" data-cn>中国 — 室外暴露</div><div class="param-k" data-ja>中国 — 屋外（暴露）</div>
         <div class="param-v">k = 3.374</div><div class="param-src">Source: Xi et al. 2016, field data C30</div></div>
-      <div class="param-card"><div class="param-k" data-en>China — Outdoor sheltered</div><div class="param-k" data-cn>中国 — 室外遮蔽</div>
+      <div class="param-card"><div class="param-k" data-en>China — Outdoor sheltered</div><div class="param-k" data-cn>中国 — 室外遮蔽</div><div class="param-k" data-ja>中国 — 屋外（庇あり）</div>
         <div class="param-v">k = 4.8</div><div class="param-src">Source: Paper Fig. 6, C30 shear wall</div></div>
-      <div class="param-card"><div class="param-k" data-en>China — Indoor</div><div class="param-k" data-cn>中国 — 室内</div>
+      <div class="param-card"><div class="param-k" data-en>China — Indoor</div><div class="param-k" data-cn>中国 — 室内</div><div class="param-k" data-ja>中国 — 屋内</div>
         <div class="param-v">k = 7.0</div><div class="param-src">Source: Paper supplementary data</div></div>
-      <div class="param-card"><div class="param-k" data-en>USA/Europe — Outdoor</div><div class="param-k" data-cn>美国/欧洲 — 室外</div>
+      <div class="param-card"><div class="param-k" data-en>USA/Europe — Outdoor</div><div class="param-k" data-cn>美国/欧洲 — 室外</div><div class="param-k" data-ja>米国/欧州 — 屋外</div>
         <div class="param-v">k = 2.812</div><div class="param-src">Source: Pade & Guimaraes 2007</div></div>
-      <div class="param-card"><div class="param-k" data-en>Mortar — Outdoor</div><div class="param-k" data-cn>砂浆 — 室外</div>
+      <div class="param-card"><div class="param-k" data-en>Mortar — Outdoor</div><div class="param-k" data-cn>砂浆 — 室外</div><div class="param-k" data-ja>モルタル — 屋外</div>
         <div class="param-v">k = 10.4</div><div class="param-src">Source: M20 experiment data</div></div>
-      <div class="param-card"><div class="param-k" data-en>Mortar — Indoor</div><div class="param-k" data-cn>砂浆 — 室内</div>
+      <div class="param-card"><div class="param-k" data-en>Mortar — Indoor</div><div class="param-k" data-cn>砂浆 — 室内</div><div class="param-k" data-ja>モルタル — 屋内</div>
         <div class="param-v">k = 23.9</div><div class="param-src">Source: M20 experiment data</div></div>
     </div>
   </div>
@@ -583,15 +624,17 @@
   <div class="card">
     <div class="ct" data-en>Cement Use Proportions by Region</div>
     <div class="ct" data-cn>各地区水泥用途比例</div>
+    <div class="ct" data-ja>地域別セメント用途比率</div>
     <div class="ctcn" data-en>Concrete / Mortar / Construction loss fractions</div>
     <div class="ctcn" data-cn>混凝土 / 砂浆 / 施工损耗比例</div>
+    <div class="ctcn" data-ja>コンクリート / モルタル / 施工損失比率</div>
     <table class="data-table" style="margin-top:8px;">
       <thead><tr>
-        <th data-en>Region</th><th data-cn>地区</th>
-        <th data-en>Concrete (avg)</th><th data-cn>混凝土（均值）</th>
-        <th data-en>Mortar (avg)</th><th data-cn>砂浆（均值）</th>
-        <th data-en>Loss</th><th data-cn>损耗</th>
-        <th data-en>Concrete range</th><th data-cn>混凝土范围</th>
+        <th data-en>Region</th><th data-cn>地区</th><th data-ja>地域</th>
+        <th data-en>Concrete (avg)</th><th data-cn>混凝土（均值）</th><th data-ja>コンクリート（平均）</th>
+        <th data-en>Mortar (avg)</th><th data-cn>砂浆（均值）</th><th data-ja>モルタル（平均）</th>
+        <th data-en>Loss</th><th data-cn>损耗</th><th data-ja>損失</th>
+        <th data-en>Concrete range</th><th data-cn>混凝土范围</th><th data-ja>コンクリート範囲</th>
       </tr></thead>
       <tbody>
         <tr><td>China 中国</td><td class="hl">69.3%</td><td>29.2%</td><td>1.5%</td><td>67.1–71.2%</td></tr>
@@ -605,15 +648,17 @@
   <div class="card">
     <div class="ct" data-en>Recycled Aggregate Particle Size Distribution</div>
     <div class="ct" data-cn>再生骨料粒径分布</div>
+    <div class="ct" data-ja>再生骨材の粒径分布</div>
     <div class="ctcn" data-en>Weibull distribution parameters — Table 1, Xiao et al. 2024</div>
     <div class="ctcn" data-cn>Weibull 分布参数 — 论文表1，肖建庄等 2024</div>
+    <div class="ctcn" data-ja>Weibull 分布パラメータ — 表1，肖ら 2024</div>
     <table class="data-table" style="margin-top:8px;">
       <thead><tr>
-        <th data-en>Size class</th><th data-cn>粒径范围</th>
-        <th data-en>Mean proportion</th><th data-cn>均值比例</th>
-        <th data-en>Range</th><th data-cn>范围</th>
-        <th data-en>Carbonation degree (Mode I / II / III, 3 mo)</th><th data-cn>碳化度（模式一/二/三，3个月）</th>
-        <th data-en>Max depth (3× rule)</th><th data-cn>最大碳化深度</th>
+        <th data-en>Size class</th><th data-cn>粒径范围</th><th data-ja>粒径区分</th>
+        <th data-en>Mean proportion</th><th data-cn>均值比例</th><th data-ja>平均比率</th>
+        <th data-en>Range</th><th data-cn>范围</th><th data-ja>範囲</th>
+        <th data-en>Carbonation degree (Mode I / II / III, 3 mo)</th><th data-cn>碳化度（模式一/二/三，3个月）</th><th data-ja>炭酸化度（モードI/II/III，3ヶ月）</th>
+        <th data-en>Max depth (3× rule)</th><th data-cn>最大碳化深度</th><th data-ja>最大炭酸化深度</th>
       </tr></thead>
       <tbody>
         <tr><td>0–5 mm</td><td>14.9%</td><td>2.1–20.0%</td><td>0.90% / <span class="hl">77.32%</span> / <span class="hl">77.32%</span></td><td>15 mm</td></tr>
@@ -627,24 +672,26 @@
   <div class="card">
     <div class="ct" data-en>Monte Carlo Uncertainty Variables</div>
     <div class="ct" data-cn>蒙特卡洛不确定性变量</div>
+    <div class="ct" data-ja>モンテカルロ不確実性変数</div>
     <div class="ctcn" data-en>Oracle Crystal Ball v7.0–11.1, Weibull distributions, n=10,000</div>
     <div class="ctcn" data-cn>Oracle Crystal Ball v7.0–11.1，Weibull分布，n=10,000次迭代</div>
+    <div class="ctcn" data-ja>Oracle Crystal Ball v7.0–11.1，Weibull分布，n=10,000回反復</div>
     <table class="data-table" style="margin-top:8px;">
       <thead><tr>
-        <th data-en>Variable</th><th data-cn>变量</th>
-        <th data-en>Distribution</th><th data-cn>分布</th>
-        <th data-en>Shape / Scale</th><th data-cn>形状 / 尺度</th>
-        <th data-en>Range</th><th data-cn>范围</th>
+        <th data-en>Variable</th><th data-cn>变量</th><th data-ja>変数</th>
+        <th data-en>Distribution</th><th data-cn>分布</th><th data-ja>分布</th>
+        <th data-en>Shape / Scale</th><th data-cn>形状 / 尺度</th><th data-ja>形状 / 尺度</th>
+        <th data-en>Range</th><th data-cn>范围</th><th data-ja>範囲</th>
       </tr></thead>
       <tbody>
-        <tr><td data-en>Service life (China)</td><td data-cn>使用寿命（中国）</td><td>Weibull</td><td>a=4, b=42</td><td>4–73 yr</td></tr>
-        <tr><td data-en>Service life (USA/Europe)</td><td data-cn>使用寿命（美/欧）</td><td>Weibull</td><td>a=4, b=65</td><td>~10–90 yr</td></tr>
-        <tr><td data-en>CO₂ concentration factor</td><td data-cn>CO₂浓度修正系数</td><td>Weibull</td><td>a=1.18, b=25</td><td>0.93–1.41</td></tr>
-        <tr><td data-en>Surface coating factor</td><td data-cn>表面涂层修正系数</td><td>Weibull</td><td>a=1.0, b=6</td><td>0.5–1.0</td></tr>
-        <tr><td data-en>Admixture factor</td><td data-cn>外加剂修正系数</td><td>Weibull</td><td>a=1.16, b=20</td><td>1.0–1.3</td></tr>
-        <tr><td data-en>Wall thickness</td><td data-cn>墙体厚度</td><td>Uniform</td><td>—</td><td>60–610 mm</td></tr>
-        <tr><td data-en>Demolition storage time</td><td data-cn>拆除后储存时间</td><td>Weibull</td><td>a=0.5, b=4</td><td>0–1.41 yr</td></tr>
-        <tr><td data-en>Carbon inventory factor</td><td data-cn>碳盘查修正系数</td><td>Normal</td><td>μ=0, σ=4%</td><td>−30%–+30%</td></tr>
+        <tr><td data-en>Service life (China)</td><td data-cn>使用寿命（中国）</td><td data-ja>耐用年数（中国）</td><td>Weibull</td><td>a=4, b=42</td><td>4–73 yr</td></tr>
+        <tr><td data-en>Service life (USA/Europe)</td><td data-cn>使用寿命（美/欧）</td><td data-ja>耐用年数（米/欧）</td><td>Weibull</td><td>a=4, b=65</td><td>~10–90 yr</td></tr>
+        <tr><td data-en>CO₂ concentration factor</td><td data-cn>CO₂浓度修正系数</td><td data-ja>CO₂濃度補正係数</td><td>Weibull</td><td>a=1.18, b=25</td><td>0.93–1.41</td></tr>
+        <tr><td data-en>Surface coating factor</td><td data-cn>表面涂层修正系数</td><td data-ja>表面塗装補正係数</td><td>Weibull</td><td>a=1.0, b=6</td><td>0.5–1.0</td></tr>
+        <tr><td data-en>Admixture factor</td><td data-cn>外加剂修正系数</td><td data-ja>混和剤補正係数</td><td>Weibull</td><td>a=1.16, b=20</td><td>1.0–1.3</td></tr>
+        <tr><td data-en>Wall thickness</td><td data-cn>墙体厚度</td><td data-ja>壁厚</td><td>Uniform</td><td>—</td><td>60–610 mm</td></tr>
+        <tr><td data-en>Demolition storage time</td><td data-cn>拆除后储存时间</td><td data-ja>解体後貯蔵時間</td><td>Weibull</td><td>a=0.5, b=4</td><td>0–1.41 yr</td></tr>
+        <tr><td data-en>Carbon inventory factor</td><td data-cn>碳盘查修正系数</td><td data-ja>炭素インベントリ係数</td><td>Normal</td><td>μ=0, σ=4%</td><td>−30%–+30%</td></tr>
       </tbody>
     </table>
   </div>
@@ -652,12 +699,13 @@
   <div class="card">
     <div class="ct" data-en>Cement Production Data (Mt/yr) — Data 4 Sheet</div>
     <div class="ct" data-cn>水泥生产数据（百万吨/年）— Data 4工作表</div>
+    <div class="ct" data-ja>セメント生産データ（百万トン/年）— Data 4シート</div>
     <table class="data-table" style="margin-top:8px;">
       <thead><tr>
-        <th>Year</th><th data-en>China</th><th data-cn>中国</th>
-        <th>USA</th><th data-en>Europe</th><th data-cn>欧洲</th>
-        <th data-en>Rest of World</th><th data-cn>其他地区</th>
-        <th data-en>World Total</th><th data-cn>全球总计</th>
+        <th>Year</th><th data-en>China</th><th data-cn>中国</th><th data-ja>中国</th>
+        <th>USA</th><th data-en>Europe</th><th data-cn>欧洲</th><th data-ja>欧州</th>
+        <th data-en>Rest of World</th><th data-cn>其他地区</th><th data-ja>その他地域</th>
+        <th data-en>World Total</th><th data-cn>全球总计</th><th data-ja>世界合計</th>
       </tr></thead>
       <tbody id="cem-table-body"></tbody>
     </table>
@@ -669,11 +717,13 @@
   <div class="card">
     <div class="ct" data-en>RAC Full Lifecycle Carbon Emission Calculator</div>
     <div class="ct" data-cn>再生混凝土全生命周期碳排放计算器</div>
+    <div class="ct" data-ja>再生骨材コンクリート全ライフサイクル炭素排出計算ツール</div>
     <div class="ctcn" data-en>Based on Deng Qi (PhD Thesis, Tongji University, 2023) — RCA carbon factor −13.08 kgCO₂-eq/t</div>
     <div class="ctcn" data-cn>基于邓琪（同济大学博士学位论文，2023）— 再生骨料碳因子 −13.08 kgCO₂-eq/t</div>
+    <div class="ctcn" data-ja>鄧琦（同済大学博士論文，2023）に基づく — RCA炭素係数 −13.08 kgCO₂-eq/t</div>
 
     <div class="field">
-      <div class="fl"><span data-en>Strength Grade</span><span data-cn>强度等级</span></div>
+      <div class="fl"><span data-en>Strength Grade</span><span data-cn>强度等级</span><span data-ja>強度等級</span></div>
       <div class="rg">
         <div class="rb"><input type="radio" name="rc-grade" id="rc-c20" value="C20" checked>
           <label for="rc-c20">C20</label></div>
@@ -687,46 +737,48 @@
     </div>
 
     <div class="field">
-      <div class="fl"><span data-en>RCA Replacement Ratio</span><span data-cn>再生粗骨料取代率</span>
+      <div class="fl"><span data-en>RCA Replacement Ratio</span><span data-cn>再生粗骨料取代率</span><span data-ja>再生粗骨材置換率</span>
         <small id="rc-rca-sv">50%</small></div>
       <input type="range" id="rc-rca" min="0" max="100" step="5" value="50"
              oninput="document.getElementById('rc-rca-sv').textContent=this.value+'%'">
     </div>
 
     <div class="field">
-      <div class="fl"><span data-en>Fly Ash Replacement</span><span data-cn>粉煤灰掺量</span>
+      <div class="fl"><span data-en>Fly Ash Replacement</span><span data-cn>粉煤灰掺量</span><span data-ja>フライアッシュ置換率</span>
         <small id="rc-fa-sv">15%</small></div>
       <input type="range" id="rc-fa" min="0" max="30" step="5" value="15"
              oninput="document.getElementById('rc-fa-sv').textContent=this.value+'%'">
     </div>
 
     <div class="field">
-      <div class="fl"><span data-en>Slag Replacement</span><span data-cn>矿渣掺量</span>
+      <div class="fl"><span data-en>Slag Replacement</span><span data-cn>矿渣掺量</span><span data-ja>スラグ置換率</span>
         <small id="rc-sg-sv">0%</small></div>
       <input type="range" id="rc-sg" min="0" max="30" step="5" value="0"
              oninput="document.getElementById('rc-sg-sv').textContent=this.value+'%'">
     </div>
 
     <div class="field">
-      <div class="fl"><span data-en>Transport Distance (RA plant → site)</span><span data-cn>再生骨料运输距离</span>
+      <div class="fl"><span data-en>Transport Distance (RA plant → site)</span><span data-cn>再生骨料运输距离</span><span data-ja>輸送距離（RAプラント→現場）</span>
         <small id="rc-tr-sv">20 km</small></div>
       <input type="range" id="rc-tr" min="0" max="100" step="5" value="20"
              oninput="document.getElementById('rc-tr-sv').textContent=this.value+' km'">
     </div>
 
     <button class="btn" onclick="calcRACCarbon()">
-      <span data-en>Calculate Carbon Emission</span><span data-cn>计算碳排放量</span>
+      <span data-en>Calculate Carbon Emission</span><span data-cn>计算碳排放量</span><span data-ja>炭素排出量を計算</span>
     </button>
 
     <div class="rp" id="rp-raccarbon">
       <div class="rt" data-en>Carbon Emission Results (kgCO₂-eq / m³)</div>
       <div class="rt" data-cn>碳排放结果（kgCO₂-eq / m³）</div>
+      <div class="rt" data-ja>炭素排出結果（kgCO₂-eq / m³）</div>
 
       <div class="bk" id="rc-breakdown"></div>
 
       <div class="net" id="rc-net-box">
         <div class="net-lbl" data-en>Net Carbon vs. NAC (same grade)</div>
         <div class="net-lbl" data-cn>相对于同强度普通混凝土的净碳排放差</div>
+        <div class="net-lbl" data-ja>NAC対比の正味炭素排出差（同強度等級）</div>
         <div class="net-v" id="rc-net-v">—</div>
         <div class="net-desc" id="rc-net-desc"></div>
       </div>
@@ -736,14 +788,17 @@
       <div style="text-align:center;">
         <button class="btn-export" onclick="exportRACCSV()" data-en>📋 Export Results as CSV</button>
         <button class="btn-export" onclick="exportRACCSV()" data-cn>📋 导出CSV结果</button>
+        <button class="btn-export" onclick="exportRACCSV()" data-ja>📋 CSVで結果を出力</button>
       </div>
 
       <div class="fn" style="margin-top:16px;">
         <h4 data-en>Material Carbon Emission Factors (Deng Qi, 2023 — Table 3.1)</h4>
         <h4 data-cn>材料碳排放因子（邓琪，2023 — 表3.1）</h4>
+        <h4 data-ja>材料炭素排出係数（鄧琦，2023 — 表3.1）</h4>
         <p>Cement: 735 · Fly ash: 16.84 · Slag: 51.52 · NCA: 2.18 · <strong style="color:#7ef8ff">RCA: −13.08</strong> · Sand: 2.51 · Water: 0.168 · Admixture: 1064 (kgCO₂-eq/t)<br>
         <span data-en>RCA net factor = production energy − stockpile carbonation − landfill avoided − quarry avoided = 2.51 − 12 − 3.15 − 0.44 = <strong style="color:#34d399">−13.08 kgCO₂-eq/t</strong></span>
         <span data-cn>RCA净碳因子 = 生产能耗 − 堆积碳化 − 填埋避免 − 采石避免 = 2.51 − 12 − 3.15 − 0.44 = <strong style="color:#34d399">−13.08 kgCO₂-eq/t</strong></span>
+        <span data-ja>RCA正味炭素係数 = 製造エネルギー − 堆積炭酸化 − 埋立回避 − 採石回避 = 2.51 − 12 − 3.15 − 0.44 = <strong style="color:#34d399">−13.08 kgCO₂-eq/t</strong></span>
         </p>
       </div>
     </div>
@@ -755,34 +810,36 @@
   <div class="card">
     <div class="ct" data-en>Carbonation Depth & Service Life Predictor</div>
     <div class="ct" data-cn>碳化深度与服役寿命预测</div>
+    <div class="ct" data-ja>炭酸化深度・耐用年数予測</div>
     <div class="ctcn" data-en>Zhang &amp; Xiao (2018) modified model · XGBoost ML R²=0.936 · 576 samples, 24 papers</div>
     <div class="ctcn" data-cn>张凯建&肖建庄(2018)修正模型 · XGBoost机器学习 R²=0.936 · 576组数据，24篇文献</div>
+    <div class="ctcn" data-ja>張・肖(2018)修正モデル · XGBoost機械学習 R²=0.936 · 576サンプル，24論文</div>
 
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
       <div>
         <div class="field">
-          <div class="fl"><span data-en>W/C Ratio</span><span data-cn>水灰比</span>
+          <div class="fl"><span data-en>W/C Ratio</span><span data-cn>水灰比</span><span data-ja>水セメント比</span>
             <small id="cd-wc-sv">0.50</small></div>
           <input type="range" id="cd-wc" min="0.30" max="0.75" step="0.01" value="0.50"
                  oninput="document.getElementById('cd-wc-sv').textContent=parseFloat(this.value).toFixed(2)">
           <div style="font-size:.65rem;color:var(--tx-d);margin-top:2px;">Typical: 0.35–0.65 (576 samples, mean 0.53)</div>
         </div>
         <div class="field">
-          <div class="fl"><span data-en>Cement Content</span><span data-cn>水泥用量</span>
+          <div class="fl"><span data-en>Cement Content</span><span data-cn>水泥用量</span><span data-ja>セメント量</span>
             <small id="cd-cem-sv">350 kg/m³</small></div>
           <input type="range" id="cd-cem" min="250" max="500" step="10" value="350"
                  oninput="document.getElementById('cd-cem-sv').textContent=this.value+' kg/m³'">
           <div style="font-size:.65rem;color:var(--tx-d);margin-top:2px;">Typical: 257–558 kg/m³ (mean 384)</div>
         </div>
         <div class="field">
-          <div class="fl"><span data-en>RCA Replacement Ratio</span><span data-cn>再生粗骨料取代率</span>
+          <div class="fl"><span data-en>RCA Replacement Ratio</span><span data-cn>再生粗骨料取代率</span><span data-ja>再生粗骨材置換率</span>
             <small id="cd-rca-sv">50%</small></div>
           <input type="range" id="cd-rca" min="0" max="100" step="10" value="50"
                  oninput="document.getElementById('cd-rca-sv').textContent=this.value+'%'">
           <div style="font-size:.65rem;color:var(--tx-d);margin-top:2px;">0% = NAC · 100% = full RAC</div>
         </div>
         <div class="field">
-          <div class="fl"><span data-en>WA of RCA</span><span data-cn>再生骨料吸水率</span>
+          <div class="fl"><span data-en>WA of RCA</span><span data-cn>再生骨料吸水率</span><span data-ja>再生骨材吸水率</span>
             <small id="cd-wa-sv">5.0%</small></div>
           <input type="range" id="cd-wa" min="0.5" max="12" step="0.5" value="5.0"
                  oninput="document.getElementById('cd-wa-sv').textContent=parseFloat(this.value).toFixed(1)+'%'">
@@ -791,28 +848,28 @@
       </div>
       <div>
         <div class="field">
-          <div class="fl"><span data-en>Cover Thickness c</span><span data-cn>保护层厚度</span>
+          <div class="fl"><span data-en>Cover Thickness c</span><span data-cn>保护层厚度</span><span data-ja>かぶり厚さ c</span>
             <small id="cd-cov-sv">25 mm</small></div>
           <input type="range" id="cd-cov" min="10" max="60" step="5" value="25"
                  oninput="document.getElementById('cd-cov-sv').textContent=this.value+' mm'">
           <div style="font-size:.65rem;color:var(--tx-d);margin-top:2px;">Code: 15–50 mm (GB 50010)</div>
         </div>
         <div class="field">
-          <div class="fl"><span data-en>Relative Humidity RH</span><span data-cn>相对湿度</span>
+          <div class="fl"><span data-en>Relative Humidity RH</span><span data-cn>相对湿度</span><span data-ja>相対湿度 RH</span>
             <small id="cd-rh-sv">65%</small></div>
           <input type="range" id="cd-rh" min="45" max="90" step="5" value="65"
                  oninput="document.getElementById('cd-rh-sv').textContent=this.value+'%'">
           <div style="font-size:.65rem;color:var(--tx-d);margin-top:2px;">Peak carbonation: RH 50–70%</div>
         </div>
         <div class="field">
-          <div class="fl"><span data-en>CO₂ Concentration</span><span data-cn>CO₂浓度</span>
+          <div class="fl"><span data-en>CO₂ Concentration</span><span data-cn>CO₂浓度</span><span data-ja>CO₂濃度</span>
             <small id="cd-co2-sv">0.04%</small></div>
           <input type="range" id="cd-co2" min="0.03" max="1.0" step="0.01" value="0.04"
                  oninput="document.getElementById('cd-co2-sv').textContent=parseFloat(this.value).toFixed(2)+'%'">
           <div style="font-size:.65rem;color:var(--tx-d);margin-top:2px;">Atmosphere: 0.03–0.04% · Accelerated: 3–50%</div>
         </div>
         <div class="field">
-          <div class="fl"><span data-en>Temperature T</span><span data-cn>环境温度</span>
+          <div class="fl"><span data-en>Temperature T</span><span data-cn>环境温度</span><span data-ja>環境温度 T</span>
             <small id="cd-temp-sv">20°C</small></div>
           <input type="range" id="cd-temp" min="10" max="40" step="1" value="20"
                  oninput="document.getElementById('cd-temp-sv').textContent=this.value+'°C'">
@@ -824,40 +881,48 @@
     <button class="btn" onclick="calcCarbonation()">
       <span data-en>Predict Carbonation Depth &amp; Service Life</span>
       <span data-cn>预测碳化深度与服役寿命</span>
+      <span data-ja>炭酸化深度・耐用年数を予測</span>
     </button>
 
     <div class="rp" id="rp-carbonation">
       <div class="rt" data-en>Prediction Results</div>
       <div class="rt" data-cn>预测结果</div>
+      <div class="rt" data-ja>予測結果</div>
 
       <div class="ig" id="cd-key-results"></div>
 
       <div class="chart-wrap" style="margin-top:20px;">
         <div class="chart-title" data-en>Carbonation Depth vs. Time (0–100 years)</div>
         <div class="chart-title" data-cn>碳化深度随时间变化（0–100年）</div>
+        <div class="chart-title" data-ja>炭酸化深度の経時変化（0–100年）</div>
         <canvas id="cd-chart" height="200"></canvas>
       </div>
 
       <div class="chart-wrap" style="margin-top:16px;">
         <div class="chart-title" data-en>XGBoost Feature Importance (SHAP, Manuscript 2023)</div>
         <div class="chart-title" data-cn>XGBoost特征重要性（SHAP值，论文2023）</div>
+        <div class="chart-title" data-ja>XGBoost特徴重要度（SHAP，論文稿 2023）</div>
         <canvas id="shap-chart" height="180"></canvas>
       </div>
 
       <div style="text-align:center;">
         <button class="btn-export" onclick="exportCDCSV()" data-en>📋 Export Results as CSV</button>
         <button class="btn-export" onclick="exportCDCSV()" data-cn>📋 导出CSV结果</button>
+        <button class="btn-export" onclick="exportCDCSV()" data-ja>📋 CSVで結果を出力</button>
         <button class="btn-export" onclick="exportCDPNG()" data-en>📸 Export Chart as PNG</button>
         <button class="btn-export" onclick="exportCDPNG()" data-cn>📸 导出图表PNG</button>
+        <button class="btn-export" onclick="exportCDPNG()" data-ja>📸 グラフをPNGで出力</button>
       </div>
 
       <div class="fn" style="margin-top:16px;">
         <h4 data-en>Model: Zhang &amp; Xiao (2018) eq.(4.18) — Modified for RAC</h4>
         <h4 data-cn>模型：张凯建&肖建庄(2018)式(4.18) — 再生混凝土修正模型</h4>
+        <h4 data-ja>モデル：張・肖(2018)式(4.18) — RAC修正モデル</h4>
         <p><code>x_c(t) = 104 · k_A · √T · k_e · √(k_c · W/C / f_c³ · C) · k_CO₂ · √t</code><br>
         <code>k_A = exp(−0.07 · A_wa)</code> &nbsp;·&nbsp; <code>k_e = RH^1.5·(1−RH)</code> &nbsp;·&nbsp; <code>k_CO₂ = √(CO₂/0.03)</code><br>
         <span data-en>Model R²=0.812 (342 test points) · XGBoost ML: test R²=0.936, RMSE=2.058 mm (576 samples)</span>
         <span data-cn>修正模型 R²=0.812（342个试验点）· XGBoost机器学习：测试集R²=0.936，RMSE=2.058 mm（576组数据）</span>
+        <span data-ja>修正モデル R²=0.812（342試験点）· XGBoost機械学習：テストR²=0.936，RMSE=2.058 mm（576サンプル）</span>
         </p>
       </div>
     </div>
@@ -869,8 +934,13 @@
 <footer>
   <div data-en>Based on: Xiao J, Jiang Y, Wang D, Noguchi T, Lu Z. <em>Global CO₂ sequestration potential of recycled aggregates</em>. <em>Waste Management</em>, 2024. (WM-S-24-06167)</div>
   <div data-cn>数据来源：肖建庄、姜宇超、王殿超、野口贵文、鲁政. 全球再生骨料CO₂固碳潜力：建模、全生命周期分析与加速碳化策略. 废物管理, 2024.</div>
+  <div data-ja>出典：肖建庄、姜宇超、王殿超、野口貴文、魯政. 再生骨材のグローバルCO₂固定ポテンシャル：モデリング・ライフサイクル分析・促進炭酸化戦略. <em>Waste Management</em>, 2024.</div>
   <div style="margin-top:8px;">Tongji University · Guangxi University · The University of Tokyo</div>
-  <div style="margin-top:6px;"><a href="index.html">← Back to Overview / 返回系统概览</a></div>
+  <div style="margin-top:6px;">
+    <span data-en><a href="index.html">← Back to Overview</a></span>
+    <span data-cn><a href="index.html">← 返回系统概览</a></span>
+    <span data-ja><a href="index.html">← 概要に戻る</a></span>
+  </div>
 </footer>
 
 <script>
@@ -951,12 +1021,12 @@ const CARD_DEG_3M = {
 // ============================================================
 let lang = 'en';
 function toggleLang(){
-  lang = lang==='en'?'cn':'en';
+  lang = lang==='en'?'cn':(lang==='cn'?'ja':'en');
   document.body.className='lang-'+lang;
-  document.getElementById('langBtn').textContent=lang==='en'?'中文':'English';
+  document.getElementById('langBtn').textContent=lang==='en'?'中文 / 日本語':(lang==='cn'?'English / 日本語':'English / 中文');
   drawProjChart(currentRegion);
 }
-function t(en,cn){return lang==='en'?en:cn;}
+function t(en,cn,ja){return lang==='en'?en:(lang==='cn'?cn:(ja||cn));}
 
 // ============================================================
 // TABS
