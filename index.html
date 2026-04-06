@@ -621,24 +621,53 @@
 </head>
 <body class="lang-en">
 
-<!-- ============ NAV ============ -->
-<nav style="position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(15,23,42,0.95);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:52px;">
-  <span style="font-size:0.85rem;font-weight:700;color:#2eb8c4;letter-spacing:0.02em;flex-shrink:0;"><span data-en>⬡ WCC</span><span data-cn>⬡ 白碳循环</span><span data-ja>⬡ WCC</span></span>
-  <div style="display:flex;gap:6px;align-items:center;overflow-x:auto;flex:1;justify-content:center;" class="nav-anchors">
-    <a href="#carbon-trio" style="color:rgba(226,232,240,0.5);font-size:0.72rem;text-decoration:none;padding:4px 8px;border-radius:6px;white-space:nowrap;transition:color .2s;" onmouseover="this.style.color='#2eb8c4'" onmouseout="this.style.color='rgba(226,232,240,0.5)'"><span data-en>Carbon Cycles</span><span data-cn>碳循环</span><span data-ja>炭素循環</span></a>
-    <a href="#lifecycle" style="color:rgba(226,232,240,0.5);font-size:0.72rem;text-decoration:none;padding:4px 8px;border-radius:6px;white-space:nowrap;transition:color .2s;" onmouseover="this.style.color='#2eb8c4'" onmouseout="this.style.color='rgba(226,232,240,0.5)'"><span data-en>Lifecycle</span><span data-cn>生命周期</span><span data-ja>ライフサイクル</span></a>
-    <a href="#modes" style="color:rgba(226,232,240,0.5);font-size:0.72rem;text-decoration:none;padding:4px 8px;border-radius:6px;white-space:nowrap;transition:color .2s;" onmouseover="this.style.color='#2eb8c4'" onmouseout="this.style.color='rgba(226,232,240,0.5)'"><span data-en>Modes</span><span data-cn>模式</span><span data-ja>モード</span></a>
-    <a href="#results" style="color:rgba(226,232,240,0.5);font-size:0.72rem;text-decoration:none;padding:4px 8px;border-radius:6px;white-space:nowrap;transition:color .2s;" onmouseover="this.style.color='#2eb8c4'" onmouseout="this.style.color='rgba(226,232,240,0.5)'"><span data-en>Results</span><span data-cn>结果</span><span data-ja>結果</span></a>
-    <a href="#pillars" style="color:rgba(226,232,240,0.5);font-size:0.72rem;text-decoration:none;padding:4px 8px;border-radius:6px;white-space:nowrap;transition:color .2s;" onmouseover="this.style.color='#2eb8c4'" onmouseout="this.style.color='rgba(226,232,240,0.5)'"><span data-en>Pillars</span><span data-cn>支柱</span><span data-ja>研究柱</span></a>
-    <a href="#carbonation-ai" style="color:rgba(226,232,240,0.5);font-size:0.72rem;text-decoration:none;padding:4px 8px;border-radius:6px;white-space:nowrap;transition:color .2s;" onmouseover="this.style.color='#2eb8c4'" onmouseout="this.style.color='rgba(226,232,240,0.5)'"><span data-en>AI Model</span><span data-cn>AI模型</span><span data-ja>AIモデル</span></a>
-    <a href="calculator.html" style="color:#2eb8c4;font-size:0.72rem;text-decoration:none;padding:4px 10px;border-radius:6px;white-space:nowrap;font-weight:700;background:rgba(46,184,196,0.1);border:1px solid rgba(46,184,196,0.2);"><span data-en>Calculator</span><span data-cn>计算器</span><span data-ja>計算</span></a>
-  </div>
-  <div style="display:flex;gap:3px;flex-shrink:0;margin-left:12px;">
-    <button onclick="setLang('en')" class="lbtn" id="lb-en" style="background:rgba(46,184,196,0.25);border:1px solid rgba(46,184,196,0.4);color:#7ef8ff;font-size:0.7rem;font-weight:700;padding:4px 10px;border-radius:8px 0 0 8px;cursor:pointer;">EN</button>
-    <button onclick="setLang('cn')" class="lbtn" id="lb-cn" style="background:transparent;border:1px solid rgba(255,255,255,0.12);color:rgba(226,232,240,0.5);font-size:0.7rem;font-weight:700;padding:4px 10px;border-radius:0;cursor:pointer;">中文</button>
-    <button onclick="setLang('ja')" class="lbtn" id="lb-ja" style="background:transparent;border:1px solid rgba(255,255,255,0.12);color:rgba(226,232,240,0.5);font-size:0.7rem;font-weight:700;padding:4px 10px;border-radius:0 8px 8px 0;cursor:pointer;">日本語</button>
+<!-- ============ TOP NAV (simple) ============ -->
+<nav style="position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(15,23,42,0.95);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:50px;">
+  <span style="font-size:0.88rem;font-weight:700;color:#2eb8c4;letter-spacing:0.02em;"><span data-en>⬡ White Carbon Circulation</span><span data-cn>⬡ 白碳循环</span><span data-ja>⬡ ホワイトカーボン循環</span></span>
+  <div style="display:flex;gap:16px;align-items:center;">
+    <a href="calculator.html" style="color:rgba(226,232,240,0.65);font-size:0.85rem;text-decoration:none;transition:color .2s;" onmouseover="this.style.color='#2eb8c4'" onmouseout="this.style.color='rgba(226,232,240,0.65)'"><span data-en>Calculator</span><span data-cn>计算器</span><span data-ja>計算ツール</span></a>
+    <div style="display:flex;gap:2px;">
+      <button onclick="setLang('en')" id="lb-en" style="background:rgba(46,184,196,0.25);border:1px solid rgba(46,184,196,0.4);color:#7ef8ff;font-size:0.72rem;font-weight:700;padding:4px 10px;border-radius:8px 0 0 8px;cursor:pointer;">EN</button>
+      <button onclick="setLang('cn')" id="lb-cn" style="background:transparent;border:1px solid rgba(255,255,255,0.12);color:rgba(226,232,240,0.5);font-size:0.72rem;font-weight:700;padding:4px 10px;border-radius:0;cursor:pointer;">中文</button>
+      <button onclick="setLang('ja')" id="lb-ja" style="background:transparent;border:1px solid rgba(255,255,255,0.12);color:rgba(226,232,240,0.5);font-size:0.72rem;font-weight:700;padding:4px 10px;border-radius:0 8px 8px 0;cursor:pointer;">日本語</button>
+    </div>
   </div>
 </nav>
+
+<!-- ============ SIDEBAR NAV ============ -->
+<div id="sidebar-nav" style="position:fixed;top:50px;left:0;width:180px;height:calc(100vh - 50px);z-index:99;background:rgba(15,23,42,0.92);backdrop-filter:blur(12px);border-right:1px solid rgba(255,255,255,0.06);padding:24px 16px;display:flex;flex-direction:column;gap:4px;overflow-y:auto;transition:transform .3s;">
+  <div style="font-size:0.65rem;color:rgba(226,232,240,0.3);text-transform:uppercase;letter-spacing:0.12em;margin-bottom:8px;"><span data-en>Contents</span><span data-cn>目录</span><span data-ja>目次</span></div>
+  <a href="#hero" class="side-link" style="color:rgba(226,232,240,0.55);font-size:0.82rem;text-decoration:none;padding:8px 10px;border-radius:8px;border-left:2px solid transparent;transition:all .2s;display:block;" onmouseover="this.style.color='#2eb8c4';this.style.background='rgba(46,184,196,0.06)'" onmouseout="this.style.color='rgba(226,232,240,0.55)';this.style.background='transparent'"><span data-en>Overview</span><span data-cn>概览</span><span data-ja>概要</span></a>
+  <a href="#carbon-trio" class="side-link" style="color:rgba(226,232,240,0.55);font-size:0.82rem;text-decoration:none;padding:8px 10px;border-radius:8px;border-left:2px solid transparent;transition:all .2s;display:block;" onmouseover="this.style.color='#2eb8c4';this.style.background='rgba(46,184,196,0.06)'" onmouseout="this.style.color='rgba(226,232,240,0.55)';this.style.background='transparent'"><span data-en>Carbon Cycles</span><span data-cn>三大碳循环</span><span data-ja>3つの炭素循環</span></a>
+  <a href="#lifecycle" class="side-link" style="color:rgba(226,232,240,0.55);font-size:0.82rem;text-decoration:none;padding:8px 10px;border-radius:8px;border-left:2px solid transparent;transition:all .2s;display:block;" onmouseover="this.style.color='#2eb8c4';this.style.background='rgba(46,184,196,0.06)'" onmouseout="this.style.color='rgba(226,232,240,0.55)';this.style.background='transparent'"><span data-en>Five-Stage Lifecycle</span><span data-cn>五阶段生命周期</span><span data-ja>5段階ライフサイクル</span></a>
+  <a href="#modes" class="side-link" style="color:rgba(226,232,240,0.55);font-size:0.82rem;text-decoration:none;padding:8px 10px;border-radius:8px;border-left:2px solid transparent;transition:all .2s;display:block;" onmouseover="this.style.color='#2eb8c4';this.style.background='rgba(46,184,196,0.06)'" onmouseout="this.style.color='rgba(226,232,240,0.55)';this.style.background='transparent'"><span data-en>Three Modes</span><span data-cn>三种模式</span><span data-ja>3つのモード</span></a>
+  <a href="#results" class="side-link" style="color:rgba(226,232,240,0.55);font-size:0.82rem;text-decoration:none;padding:8px 10px;border-radius:8px;border-left:2px solid transparent;transition:all .2s;display:block;" onmouseover="this.style.color='#2eb8c4';this.style.background='rgba(46,184,196,0.06)'" onmouseout="this.style.color='rgba(226,232,240,0.55)';this.style.background='transparent'"><span data-en>Key Findings</span><span data-cn>关键发现</span><span data-ja>主要な知見</span></a>
+  <a href="#timeline" class="side-link" style="color:rgba(226,232,240,0.55);font-size:0.82rem;text-decoration:none;padding:8px 10px;border-radius:8px;border-left:2px solid transparent;transition:all .2s;display:block;" onmouseover="this.style.color='#2eb8c4';this.style.background='rgba(46,184,196,0.06)'" onmouseout="this.style.color='rgba(226,232,240,0.55)';this.style.background='transparent'"><span data-en>2020–2060 Projection</span><span data-cn>2020–2060预测</span><span data-ja>2020–2060予測</span></a>
+  <a href="#pillars" class="side-link" style="color:rgba(226,232,240,0.55);font-size:0.82rem;text-decoration:none;padding:8px 10px;border-radius:8px;border-left:2px solid transparent;transition:all .2s;display:block;" onmouseover="this.style.color='#2eb8c4';this.style.background='rgba(46,184,196,0.06)'" onmouseout="this.style.color='rgba(226,232,240,0.55)';this.style.background='transparent'"><span data-en>Research Pillars</span><span data-cn>研究支柱</span><span data-ja>研究の柱</span></a>
+  <a href="#novelty" class="side-link" style="color:rgba(226,232,240,0.55);font-size:0.82rem;text-decoration:none;padding:8px 10px;border-radius:8px;border-left:2px solid transparent;transition:all .2s;display:block;" onmouseover="this.style.color='#2eb8c4';this.style.background='rgba(46,184,196,0.06)'" onmouseout="this.style.color='rgba(226,232,240,0.55)';this.style.background='transparent'"><span data-en>Key Contributions</span><span data-cn>关键贡献</span><span data-ja>主要な学術貢献</span></a>
+  <a href="#limitations" class="side-link" style="color:rgba(226,232,240,0.55);font-size:0.82rem;text-decoration:none;padding:8px 10px;border-radius:8px;border-left:2px solid transparent;transition:all .2s;display:block;" onmouseover="this.style.color='#2eb8c4';this.style.background='rgba(46,184,196,0.06)'" onmouseout="this.style.color='rgba(226,232,240,0.55)';this.style.background='transparent'"><span data-en>Limitations</span><span data-cn>局限性</span><span data-ja>研究の限界</span></a>
+  <a href="#rac-carbon" class="side-link" style="color:rgba(226,232,240,0.55);font-size:0.82rem;text-decoration:none;padding:8px 10px;border-radius:8px;border-left:2px solid transparent;transition:all .2s;display:block;" onmouseover="this.style.color='#2eb8c4';this.style.background='rgba(46,184,196,0.06)'" onmouseout="this.style.color='rgba(226,232,240,0.55)';this.style.background='transparent'"><span data-en>RAC Carbon</span><span data-cn>再生混凝土碳排</span><span data-ja>RAC炭素排出</span></a>
+  <a href="#carbonation-ai" class="side-link" style="color:rgba(226,232,240,0.55);font-size:0.82rem;text-decoration:none;padding:8px 10px;border-radius:8px;border-left:2px solid transparent;transition:all .2s;display:block;" onmouseover="this.style.color='#2eb8c4';this.style.background='rgba(46,184,196,0.06)'" onmouseout="this.style.color='rgba(226,232,240,0.55)';this.style.background='transparent'"><span data-en>AI Prediction</span><span data-cn>AI预测</span><span data-ja>AI予測</span></a>
+  <a href="#cite" class="side-link" style="color:rgba(226,232,240,0.55);font-size:0.82rem;text-decoration:none;padding:8px 10px;border-radius:8px;border-left:2px solid transparent;transition:all .2s;display:block;" onmouseover="this.style.color='#2eb8c4';this.style.background='rgba(46,184,196,0.06)'" onmouseout="this.style.color='rgba(226,232,240,0.55)';this.style.background='transparent'"><span data-en>Cite & Contact</span><span data-cn>引用与联系</span><span data-ja>引用・連絡先</span></a>
+  <div style="flex:1;"></div>
+  <a href="calculator.html" style="display:block;text-align:center;background:linear-gradient(135deg,#1a6b72,#2eb8c4);color:#fff;padding:10px;border-radius:10px;font-weight:700;font-size:0.82rem;text-decoration:none;margin-top:12px;"><span data-en>→ Calculator</span><span data-cn>→ 计算器</span><span data-ja>→ 計算ツール</span></a>
+</div>
+
+<style>
+  /* Sidebar: push body content right on desktop */
+  @media(min-width:900px){
+    #hero, .section-full, footer { margin-left:180px; }
+  }
+  @media(max-width:899px){
+    #sidebar-nav { display:none; }
+  }
+  /* Active sidebar link highlight */
+  .side-link.active {
+    color:#7ef8ff !important;
+    border-left-color:#2eb8c4 !important;
+    background:rgba(46,184,196,0.08) !important;
+  }
+</style>
 
 <!-- ============ HERO ============ -->
 <div id="hero" style="padding-top:58px;">
@@ -1885,9 +1914,7 @@
   <div class="ft-title">White Carbon Circulation of Concrete — 混凝土白碳循环</div>
   <div class="ft-meta">
     [1] Xiao J, Jiang Y, Wang D, Noguchi T, Lu Z. Global CO₂ sequestration potential of recycled aggregates: modeling, life cycle analysis, and accelerated carbonation strategies. <em>Waste Management</em>, 2024. <a href="https://doi.org/10.1016/j.wasman.2024.06167" target="_blank" style="color:var(--white-carbon-light);">doi:10.1016/j.wasman.2024.06167</a><br>
-    [2] Zhang K, Xiao J. <span data-en>Time-dependent reliability of recycled aggregate concrete beams</span><span data-cn>再生混凝土梁安全时变可靠度研究</span><span data-ja>再生骨材コンクリート梁の時間依存信頼性</span> (再生混凝土梁安全时变可靠度研究). PhD Thesis, Tongji University, 2018.<br>
-    [3] Deng Q. <span data-en>Carbon emission quantification and low-carbon optimization of recycled aggregate concrete</span><span data-cn>再生混凝土碳排放量化与低碳优化</span><span data-ja>再生骨材コンクリートの炭素排出量定量化と低炭素最適化</span> (再生混凝土碳排放量化与低碳优化). PhD Thesis, Tongji University, 2023.<br>
-    [4] Wang D, Xiao J, Duan Z. <span data-en>Carbonation depth prediction of recycled concrete through machine learning.</span><span data-cn>基于机器学习的再生混凝土碳化深度预测。</span><span data-ja>機械学習による再生コンクリートの炭酸化深度予測。</span> <em>J. CO₂ Utilization</em>, 2023. <span data-en>(1st revision)</span><span data-cn>（第一次修改）</span><span data-ja>（第1次修正）</span>
+    [2] Wang D, Xiao J, Duan Z. <span data-en>Carbonation depth prediction of recycled concrete through machine learning.</span><span data-cn>基于机器学习的再生混凝土碳化深度预测。</span><span data-ja>機械学習による再生コンクリートの炭酸化深度予測。</span> <em>J. CO₂ Utilization</em>, 2023. <span data-en>(1st revision)</span><span data-cn>（第一次修改）</span><span data-ja>（第1次修正）</span>
   </div>
   <br>
   <div class="ft-meta" style="margin-top:8px;">
@@ -2054,6 +2081,21 @@ function updateLangBtns(){
 }
 // Keep backward compat
 function toggleLangIdx(){ setLang(idxLang==='en'?'cn':(idxLang==='cn'?'ja':'en')); }
+
+// ============ SIDEBAR SCROLL SPY ============
+const sections = document.querySelectorAll('.section-full, #hero');
+const sideLinks = document.querySelectorAll('.side-link');
+window.addEventListener('scroll', function(){
+  let current = '';
+  sections.forEach(s=>{
+    const top = s.offsetTop - 120;
+    if(window.scrollY >= top) current = s.id;
+  });
+  sideLinks.forEach(a=>{
+    a.classList.remove('active');
+    if(a.getAttribute('href') === '#'+current) a.classList.add('active');
+  });
+}, {passive:true});
 </script>
 </body>
 </html>
