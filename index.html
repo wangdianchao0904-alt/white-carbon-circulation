@@ -4,6 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>White Carbon Circulation — Concrete Full Recycling toward Carbon Neutrality</title>
+<meta name="description" content="White Carbon Circulation: the third major carbon-cycle pathway. Interactive CO₂ sequestration calculator for recycled aggregate concrete. Based on Xiao et al., Waste Management, 2024.">
+<meta name="keywords" content="white carbon, recycled aggregate, concrete carbonation, CO2 sequestration, carbon neutrality, RAC, lifecycle carbon, Tongji University">
+<meta name="author" content="Xiao Jianzhuang, Wang Dianchao, Tongji University">
+<link rel="canonical" href="https://wangdianchao0904-alt.github.io/white-carbon-circulation/">
+<meta property="og:title" content="White Carbon Circulation of Concrete">
+<meta property="og:description" content="Interactive research platform: CO₂ sequestration calculator, carbonation depth predictor, and lifecycle carbon analysis for recycled aggregate concrete.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://wangdianchao0904-alt.github.io/white-carbon-circulation/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="White Carbon Circulation of Concrete">
+<meta name="twitter:description" content="Interactive CO₂ sequestration calculator and carbonation depth predictor for recycled aggregate concrete. Tongji University & University of Tokyo.">
 <style>
   :root {
     --white-carbon: #1a6b72;
@@ -611,12 +622,21 @@
 <body class="lang-en">
 
 <!-- ============ NAV ============ -->
-<nav style="position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(15,23,42,0.92);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:space-between;padding:0 32px;height:58px;">
-  <span style="font-size:0.88rem;font-weight:700;color:#2eb8c4;letter-spacing:0.02em;"><span data-en>⬡ White Carbon Circulation</span><span data-cn>⬡ 白碳循环</span><span data-ja>⬡ ホワイトカーボン循環</span></span>
-  <div style="display:flex;gap:24px;align-items:center;">
-    <a href="index.html" style="color:#2eb8c4;font-size:0.85rem;text-decoration:none;font-weight:600;"><span data-en>Overview</span><span data-cn>系统概览</span><span data-ja>概要</span></a>
-    <a href="calculator.html" style="color:rgba(226,232,240,0.65);font-size:0.85rem;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#2eb8c4'" onmouseout="this.style.color='rgba(226,232,240,0.65)'"><span data-en>Calculator</span><span data-cn>计算器</span><span data-ja>計算ツール</span></a>
-    <button id="langBtnIdx" onclick="toggleLangIdx()" style="background:rgba(46,184,196,0.12);border:1px solid rgba(46,184,196,0.2);color:#2eb8c4;font-size:0.78rem;font-weight:700;padding:5px 14px;border-radius:999px;cursor:pointer;">中文 / 日本語</button>
+<nav style="position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(15,23,42,0.95);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:52px;">
+  <span style="font-size:0.85rem;font-weight:700;color:#2eb8c4;letter-spacing:0.02em;flex-shrink:0;"><span data-en>⬡ WCC</span><span data-cn>⬡ 白碳循环</span><span data-ja>⬡ WCC</span></span>
+  <div style="display:flex;gap:6px;align-items:center;overflow-x:auto;flex:1;justify-content:center;" class="nav-anchors">
+    <a href="#carbon-trio" style="color:rgba(226,232,240,0.5);font-size:0.72rem;text-decoration:none;padding:4px 8px;border-radius:6px;white-space:nowrap;transition:color .2s;" onmouseover="this.style.color='#2eb8c4'" onmouseout="this.style.color='rgba(226,232,240,0.5)'"><span data-en>Carbon Cycles</span><span data-cn>碳循环</span><span data-ja>炭素循環</span></a>
+    <a href="#lifecycle" style="color:rgba(226,232,240,0.5);font-size:0.72rem;text-decoration:none;padding:4px 8px;border-radius:6px;white-space:nowrap;transition:color .2s;" onmouseover="this.style.color='#2eb8c4'" onmouseout="this.style.color='rgba(226,232,240,0.5)'"><span data-en>Lifecycle</span><span data-cn>生命周期</span><span data-ja>ライフサイクル</span></a>
+    <a href="#modes" style="color:rgba(226,232,240,0.5);font-size:0.72rem;text-decoration:none;padding:4px 8px;border-radius:6px;white-space:nowrap;transition:color .2s;" onmouseover="this.style.color='#2eb8c4'" onmouseout="this.style.color='rgba(226,232,240,0.5)'"><span data-en>Modes</span><span data-cn>模式</span><span data-ja>モード</span></a>
+    <a href="#results" style="color:rgba(226,232,240,0.5);font-size:0.72rem;text-decoration:none;padding:4px 8px;border-radius:6px;white-space:nowrap;transition:color .2s;" onmouseover="this.style.color='#2eb8c4'" onmouseout="this.style.color='rgba(226,232,240,0.5)'"><span data-en>Results</span><span data-cn>结果</span><span data-ja>結果</span></a>
+    <a href="#pillars" style="color:rgba(226,232,240,0.5);font-size:0.72rem;text-decoration:none;padding:4px 8px;border-radius:6px;white-space:nowrap;transition:color .2s;" onmouseover="this.style.color='#2eb8c4'" onmouseout="this.style.color='rgba(226,232,240,0.5)'"><span data-en>Pillars</span><span data-cn>支柱</span><span data-ja>研究柱</span></a>
+    <a href="#carbonation-ai" style="color:rgba(226,232,240,0.5);font-size:0.72rem;text-decoration:none;padding:4px 8px;border-radius:6px;white-space:nowrap;transition:color .2s;" onmouseover="this.style.color='#2eb8c4'" onmouseout="this.style.color='rgba(226,232,240,0.5)'"><span data-en>AI Model</span><span data-cn>AI模型</span><span data-ja>AIモデル</span></a>
+    <a href="calculator.html" style="color:#2eb8c4;font-size:0.72rem;text-decoration:none;padding:4px 10px;border-radius:6px;white-space:nowrap;font-weight:700;background:rgba(46,184,196,0.1);border:1px solid rgba(46,184,196,0.2);"><span data-en>Calculator</span><span data-cn>计算器</span><span data-ja>計算</span></a>
+  </div>
+  <div style="display:flex;gap:3px;flex-shrink:0;margin-left:12px;">
+    <button onclick="setLang('en')" class="lbtn" id="lb-en" style="background:rgba(46,184,196,0.25);border:1px solid rgba(46,184,196,0.4);color:#7ef8ff;font-size:0.7rem;font-weight:700;padding:4px 10px;border-radius:8px 0 0 8px;cursor:pointer;">EN</button>
+    <button onclick="setLang('cn')" class="lbtn" id="lb-cn" style="background:transparent;border:1px solid rgba(255,255,255,0.12);color:rgba(226,232,240,0.5);font-size:0.7rem;font-weight:700;padding:4px 10px;border-radius:0;cursor:pointer;">中文</button>
+    <button onclick="setLang('ja')" class="lbtn" id="lb-ja" style="background:transparent;border:1px solid rgba(255,255,255,0.12);color:rgba(226,232,240,0.5);font-size:0.7rem;font-weight:700;padding:4px 10px;border-radius:0 8px 8px 0;cursor:pointer;">日本語</button>
   </div>
 </nav>
 
@@ -633,15 +653,15 @@
   <div class="hero-title-cn" data-ja>コンクリートのホワイトカーボン循環システム</div>
 
   <p class="hero-sub" data-en>
-    The world's third major carbon-cycle pathway — positioning concrete's full recycling ecosystem
-    as an artificial carbon sink factory, achieving <em>carbon neutrality</em> through the lifecycle
+    We propose a third major carbon-cycle pathway — positioning concrete's full recycling ecosystem
+    as an artificial carbon sink, achieving <em>carbon neutrality</em> through the lifecycle
     carbonation of recycled aggregates.
   </p>
   <p class="hero-sub" data-cn>
-    全球第三大碳循环通道——将混凝土全生命周期回收体系定位为人工碳汇工厂，通过再生骨料的全生命周期碳化实现<em>碳中和</em>。
+    本研究提出第三大碳循环通道——将混凝土全生命周期回收体系定位为人工碳汇，通过再生骨料的全生命周期碳化实现<em>碳中和</em>。
   </p>
   <p class="hero-sub" data-ja>
-    世界第三の主要炭素循環経路——コンクリートの完全リサイクルシステムを人工炭素吸収源工場と位置付け、再生骨材のライフサイクル炭酸化を通じて<em>カーボンニュートラル</em>を実現する。
+    本研究は第三の主要炭素循環経路を提案する——コンクリートの完全リサイクルシステムを人工炭素吸収源と位置付け、再生骨材のライフサイクル炭酸化を通じて<em>カーボンニュートラル</em>を実現する。
   </p>
 
   <div class="hero-stats">
@@ -671,11 +691,17 @@
     </div>
   </div>
 
-  <div class="scroll-hint">
-    <span data-en>Explore the System</span>
-    <span data-cn>探索系统</span>
-    <span data-ja>システムを探索する</span>
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+  <div style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:28px;position:relative;z-index:2;">
+    <a href="https://doi.org/10.1016/j.wasman.2024.06167" target="_blank" style="display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,#1a6b72,#2eb8c4);color:#fff;padding:12px 24px;border-radius:12px;font-weight:700;font-size:0.88rem;text-decoration:none;box-shadow:0 4px 20px rgba(46,184,196,0.3);transition:transform .2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+      <span data-en>Read the Paper</span><span data-cn>阅读论文</span><span data-ja>論文を読む</span></a>
+    <a href="calculator.html" style="display:inline-flex;align-items:center;gap:6px;background:rgba(46,184,196,0.15);border:1px solid rgba(46,184,196,0.4);color:#7ef8ff;padding:12px 24px;border-radius:12px;font-weight:700;font-size:0.88rem;text-decoration:none;transition:transform .2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+      <span data-en>Try the Calculator</span><span data-cn>使用计算器</span><span data-ja>計算ツールを試す</span></a>
+    <a href="#cite" style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);color:rgba(226,232,240,0.7);padding:12px 24px;border-radius:12px;font-weight:700;font-size:0.88rem;text-decoration:none;transition:transform .2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+      <span data-en>How to Cite</span><span data-cn>引用方式</span><span data-ja>引用方法</span></a>
+  </div>
+
+  <div class="scroll-hint" style="margin-top:20px;">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:20px;height:20px;opacity:0.3;">
       <polyline points="6 9 12 15 18 9"/>
     </svg>
   </div>
@@ -1197,9 +1223,9 @@
       <div class="result-label"><span data-en>2060 Global (Accel.) vs 2019 Benchmark</span><span data-cn>2060年全球（加速模式）vs 2019年基准</span><span data-ja>2060年世界（促進）vs 2019年基準</span></div>
       <div class="result-value">90.36%</div>
       <div class="result-unit"><span data-en>of 2019 global CO₂ total</span><span data-cn>占2019年全球CO₂总量</span><span data-ja>2019年世界CO₂総量比</span></div>
-      <div class="result-desc" data-en>By 2060, Mode III is projected to sequester 19.79 Bt CO₂ in China alone — equivalent to 90.36% of the 2019 global CO₂ emissions total.</div>
-      <div class="result-desc" data-cn>到2060年，模式III预计仅在中国就可固存19.79 Bt CO₂——相当于2019年全球CO₂排放总量的90.36%。</div>
-      <div class="result-desc" data-ja>2060年までにモードIIIは中国だけで19.79 Bt CO₂を固定する見込み——2019年の世界CO₂排出総量の90.36%に相当する。</div>
+      <div class="result-desc" data-en>Cumulative (2020–2060): Mode III is projected to sequester 19.79 Bt CO₂ in China alone — equivalent to 90.36% of the 2019 single-year global CO₂ emissions (36.44 Gt CO₂, IEA 2020).</div>
+      <div class="result-desc" data-cn>累计值（2020–2060年）：模式III预计仅在中国可固存19.79 Bt CO₂——相当于2019年单年全球CO₂排放总量（36.44 Gt CO₂，IEA 2020）的90.36%。</div>
+      <div class="result-desc" data-ja>累計値（2020–2060年）：モードIIIは中国だけで19.79 Bt CO₂を固定する見込み——2019年単年世界CO₂排出総量（36.44 Gt CO₂、IEA 2020）の90.36%に相当する。</div>
     </div>
   </div>
 </div>
@@ -1820,6 +1846,42 @@
 </div>
 </div>
 
+<!-- ============ CITE & CONTACT ============ -->
+<div class="section-full" id="cite">
+<div class="inner">
+  <div class="section-tag fade-up"><span data-en>How to Cite & Contact</span><span data-cn>引用方式与联系</span><span data-ja>引用方法・連絡先</span></div>
+  <h2 class="section-title fade-up"><span data-en>Citation & Resources</span><span data-cn>引用与资源</span><span data-ja>引用・リソース</span></h2>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:20px;">
+    <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:24px;" class="fade-up">
+      <div style="font-size:0.78rem;font-weight:700;color:var(--white-carbon-light);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:14px;"><span data-en>Cite This Work</span><span data-cn>引用本研究</span><span data-ja>本研究の引用</span></div>
+      <div style="background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:14px;font-size:0.78rem;color:rgba(226,232,240,0.7);line-height:1.7;font-family:monospace;">
+        Xiao J, Jiang Y, Wang D, Noguchi T, Lu Z. Global CO₂ sequestration potential of recycled aggregates: modeling, life cycle analysis, and accelerated carbonation strategies. <em>Waste Management</em>, 2024.<br>
+        <a href="https://doi.org/10.1016/j.wasman.2024.06167" target="_blank" style="color:#7ef8ff;">doi:10.1016/j.wasman.2024.06167</a>
+      </div>
+      <button onclick="navigator.clipboard.writeText('Xiao J, Jiang Y, Wang D, Noguchi T, Lu Z. Global CO2 sequestration potential of recycled aggregates. Waste Management, 2024. doi:10.1016/j.wasman.2024.06167');this.textContent='Copied!';setTimeout(()=>this.textContent='Copy Citation',2000);" style="margin-top:10px;background:rgba(46,184,196,0.15);border:1px solid rgba(46,184,196,0.3);color:#7ef8ff;padding:6px 16px;border-radius:8px;font-size:0.75rem;font-weight:700;cursor:pointer;"><span data-en>Copy Citation</span><span data-cn>复制引用</span><span data-ja>引用をコピー</span></button>
+    </div>
+
+    <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:24px;" class="fade-up">
+      <div style="font-size:0.78rem;font-weight:700;color:var(--white-carbon-light);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:14px;"><span data-en>Contact & Links</span><span data-cn>联系方式与链接</span><span data-ja>連絡先・リンク</span></div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <a href="https://scholar.google.com/citations?user=Gj_DwnMAAAAJ" target="_blank" style="display:flex;align-items:center;gap:8px;color:rgba(226,232,240,0.7);font-size:0.82rem;text-decoration:none;transition:color .2s;" onmouseover="this.style.color='#2eb8c4'" onmouseout="this.style.color='rgba(226,232,240,0.7)'">
+          <span style="font-size:1.1rem;">🎓</span> <span data-en>Google Scholar — Xiao Jianzhuang</span><span data-cn>Google Scholar — 肖建庄</span><span data-ja>Google Scholar — 肖建庄</span></a>
+        <a href="https://orcid.org/0000-0002-4032-2654" target="_blank" style="display:flex;align-items:center;gap:8px;color:rgba(226,232,240,0.7);font-size:0.82rem;text-decoration:none;transition:color .2s;" onmouseover="this.style.color='#2eb8c4'" onmouseout="this.style.color='rgba(226,232,240,0.7)'">
+          <span style="font-size:1.1rem;">🔗</span> ORCID: 0000-0002-4032-2654</a>
+        <a href="mailto:jzx@tongji.edu.cn" style="display:flex;align-items:center;gap:8px;color:rgba(226,232,240,0.7);font-size:0.82rem;text-decoration:none;transition:color .2s;" onmouseover="this.style.color='#2eb8c4'" onmouseout="this.style.color='rgba(226,232,240,0.7)'">
+          <span style="font-size:1.1rem;">✉️</span> jzx@tongji.edu.cn</a>
+        <div style="margin-top:8px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.06);font-size:0.75rem;color:rgba(226,232,240,0.4);">
+          <span data-en>Tongji University, College of Civil Engineering<br>Shanghai 200092, China</span>
+          <span data-cn>同济大学 土木工程学院<br>上海 200092</span>
+          <span data-ja>同済大学 土木工学部<br>上海 200092, 中国</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
 <!-- ============ FOOTER ============ -->
 <footer>
   <div class="ft-title">White Carbon Circulation of Concrete — 混凝土白碳循环</div>
@@ -1971,12 +2033,29 @@ document.querySelectorAll('.fade-up, .timeline-chart').forEach(el => observer.ob
 document.querySelectorAll('.trio-card, .mode-card').forEach(el => observer.observe(el));
 
 // ============ LANGUAGE TOGGLE ============
-let idxLang = 'en';
-function toggleLangIdx(){
-  idxLang = idxLang==='en' ? 'cn' : (idxLang==='cn' ? 'ja' : 'en');
+let idxLang = localStorage.getItem('wcc-lang') || 'en';
+document.body.className = 'lang-'+idxLang;
+updateLangBtns();
+
+function setLang(l){
+  idxLang = l;
   document.body.className = 'lang-'+idxLang;
-  document.getElementById('langBtnIdx').textContent = idxLang==='en' ? '中文 / 日本語' : (idxLang==='cn' ? 'English / 日本語' : 'English / 中文');
+  localStorage.setItem('wcc-lang', idxLang);
+  updateLangBtns();
 }
+function updateLangBtns(){
+  ['en','cn','ja'].forEach(l=>{
+    const b=document.getElementById('lb-'+l);
+    if(!b)return;
+    if(l===idxLang){
+      b.style.background='rgba(46,184,196,0.25)';b.style.borderColor='rgba(46,184,196,0.4)';b.style.color='#7ef8ff';
+    } else {
+      b.style.background='transparent';b.style.borderColor='rgba(255,255,255,0.12)';b.style.color='rgba(226,232,240,0.5)';
+    }
+  });
+}
+// Keep backward compat
+function toggleLangIdx(){ setLang(idxLang==='en'?'cn':(idxLang==='cn'?'ja':'en')); }
 </script>
 </body>
 </html>

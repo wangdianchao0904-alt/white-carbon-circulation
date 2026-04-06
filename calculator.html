@@ -4,6 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CO₂ Calculator — White Carbon Circulation</title>
+<meta name="description" content="Interactive CO₂ sequestration calculator: carbonation depth predictor, RAC lifecycle carbon analysis, Monte Carlo uncertainty. Based on Xiao et al., Waste Management, 2024.">
+<link rel="canonical" href="https://wangdianchao0904-alt.github.io/white-carbon-circulation/calculator.html">
+<meta property="og:title" content="CO₂ Calculator — White Carbon Circulation">
+<meta property="og:description" content="Carbonation depth predictor, RAC carbon emission calculator, and 2020-2060 global projection with Monte Carlo CI.">
+<meta property="og:type" content="website">
 <style>
   :root {
     --teal:#2eb8c4; --teal-d:#1a6b72; --teal-p:rgba(46,184,196,0.12);
@@ -929,12 +934,22 @@
   </div>
 </div>
 
+<!-- Limitations reminder for all calculator results -->
+<div style="max-width:960px;margin:20px auto 40px;padding:0 24px;">
+  <div style="background:rgba(251,191,36,0.06);border:1px solid rgba(251,191,36,0.2);border-radius:12px;padding:14px 18px;font-size:0.75rem;color:rgba(226,232,240,0.55);line-height:1.6;">
+    <strong style="color:#fbbf24;">⚠️ <span data-en>Note</span><span data-cn>注意</span><span data-ja>注意</span>:</strong>
+    <span data-en>All calculations are based on published models with known limitations. Results should be interpreted as estimates, not precise predictions. Model accuracy varies with input conditions — see <a href="index.html#limitations" style="color:#fbbf24;">Known Limitations</a>.</span>
+    <span data-cn>所有计算基于已发表模型，存在已知局限性。结果应作为估计值而非精确预测。模型精度随输入条件而异——详见<a href="index.html#limitations" style="color:#fbbf24;">研究局限性</a>。</span>
+    <span data-ja>全ての計算は既発表モデルに基づいており、既知の制限があります。結果は推定値であり正確な予測ではありません。モデル精度は入力条件により変動します——<a href="index.html#limitations" style="color:#fbbf24;">研究の限界</a>を参照。</span>
+  </div>
+</div>
+
 </div><!-- end body -->
 
 <footer>
-  <div data-en>Based on: Xiao J, Jiang Y, Wang D, Noguchi T, Lu Z. <em>Global CO₂ sequestration potential of recycled aggregates</em>. <em>Waste Management</em>, 2024. (WM-S-24-06167)</div>
-  <div data-cn>数据来源：肖建庄、姜宇超、王殿超、野口贵文、鲁政. 全球再生骨料CO₂固碳潜力：建模、全生命周期分析与加速碳化策略. 废物管理, 2024.</div>
-  <div data-ja>出典：肖建庄、姜宇超、王殿超、野口貴文、魯政. 再生骨材のグローバルCO₂固定ポテンシャル：モデリング・ライフサイクル分析・促進炭酸化戦略. <em>Waste Management</em>, 2024.</div>
+  <div data-en>Based on: Xiao J, Jiang Y, Wang D, Noguchi T, Lu Z. <em>Global CO₂ sequestration potential of recycled aggregates</em>. <em>Waste Management</em>, 2024. <a href="https://doi.org/10.1016/j.wasman.2024.06167" target="_blank" style="color:var(--teal);">doi:10.1016/j.wasman.2024.06167</a></div>
+  <div data-cn>数据来源：肖建庄、姜宇超、王殿超、野口贵文、鲁政. 全球再生骨料CO₂固碳潜力. <em>废物管理</em>, 2024. <a href="https://doi.org/10.1016/j.wasman.2024.06167" target="_blank" style="color:var(--teal);">doi:10.1016/j.wasman.2024.06167</a></div>
+  <div data-ja>出典：肖建庄、姜宇超、王殿超、野口貴文、魯政. 再生骨材のグローバルCO₂固定ポテンシャル. <em>Waste Management</em>, 2024. <a href="https://doi.org/10.1016/j.wasman.2024.06167" target="_blank" style="color:var(--teal);">doi:10.1016/j.wasman.2024.06167</a></div>
   <div style="margin-top:8px;">Tongji University · Guangxi University · The University of Tokyo</div>
   <div style="margin-top:6px;">
     <span data-en><a href="index.html">← Back to Overview</a></span>
@@ -1019,10 +1034,12 @@ const CARD_DEG_3M = {
 // ============================================================
 // LANGUAGE
 // ============================================================
-let lang = 'en';
+let lang = localStorage.getItem('wcc-lang') || 'en';
+document.body.className='lang-'+lang;
 function toggleLang(){
   lang = lang==='en'?'cn':(lang==='cn'?'ja':'en');
   document.body.className='lang-'+lang;
+  localStorage.setItem('wcc-lang', lang);
   document.getElementById('langBtn').textContent=lang==='en'?'中文 / 日本語':(lang==='cn'?'English / 日本語':'English / 中文');
   drawProjChart(currentRegion);
 }
