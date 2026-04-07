@@ -649,6 +649,7 @@
   <a href="#rac-carbon" class="side-link" style="color:rgba(226,232,240,0.55);font-size:0.82rem;text-decoration:none;padding:8px 10px;border-radius:8px;border-left:2px solid transparent;transition:all .2s;display:block;" onmouseover="this.style.color='#2eb8c4';this.style.background='rgba(46,184,196,0.06)'" onmouseout="this.style.color='rgba(226,232,240,0.55)';this.style.background='transparent'"><span data-en>RAC Carbon</span><span data-cn>再生混凝土碳排</span><span data-ja>RAC炭素排出</span></a>
   <a href="#carbonation-ai" class="side-link" style="color:rgba(226,232,240,0.55);font-size:0.82rem;text-decoration:none;padding:8px 10px;border-radius:8px;border-left:2px solid transparent;transition:all .2s;display:block;" onmouseover="this.style.color='#2eb8c4';this.style.background='rgba(46,184,196,0.06)'" onmouseout="this.style.color='rgba(226,232,240,0.55)';this.style.background='transparent'"><span data-en>AI Prediction</span><span data-cn>AI预测</span><span data-ja>AI予測</span></a>
   <a href="#cite" class="side-link" style="color:rgba(226,232,240,0.55);font-size:0.82rem;text-decoration:none;padding:8px 10px;border-radius:8px;border-left:2px solid transparent;transition:all .2s;display:block;" onmouseover="this.style.color='#2eb8c4';this.style.background='rgba(46,184,196,0.06)'" onmouseout="this.style.color='rgba(226,232,240,0.55)';this.style.background='transparent'"><span data-en>Cite & Contact</span><span data-cn>引用与联系</span><span data-ja>引用・連絡先</span></a>
+  <a href="#external-links" class="side-link" style="color:rgba(226,232,240,0.55);font-size:0.82rem;text-decoration:none;padding:8px 10px;border-radius:8px;border-left:2px solid transparent;transition:all .2s;display:block;" onmouseover="this.style.color='#2eb8c4';this.style.background='rgba(46,184,196,0.06)'" onmouseout="this.style.color='rgba(226,232,240,0.55)';this.style.background='transparent'"><span data-en>External Links</span><span data-cn>外部链接</span><span data-ja>外部リンク</span></a>
   <div style="flex:1;"></div>
   <a href="calculator.html" style="display:block;text-align:center;background:linear-gradient(135deg,#1a6b72,#2eb8c4);color:#fff;padding:10px;border-radius:10px;font-weight:700;font-size:0.82rem;text-decoration:none;margin-top:12px;"><span data-en>→ Calculator</span><span data-cn>→ 计算器</span><span data-ja>→ 計算ツール</span></a>
 </div>
@@ -656,7 +657,9 @@
 <style>
   /* Sidebar: push body content right on desktop */
   @media(min-width:900px){
-    #hero, .section-full, footer { margin-left:180px; }
+    #hero, .section-full, footer { margin-left:180px; width:calc(100% - 180px); }
+    #hero { width:calc(100% - 180px); }
+    .inner { max-width:1100px; }
   }
   @media(max-width:899px){
     #sidebar-nav { display:none; }
@@ -1909,22 +1912,29 @@
 </div>
 </div>
 
+<!-- ============ EXTERNAL LINKS ============ -->
+<div class="section-full" id="external-links">
+<div class="inner">
+  <div class="section-tag fade-up"><span data-en>External Links</span><span data-cn>相关外部链接</span><span data-ja>関連外部リンク</span></div>
+  <h2 class="section-title fade-up"><span data-en>Related Organizations & Resources</span><span data-cn>相关机构与资源</span><span data-ja>関連機関・リソース</span></h2>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-top:24px;">
+    <a href="https://rrcs-association.or.jp/en/index.html" target="_blank" class="fade-up" style="display:block;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:24px;text-decoration:none;transition:border-color .3s,transform .2s;" onmouseover="this.style.borderColor='rgba(46,184,196,0.4)';this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.08)';this.style.transform='none'">
+      <div style="font-size:1.2rem;margin-bottom:8px;">🏛️</div>
+      <div style="font-size:0.92rem;font-weight:700;color:#f1f5f9;margin-bottom:4px;">RRCS Association</div>
+      <div style="font-size:0.78rem;color:rgba(226,232,240,0.55);line-height:1.5;">
+        <span data-en>Recycled &amp; Renewable Construction System Association — Japan's leading organization for recycled concrete research and standardization.</span>
+        <span data-cn>再生与可再生建造系统协会——日本再生混凝土研究与标准化的核心机构。</span>
+        <span data-ja>再生可能建設システム協会——再生コンクリートの研究・標準化を推進する日本の主要機関。</span>
+      </div>
+      <div style="margin-top:10px;font-size:0.72rem;color:#2eb8c4;">rrcs-association.or.jp →</div>
+    </a>
+  </div>
+</div>
+</div>
+
 <!-- ============ FOOTER ============ -->
 <footer>
-  <div class="ft-title">White Carbon Circulation of Concrete — 混凝土白碳循环</div>
-  <div class="ft-meta">
-    [1] Xiao J, Jiang Y, Wang D, Noguchi T, Lu Z. Global CO₂ sequestration potential of recycled aggregates: modeling, life cycle analysis, and accelerated carbonation strategies. <em>Waste Management</em>, 2024. <a href="https://doi.org/10.1016/j.wasman.2024.06167" target="_blank" style="color:var(--white-carbon-light);">doi:10.1016/j.wasman.2024.06167</a><br>
-    [2] Wang D, Xiao J, Duan Z. <span data-en>Carbonation depth prediction of recycled concrete through machine learning.</span><span data-cn>基于机器学习的再生混凝土碳化深度预测。</span><span data-ja>機械学習による再生コンクリートの炭酸化深度予測。</span> <em>J. CO₂ Utilization</em>, 2023. <span data-en>(1st revision)</span><span data-cn>（第一次修改）</span><span data-ja>（第1次修正）</span>
-  </div>
-  <br>
-  <div class="ft-meta" style="margin-top:8px;">
-    <span data-en>Tongji University · Guangxi University · The University of Tokyo<br>
-    Collaborative Creative Research Team · NSFC 2026</span>
-    <span data-cn>同济大学 · 广西大学 · 东京大学<br>
-    协同创新研究团队 · 国家自然科学基金 2026</span>
-    <span data-ja>同済大学 · 広西大学 · 東京大学<br>
-    協同イノベーション研究チーム · 国家自然科学基金 2026</span>
-  </div>
 </footer>
 
 <script>
